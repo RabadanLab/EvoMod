@@ -1,0 +1,231 @@
+#!/usr/bin/env python
+import sys
+import subprocess
+import argparse
+from glob import glob
+from collections import Counter
+import math
+from math import sqrt, log, pi
+import numpy as np
+import pandas as pd
+from scipy.spatial.distance import pdist, squareform
+from Bio import Phylo
+from Bio.Phylo import NewickIO
+import matplotlib as mpl
+import matplotlib.pyplot as plt
+import matplotlib.cm as cm
+from mpl_toolkits.mplot3d import Axes3D
+
+mpl.rcParams['lines.linewidth'] = '2.0'
+mpl.rcParams['axes.facecolor'] = 'white'
+mpl.rcParams['axes.linewidth'] = '0.0'
+mpl.rcParams['axes.grid'] = 'False'
+mpl.rcParams['axes.edgecolor'] = 'white'
+mpl.rcParams['pdf.fonttype'] = 42
+
+def penta_color(smallest, largest, val):
+    normalized_val = float(val - smallest) / (largest - smallest)
+    return cm.jet(normalized_val)[:3]
+
+parser = argparse.ArgumentParser(description='statistical exploration of evolutionary moduli space')
+parser.add_argument('-p', '--path', required=True,
+        help='path to evomod source directory')
+parser.add_argument('-l', '--leaves', required=True,
+        help='number of samples per case')
+parser.add_argument('-o', '--outputdir', required=True,
+        help='directory to write output files and logs')
+args = parser.parse_args()
+
+## Triplet Data
+if int(args.numleaves) == 3:
+    logfile = open(args.outputdir + '/projtree_log.txt', 'w')
+    logfile.write('STARTING RUN\n')
+    logfile.write('numleaves:{0}, inputdir:{1}, outputdir{2}\n'.format(args.numleaves, args.inputdir, args.outputdir))
+    tree_dict = {}
+    size_dict = {}
+    patients = glob(args.inputdir + '/*')
+    logfile.write('number of patients detected: {0}\n'.format(len(patients)))
+    
+    for f in patients:
+        patient = f.split('/')[-1].split('.')[0]
+        logfile.write('computing neighbor joining tree for each tuple of samples in patient {0}\n'.format(patient))
+        tree_dict[patient] = {}
+        df = pd.read_csv(f, header=0)
+        size_dict[patient] = len(df.index)
+        prefix_counts = Counter([sample.split('_')[0] for sample in df.columns])
+        for n in range(prefix_counts['Normal']):
+            col_normal = 'Normal_{0}'.format(n+1)
+            for p in range(prefix_counts['Primary']):
+                col_primary = 'Primary_{0}'.format(p+1)
+                for s in range(prefix_counts['Secondary']):
+                    col_secondary = 'Secondary_{0}'.format(s+1)
+                    Dmatrix = pd.DataFrame(squareform(pdist(df[[col_normal,col_primary,col_secondary]].T, 'hamming')),
+                                       index=['___Normal','__Primary','Secondary'])
+                    fitchfile = open('infile','w')
+                    fitchfile.write('3\n')
+                    fitchfile.close()
+                    with open('infile','a') as fitchfile:
+                        Dmatrix.to_csv(fitchfile, header=None, sep=' ')
+                    subprocess.call('neighbor <paramfile >/dev/null', shell=True)
+                    combo = 'N{0}-P{1}-S{2}'.format(n+1, p+1, s+1)
+                    tree_dict[patient][combo] = NewickIO.Parser(open('outtree')).parse().next()
+                    subprocess.call('cat outtree* >>owen_input_3.txt', shell=True)
+                    subprocess.call('rm out*', shell=True)
+
+    logfile.write('creating shell plot\n')
+    theta = np.linspace(0, np.pi/2, 20)
+    phi = np.linspace(0, np.pi/2, 20)
+    
+    x = np.outer(np.sin(theta), np.sin(phi))
+    y = np.outer(np.sin(theta), np.cos(phi))
+    z = np.outer(np.cos(theta), np.ones_like(phi))
+    
+    fig = plt.figure(figsize=(10,10))
+    ax = plt.axes(projection='3d')
+    ax.set_axis_off()
+    ax.azim = -310
+    
+    ax.plot_wireframe(x, y, z, color='black', linewidth=0.8)
+    ax.text(1.3,-0.1,0, "Time 1", fontsize=20)
+    ax.text(0.05,1.08,0, "Time 2", fontsize=20)
+    ax.text(0.1,-0.2,1, "Shared", fontsize=20)
+    
+    for pt in tree_dict:
+        ballsize = 10 * sqrt(size_dict[patient])
+        for combo in tree_dict[pt]:
+            coords = projective_2coords(tree_dict[pt][combo])
+            ax.scatter(coords[0], coords[1], coords[2], color='red', s=ballsize, edgecolor='black', linewidth='1.5')
+    fig.tight_layout()
+    plt.savefig('{0}/shell.png'.format(args.outputdir), dpi=300)
+
+
+## Quadruplet Data
+elif int(args.numleaves) == 4:
+    logfile = open(args.outputdir + '/projtree_log.txt', 'w')
+    logfile.write('STARTING RUN\n')
+    logfile.write('numleaves:{0}, inputdir:{1}, outputdir:{2}\n'.format(args.numleaves, args.inputdir, args.outputdir))    
+    tree_dict = {}
+    size_dict = {}
+    patients = glob(args.inputdir + '/*')
+    logfile.write('number of patients detected: {0}\n'.format(len(patients)))
+
+    for f in patients:
+        patient = f.split('/')[-1].split('.')[0]
+        logfile.write('computing neighbor joining tree for each tuple of samples in patient {0}\n'.format(patient))
+        tree_dict[patient] = {}
+        df = pd.read_csv(f, header=0)
+        size_dict[patient] = len(df.index)
+        prefix_counts = Counter([sample.split('_')[0] for sample in df.columns])
+        for n in range(prefix_counts['Normal']):
+            col_normal = 'Normal_{0}'.format(n+1)
+            for p in range(prefix_counts['Primary']):
+                col_primary = 'Primary_{0}'.format(p+1)
+                for s in range(prefix_counts['Secondary']):
+                    col_secondary = 'Secondary_{0}'.format(s+1)
+                    for t in range(prefix_counts['Tertiary']):
+                        col_ternary = 'Tertiary_{0}'.format(t+1)
+                        Dmatrix = pd.DataFrame(squareform(pdist(df[[col_normal,col_primary,col_secondary,col_ternary]].T, 'hamming')),
+                                           index=['___Normal','__Primary','Secondary','_Tertiary'])
+                        fitchfile = open('infile','w')
+                        fitchfile.write('4\n')
+                        fitchfile.close()
+                        with open('infile','a') as fitchfile:
+                            Dmatrix.to_csv(fitchfile, header=None, sep=' ')
+                        subprocess.call('neighbor <paramfile >/dev/null', shell=True)
+                        combo = 'N{0}-P{1}-S{2}-T{3}'.format(n+1, p+1, s+1, t+1)
+                        tree_dict[patient][combo] = NewickIO.Parser(open('outtree')).parse().next()
+                        subprocess.call('cat outtree* >>owen_input_4.txt', shell=True)
+                        subprocess.call('rm out*', shell=True)
+    
+    logfile.write('creating tristar plot\n')
+    fig = plt.figure(figsize=(5,5))
+    ax = plt.subplot(111, polar=True)
+    ax.axis('off')
+    
+    circle_t = np.linspace(0, 2*pi, num=1000)
+    circle_r = [100 for x in circle_t]
+    
+    ax.plot([pi/2, pi/2], [0, 100], 'r-')
+    ax.plot([7*pi/6, 7*pi/6], [0, 100], 'g-')
+    ax.plot([11*pi/6, 11*pi/6], [0, 100], 'b-')
+    ax.plot(circle_t, circle_r, 'k-')
+    ax.text(pi/2 - 0.6, 70, '(N,P),(S,T)', ha='center', fontsize=16)
+    ax.text(7*pi/6 - 0.35, 65, '(N,S),(P,T)', ha='center', fontsize=16)
+    ax.text(11*pi/6 - 0.4, 70, '(N,T),(P,S)', ha='center', fontsize=16)
+    
+    for pt in tree_dict:
+        for combo in tree_dict[pt]:
+            internal = tree_dict[pt][combo].get_nonterminals()[1]
+            noise = 1 - np.abs(np.random.random()/10)
+            blen = noise * internal.branch_length
+            topology = set([leaf.name for leaf in internal.clades if internal.branch_length])
+            if topology == set(['__Primary','Secondary']):
+                logfile.write('BLUE\t{0}\t{1}\n'.format(pt,blen))
+                Rcoord = 100*blen
+                Tcoord = 11*pi/6
+                ax.plot(Tcoord, Rcoord, 'ko', markersize=10, mfc='none')
+            elif topology == set(['_Tertiary','__Primary']):
+                logfile.write('GREEN\t{0}\t{1}\n'.format(pt,blen))
+                Rcoord = 100*blen
+                Tcoord = 7*pi/6
+                ax.plot(Tcoord, Rcoord, 'ko', markersize=10, mfc='none')
+            elif topology == set(['_Tertiary','Secondary']):
+                logfile.write('RED\t{0}\t{1}\n'.format(pt,blen))
+                Rcoord = 100*blen
+                Tcoord = pi/2
+                ax.plot(Tcoord, Rcoord, 'ko', markersize=10, mfc='none')
+    fig.tight_layout()
+    plt.savefig('{0}/tristar.png'.format(args.outputdir), dpi=300)
+    logfile.write('saved tristar plot\n')
+    
+    logfile.write('creating tetradedron plot\n')
+    fig = plt.figure(figsize=(10,10))
+    ax = fig.add_subplot(1,1,1, projection='3d')
+    ax.set_axis_off()
+    
+    #TPN
+    x1 = np.array([T4[0], P4[0], N4[0]])
+    y1 = np.array([T4[1], P4[1], N4[1]])
+    z1 = np.array([T4[2], P4[2], N4[2]])
+    
+    #TPS
+    x2 = np.array([T4[0], P4[0], S4[0]])
+    y2 = np.array([T4[1], P4[1], S4[1]])
+    z2 = np.array([T4[2], P4[2], S4[2]])
+    
+    #TNS
+    x3 = np.array([T4[0], N4[0], S4[0]])
+    y3 = np.array([T4[1], N4[1], S4[1]])
+    z3 = np.array([T4[2], N4[2], S4[2]])
+    
+    #PNS
+    x4 = np.array([P4[0], N4[0], S4[0]])
+    y4 = np.array([P4[1], N4[1], S4[1]])
+    z4 = np.array([P4[2], N4[2], S4[2]])
+    
+    ax.plot_trisurf(x1,y1,z1,alpha=0.1)
+    ax.plot_trisurf(x2,y2,z2,alpha=0.2)
+    ax.plot_trisurf(x3,y3,z3,alpha=0.1)
+    ax.plot_trisurf(x4,y4,z4,alpha=0.2)
+    
+    ax.azim = -140
+    ax.text(T4[0], T4[1], T4[2] + 0.02, "T", fontsize=20)
+    ax.text(P4[0] + 0.02, P4[1] - 0.02, P4[2], "P", fontsize=20)
+    ax.text(N4[0] - 0.06, N4[1] + 0.02, N4[2], "N", fontsize=20)
+    ax.text(S4[0] + 0.03, S4[1], S4[2], "S", fontsize=20)
+    
+    for pt in tree_dict:
+        ballsize = 5 * sqrt(size_dict[patient])
+        for combo in tree_dict[pt]:
+            coords = projective_3coords(tree_dict[pt][combo])
+            ax.scatter(coords[0], coords[1], coords[2], color='red', s=10)
+    fig.tight_layout()
+    plt.savefig('{0}/tetradron.png'.format(args.outputdir), dpi=300)
+    logfile.write('saved tetradedron plot\n')
+
+else:
+    sys.exit('Error: current version only support 3 or 4 leaf trees')
+
+# Successful Completion
+logfile.write('ENDING RUN\n')
+logfile.close()
