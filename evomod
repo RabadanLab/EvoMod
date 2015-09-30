@@ -220,12 +220,12 @@ elif int(args.numleaves) == 4:
             coords = projective_3coords(tree_dict[pt][combo])
             ax.scatter(coords[0], coords[1], coords[2], color='red', s=10)
     fig.tight_layout()
-    plt.savefig('{0}/tetradron.png'.format(args.outputdir), dpi=300)
-    logfile.write('saved tetradedron plot\n')
+    plt.savefig('{0}/tetradron.pdf'.format(args.outputdir))
+    print 'saved tetradedron plot'
 
 else:
     sys.exit('Error: current version only support 3 or 4 leaf trees')
 
 # Successful Completion
-logfile.write('ENDING RUN\n')
-logfile.close()
+# logfile.write('ENDING RUN\n')
+# logfile.close()
