@@ -548,13 +548,36 @@ as the assignment that takes $t \in \aE$ to the curve induced by $\Psi_S$ as $S$
 
 In order to validate these procedures, it is necessary to assess their stability under perturbation of the original data.
 For instance, we would like to know that small random perturbation of the original sample results in a distribution of subsamples that is ``close'' in some sense (e.g., small shifts in the centroid in $\Sigma_m$).
-Similarly, we would like to know that perturbation of sequential data or change in window size will result in curves that are roughly comparable (e.g., in terms of an overlap area measure).
-Of course, it easy to construct examples to show that no general theorems of this kind can hold.
-But one might reasonably expect such stability in real data sets.
-We explore these questions experimentally in the next section.
+Conversely, if two distributions of subsamples are suitably close, we would like to be able to conclude that the sampled trees are also close.
+The next two theorems provide the theoretical support for the use of tree dimensionality reduction.
 
-We ask the question of whether the windowing of two phylogenies that are close under the BHV metric gives rise to two distributions of sub-sampled trees whose centroids are also close in the BHV sense.
-This is a question of stability for the tree dimensionality via windowing.
+\begin{theorem}
+For $T,T' \in \aE$ such that $d_{\aE}(T,T') \leq \epsilon$, then for any $S \in \{1,\ldots,m\}$,
+\[
+d_{\aE}(\Psi_S(T), \Psi_S(T')) \leq \epsilon.
+\]
+Moreover, this bound is tight.
+\end{theorem}
+
+\begin{proof}
+\end{proof}
+
+Let $A$ and $B$ be subsets of $\aE$ such that $|A| = |B|$.  
+Define the matching distance between $A$ and $B$ to be 
+\[
+d_M(A,B) = \min_{\phi} \max_{a \in A} d_{\aE}(a,\phi(b)),
+\]
+where $\phi$ varies over all bijections $A \to B$.
+
+\begin{theorem}
+For $T, T' \in \aE$, 
+\[
+d_{\aE}(T,T') \leq d_M(\Psi_C(T), \Psi_C(T')).
+\]
+\end{theorem}
+
+\begin{proof}
+\end{proof}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
