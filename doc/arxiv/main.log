@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2014) (preloaded format=pdflatex 2014.5.25)  2 FEB 2016 09:19
+This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2014) (preloaded format=pdflatex 2014.5.25)  12 FEB 2016 10:59
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -385,35 +385,7 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 \openout5 = `main.toc'.
 
 
-
-Package natbib Warning: Citation `darwin1859origin' on page 2 undefined on inpu
-t line 72.
-
-
-Package natbib Warning: Citation `doolittle1999phylogenetic' on page 2 undefine
-d on input line 73.
-
-
-Package natbib Warning: Citation `chan2013topology' on page 2 undefined on inpu
-t line 73.
-
-
-Package natbib Warning: Citation `khiabanian2014viral' on page 2 undefined on i
-nput line 76.
-
-
-Package natbib Warning: Citation `navin2011tumour' on page 2 undefined on input
- line 78.
-
-
-Package natbib Warning: Citation `shalek2013single' on page 2 undefined on inpu
-t line 78.
-
-
-Package natbib Warning: Citation `eirew2014dynamics' on page 2 undefined on inp
-ut line 78.
-
-[2] <figures/ClonalEvolutionTrees.png, id=150, 325.215pt x 465.4188pt>
+[2] <figures/ClonalEvolutionTrees.png, id=164, 325.215pt x 465.4188pt>
 File: figures/ClonalEvolutionTrees.png Graphic file (type png)
 
 <use figures/ClonalEvolutionTrees.png>
@@ -421,7 +393,7 @@ Package pdftex.def Info: figures/ClonalEvolutionTrees.png used on input line 94
 .
 (pdftex.def)             Requested size: 151.5013pt x 216.81pt.
 
-<figures/cartoon_1.pdf, id=151, 418.06187pt x 395.97937pt>
+<figures/cartoon_1.pdf, id=165, 418.06187pt x 395.97937pt>
 File: figures/cartoon_1.pdf Graphic file (type pdf)
 
 <use figures/cartoon_1.pdf>
@@ -437,68 +409,23 @@ Overfull \hbox (7.3pt too wide) in paragraph at lines 92--103
 []$[]$   $[]$ 
  []
 
-<figures/cartoon_2.pdf, id=152, 656.4525pt x 376.07098pt>
+<figures/cartoon_2.pdf, id=166, 656.4525pt x 376.07098pt>
 File: figures/cartoon_2.pdf Graphic file (type pdf)
 
 <use figures/cartoon_2.pdf>
 Package pdftex.def Info: figures/cartoon_2.pdf used on input line 110.
 (pdftex.def)             Requested size: 378.45892pt x 216.81pt.
-
-
-Package natbib Warning: Citation `zairis2014moduli' on page 3 undefined on inpu
-t line 117.
-
-
-Package natbib Warning: Citation `billera2001geometry' on page 3 undefined on i
-nput line 120.
-
-
-Package natbib Warning: Citation `sturm2003probability' on page 3 undefined on 
-input line 120.
-
-
-Package natbib Warning: Citation `zairis2014moduli' on page 3 undefined on inpu
-t line 120.
-
-[3 <./figures/ClonalEvolutionTrees.png (PNG copy)> <./figures/cartoon_1.pdf>]
-
-Package natbib Warning: Citation `alexandrov1957uber' on page 4 undefined on in
-put line 148.
-
+ [3 <./figures/ClonalEvolutionTrees.png (PNG copy)> <./figures/cartoon_1.pdf>] 
 [4 <./figures/cartoon_2.pdf>] [5] [6]
-
-Package natbib Warning: Citation `owen2011fast' on page 7 undefined on input li
-ne 230.
-
-
-Package natbib Warning: Citation `billera2001geometry' on page 7 undefined on i
-nput line 235.
-
-
-Package natbib Warning: Citation `billera2001geometry' on page 7 undefined on i
-nput line 247.
-
 LaTeX Font Info:    Try loading font information for OMS+cmr on input line 247.
+
 
 (/usr/local/texlive/2014/texmf-dist/tex/latex/base/omscmr.fd
 File: omscmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10.95> not available
 (Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 247.
-
-
-Package natbib Warning: Citation `owen2011fast' on page 7 undefined on input li
-ne 248.
-
-[7]
-
-Package natbib Warning: Citation `niyogi2008finding' on page 8 undefined on inp
-ut line 277.
-
-
-Package natbib Warning: Citation `bernstein2000graph' on page 8 undefined on in
-put line 283.
-
+ [7]
 
 Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
 (hyperref)                removing `math shift' on input line 292.
@@ -515,51 +442,7 @@ Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
 Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
 (hyperref)                removing `math shift' on input line 292.
 
-
-Package natbib Warning: Citation `robinson1996tree' on page 8 undefined on inpu
-t line 302.
-
-
-Package natbib Warning: Citation `devadoss2014polyhedral' on page 8 undefined o
-n input line 302.
-
-
-Package natbib Warning: Citation `devadoss2014polyhedral' on page 8 undefined o
-n input line 305.
-
-
-Package natbib Warning: Citation `billera2001geometry' on page 8 undefined on i
-nput line 305.
-
-
-Package natbib Warning: Citation `devadoss2014polyhedral' on page 8 undefined o
-n input line 306.
-
 [8]
-
-Package natbib Warning: Citation `pournin2014diameter' on page 9 undefined on i
-nput line 314.
-
-
-Package natbib Warning: Citation `sleator1988rotation' on page 9 undefined on i
-nput line 314.
-
-
-Package natbib Warning: Citation `sleator1988rotation' on page 9 undefined on i
-nput line 315.
-
-
-Package natbib Warning: Citation `pournin2014diameter' on page 9 undefined on i
-nput line 330.
-
-
-Package natbib Warning: Citation `sleator1988rotation' on page 9 undefined on i
-nput line 330.
-
-
-Package natbib Warning: Citation `cleary2010linear' on page 9 undefined on inpu
-t line 333.
-
 
 Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
 (hyperref)                removing `math shift' on input line 341.
@@ -626,42 +509,6 @@ Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
 
 [9]
 
-Package natbib Warning: Citation `billera2001geometry' on page 10 undefined on 
-input line 365.
-
-
-Package natbib Warning: Citation `holmes2003bootstrapping' on page 10 undefined
- on input line 365.
-
-
-Package natbib Warning: Citation `holmes2003bootstrapping' on page 10 undefined
- on input line 365.
-
-
-Package natbib Warning: Citation `holmes2005statistical' on page 10 undefined o
-n input line 365.
-
-
-Package natbib Warning: Citation `feragen2013tree' on page 10 undefined on inpu
-t line 365.
-
-
-Package natbib Warning: Citation `sturm2003probability' on page 10 undefined on
- input line 366.
-
-
-Package natbib Warning: Citation `miller2012polyhedral' on page 10 undefined on
- input line 374.
-
-
-Package natbib Warning: Citation `barden2013mean' on page 10 undefined on input
- line 376.
-
-
-Package natbib Warning: Citation `Nye2011PCA' on page 10 undefined on input lin
-e 377.
-
-
 Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
 (hyperref)                removing `math shift' on input line 384.
 
@@ -705,24 +552,7 @@ Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
 Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
 (hyperref)                removing `math shift' on input line 384.
 
-[10]
-
-Package natbib Warning: Citation `gromov1981' on page 11 undefined on input lin
-e 396.
-
-[11]
-
-Package natbib Warning: Citation `Gine1984' on page 12 undefined on input line 
-434.
-
-
-Package natbib Warning: Citation `Gine1986' on page 12 undefined on input line 
-434.
-
-
-Package natbib Warning: Citation `Gine1990' on page 12 undefined on input line 
-434.
-
+[10] [11]
 
 Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
 (hyperref)                removing `math shift' on input line 445.
@@ -755,248 +585,149 @@ Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
 Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
 (hyperref)                removing `math shift' on input line 445.
 
-[12]
-
-Package natbib Warning: Citation `hein2003' on page 13 undefined on input line 
-479.
-
-[13] [14]
-<figures/synthetic_graph_layout.png, id=287, 1004.75375pt x 668.4975pt>
+[12] [13] [14]
+<figures/synthetic_graph_layout.png, id=360, 1004.75375pt x 668.4975pt>
 File: figures/synthetic_graph_layout.png Graphic file (type png)
 
 <use figures/synthetic_graph_layout.png>
 Package pdftex.def Info: figures/synthetic_graph_layout.png used on input line 
-596.
+623.
 (pdftex.def)             Requested size: 271.54778pt x 180.67499pt.
 
-<figures/synthetic_distortion.pdf, id=289, 462.52798pt x 317.98799pt>
+<figures/synthetic_distortion.pdf, id=362, 462.52798pt x 317.98799pt>
 File: figures/synthetic_distortion.pdf Graphic file (type pdf)
 
 <use figures/synthetic_distortion.pdf>
-Package pdftex.def Info: figures/synthetic_distortion.pdf used on input line 60
-2.
+Package pdftex.def Info: figures/synthetic_distortion.pdf used on input line 62
+9.
 (pdftex.def)             Requested size: 262.79677pt x 180.67499pt.
 
-<figures/synthetic_davies_bouldin.pdf, id=290, 722.7pt x 433.62pt>
+<figures/synthetic_davies_bouldin.pdf, id=363, 722.7pt x 433.62pt>
 File: figures/synthetic_davies_bouldin.pdf Graphic file (type pdf)
 
 <use figures/synthetic_davies_bouldin.pdf>
 Package pdftex.def Info: figures/synthetic_davies_bouldin.pdf used on input lin
-e 617.
+e 644.
 (pdftex.def)             Requested size: 361.3491pt x 216.81pt.
- [15 <./figures/synthetic_graph_layout.png> <./figures/synthetic_distortion.pdf
->]
-
-Package natbib Warning: Citation `wang2015tumor' on page 16 undefined on input 
-line 645.
-
-
-Package natbib Warning: Citation `rossi2014clinical' on page 16 undefined on in
-put line 645.
-
-[16 <./figures/synthetic_davies_bouldin.pdf>]
-
-Package natbib Warning: Citation `smith2011incidence' on page 17 undefined on i
-nput line 654.
-
-
-Package natbib Warning: Citation `landau2013evolution' on page 17 undefined on 
-input line 661.
-
-
-Package natbib Warning: Citation `landau2013evolution' on page 17 undefined on 
-input line 664.
-
-
-Package natbib Warning: Citation `schuh2012monitoring' on page 17 undefined on 
-input line 664.
-
-
-Package natbib Warning: Citation `schuh2012monitoring' on page 17 undefined on 
-input line 665.
-
-
-Package natbib Warning: Citation `landau2013evolution' on page 17 undefined on 
-input line 666.
-
-
-Package natbib Warning: Citation `schuh2012monitoring' on page 17 undefined on 
-input line 666.
-
-<figures/CLL_triplet.png, id=414, 1054.94125pt x 819.06pt>
+ [15] [16 <./figures/synthetic_graph_layout.png> <./figures/synthetic_distortio
+n.pdf>] [17 <./figures/synthetic_davies_bouldin.pdf>] <figures/CLL_triplet.png,
+ id=500, 1054.94125pt x 819.06pt>
 File: figures/CLL_triplet.png Graphic file (type png)
 
 <use figures/CLL_triplet.png>
-Package pdftex.def Info: figures/CLL_triplet.png used on input line 672.
+Package pdftex.def Info: figures/CLL_triplet.png used on input line 699.
 (pdftex.def)             Requested size: 204.77104pt x 158.99377pt.
 
-<figures/CLL_histogram.pdf, id=415, 216.81pt x 144.54pt>
+<figures/CLL_histogram.pdf, id=501, 216.81pt x 144.54pt>
 File: figures/CLL_histogram.pdf Graphic file (type pdf)
 
 <use figures/CLL_histogram.pdf>
-Package pdftex.def Info: figures/CLL_histogram.pdf used on input line 678.
+Package pdftex.def Info: figures/CLL_histogram.pdf used on input line 705.
 (pdftex.def)             Requested size: 216.81938pt x 144.54pt.
 
-Overfull \hbox (7.3pt too wide) in paragraph at lines 670--681
+Overfull \hbox (7.3pt too wide) in paragraph at lines 697--708
 []$[]$   $[]$ 
  []
 
-[17 <./figures/CLL_triplet.png> <./figures/CLL_histogram.pdf>]
-
-Package natbib Warning: Citation `johnson2014mutational' on page 18 undefined o
-n input line 698.
-
-<figures/glioma_triplet.png, id=432, 1067.99pt x 698.61pt>
+<figures/glioma_triplet.png, id=503, 1067.99pt x 698.61pt>
 File: figures/glioma_triplet.png Graphic file (type png)
 
 <use figures/glioma_triplet.png>
-Package pdftex.def Info: figures/glioma_triplet.png used on input line 704.
+Package pdftex.def Info: figures/glioma_triplet.png used on input line 731.
 (pdftex.def)             Requested size: 243.05774pt x 158.99377pt.
 
-Overfull \hbox (16.57379pt too wide) in paragraph at lines 704--705
+Overfull \hbox (16.57379pt too wide) in paragraph at lines 731--732
  [][] 
  []
 
-<figures/glioma_voronoi_stage.png, id=433, 1442.5092pt x 1280.6244pt>
+<figures/glioma_voronoi_stage.png, id=504, 1442.5092pt x 1280.6244pt>
 File: figures/glioma_voronoi_stage.png Graphic file (type png)
 
 <use figures/glioma_voronoi_stage.png>
-Package pdftex.def Info: figures/glioma_voronoi_stage.png used on input line 71
-0.
+Package pdftex.def Info: figures/glioma_voronoi_stage.png used on input line 73
+7.
 (pdftex.def)             Requested size: 162.79254pt x 144.54pt.
 
-Overfull \hbox (7.3pt too wide) in paragraph at lines 702--713
+Overfull \hbox (7.3pt too wide) in paragraph at lines 729--740
 []$[]$   $[]$ 
  []
 
-<figures/LargeFluTree-NYH3N2-NJ.pdf, id=434, 912.40875pt x 661.47125pt>
+[18] [19 <./figures/CLL_triplet.png> <./figures/CLL_histogram.pdf> <./figures/g
+lioma_triplet.png> <./figures/glioma_voronoi_stage.png (PNG copy)>]
+<figures/LargeFluTree-NYH3N2-NJ.pdf, id=535, 912.40875pt x 661.47125pt>
 File: figures/LargeFluTree-NYH3N2-NJ.pdf Graphic file (type pdf)
 
 <use figures/LargeFluTree-NYH3N2-NJ.pdf>
 Package pdftex.def Info: figures/LargeFluTree-NYH3N2-NJ.pdf used on input line 
-736.
+763.
 (pdftex.def)             Requested size: 289.07999pt x 209.56564pt.
 
-<figures/influenza_schematic_part1.png, id=435, 707.7642pt x 446.6286pt>
+<figures/influenza_schematic_part1.png, id=536, 707.7642pt x 446.6286pt>
 File: figures/influenza_schematic_part1.png Graphic file (type png)
 
 <use figures/influenza_schematic_part1.png>
 Package pdftex.def Info: figures/influenza_schematic_part1.png used on input li
-ne 742.
+ne 769.
 (pdftex.def)             Requested size: 289.07999pt x 182.42377pt.
 
-<figures/influenza_schematic_part2.png, id=436, 707.7642pt x 142.6128pt>
+<figures/influenza_schematic_part2.png, id=537, 707.7642pt x 142.6128pt>
 File: figures/influenza_schematic_part2.png Graphic file (type png)
 
 <use figures/influenza_schematic_part2.png>
 Package pdftex.def Info: figures/influenza_schematic_part2.png used on input li
-ne 748.
+ne 775.
 (pdftex.def)             Requested size: 289.07999pt x 58.24965pt.
- [18 <./figures/glioma_triplet.png> <./figures/glioma_voronoi_stage.png (PNG co
-py)>]
 
-Package natbib Warning: Citation `rabadan2007evolution' on page 19 undefined on
- input line 772.
-
-
-Package natbib Warning: Citation `rabadan2008non' on page 19 undefined on input
- line 772.
-
-
-Package natbib Warning: Citation `trifonov2009geographic' on page 19 undefined 
-on input line 772.
-
-
-Package natbib Warning: Citation `solovyov2009cluster' on page 19 undefined on 
-input line 772.
-
-
-Package natbib Warning: Citation `centers2004preliminary' on page 19 undefined 
-on input line 774.
-
-<figures/influenza_quad.png, id=444, 1831.84375pt x 792.9625pt>
+<figures/influenza_quad.png, id=544, 1831.84375pt x 792.9625pt>
 File: figures/influenza_quad.png Graphic file (type png)
 
 <use figures/influenza_quad.png>
-Package pdftex.def Info: figures/influenza_quad.png used on input line 778.
+Package pdftex.def Info: figures/influenza_quad.png used on input line 805.
 (pdftex.def)             Requested size: 433.62pt x 187.70137pt.
 Missing character: There is no â in font cmr10!
 Missing character: There is no € in font cmr10!
 Missing character: There is no ž in font cmr10!
-
-
-Package natbib Warning: Citation `holmes2005whole' on page 19 undefined on inpu
-t line 787.
-
-<figures/influenza_quint.png, id=447, 1421.31pt x 1088.065pt>
+ [20] [21 <./figures/LargeFluTree-NYH3N2-NJ.pdf> <./figures/influenza_schematic
+_part1.png (PNG copy)> <./figures/influenza_schematic_part2.png (PNG copy)>]
+<figures/influenza_quint.png, id=569, 1421.31pt x 1088.065pt>
 File: figures/influenza_quint.png Graphic file (type png)
 
 <use figures/influenza_quint.png>
-Package pdftex.def Info: figures/influenza_quint.png used on input line 791.
+Package pdftex.def Info: figures/influenza_quint.png used on input line 818.
 (pdftex.def)             Requested size: 433.62pt x 331.95065pt.
 
-
-Package natbib Warning: Citation `navin2011tumour' on page 19 undefined on inpu
-t line 798.
-
-
-Package natbib Warning: Citation `eirew2014dynamics' on page 19 undefined on in
-put line 798.
-
-
-Package natbib Warning: Citation `patel2014single' on page 19 undefined on inpu
-t line 798.
-
-
-Package natbib Warning: Citation `grun2015single' on page 19 undefined on input
- line 798.
-
-[19] [20 <./figures/LargeFluTree-NYH3N2-NJ.pdf> <./figures/influenza_schematic_
-part1.png (PNG copy)> <./figures/influenza_schematic_part2.png (PNG copy)>]
-[21 <./figures/influenza_quad.png> <./figures/influenza_quint.png>]
-
-Package natbib Warning: Citation `eirew2014dynamics' on page 22 undefined on in
-put line 803.
-
-<figures/xenograft_single_cell.png, id=471, 1293.83376pt x 1006.76125pt>
+<figures/xenograft_single_cell.png, id=575, 1293.83376pt x 1006.76125pt>
 File: figures/xenograft_single_cell.png Graphic file (type png)
 
 <use figures/xenograft_single_cell.png>
 Package pdftex.def Info: figures/xenograft_single_cell.png used on input line 8
-08.
+35.
 (pdftex.def)             Requested size: 371.51038pt x 289.07999pt.
-
-
-Package natbib Warning: Citation `eirew2014dynamics' on page 22 undefined on in
-put line 809.
-
-
-Package natbib Warning: Citation `eirew2014dynamics' on page 22 undefined on in
-put line 809.
-
-[22 <./figures/xenograft_single_cell.png>]
-No file main.bbl.
-
-Package natbib Warning: There were undefined citations.
-
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 853.
-[23]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 853.
+ [22 <./figures/influenza_quad.png>]
+[23 <./figures/influenza_quint.png>] [24 <./figures/xenograft_single_cell.png>]
+(./main.bbl [25] [26]
+Missing character: There is no â in font cmr10!
+Missing character: There is no ˆ in font cmr10!
+Missing character: There is no ‘ in font cmr10!
+ [27])
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 880.
+ [28]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 880.
  (./main.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 853.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 853.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 880.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 880.
 Package rerunfilecheck Info: File `main.out' has not changed.
 (rerunfilecheck)             Checksum: FA4EFF800239FD76F570B2AE648982FF;2092.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 853.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 880.
  ) 
 Here is how much of TeX's memory you used:
- 7925 strings out of 493117
- 117911 string characters out of 6135433
- 209429 words of memory out of 5000000
- 11217 multiletter control sequences out of 15000+600000
+ 8068 strings out of 493117
+ 121374 string characters out of 6135433
+ 210124 words of memory out of 5000000
+ 11308 multiletter control sequences out of 15000+600000
  15999 words of font info for 61 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 36i,8n,39p,1069b,489s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 36i,8n,44p,1069b,572s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/local/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb
 ></usr/local/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb>
 </usr/local/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb><
@@ -1014,10 +745,10 @@ ve/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/texlive/
 4/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/texlive/2014/
 texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/local/texlive/2014/t
 exmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on main.pdf (23 pages, 3367278 bytes).
+Output written on main.pdf (28 pages, 3391927 bytes).
 PDF statistics:
- 556 PDF objects out of 1000 (max. 8388607)
- 378 compressed objects within 4 object streams
- 71 named destinations out of 1000 (max. 500000)
+ 701 PDF objects out of 1000 (max. 8388607)
+ 515 compressed objects within 6 object streams
+ 121 named destinations out of 1000 (max. 500000)
  281 words of extra memory for PDF output out of 10000 (max. 10000000)
 
