@@ -14,6 +14,7 @@
 
 \newtheorem{corollary}{Corollary}
 \newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
 \newtheorem{definition}{Definition}
 \newtheorem{proposition}[theorem]{Proposition}
 \newtheorem{warning}[theorem]{Warning}
@@ -516,12 +517,12 @@ Let $\aD(\Sigma_m)$ denote the set of distributions on $\Sigma_m$.
 \begin{definition}[Tree dimensionality reduction]
 For $1 \leq k < m$, define the map
 \[
-\Psi \aE_m \to \aD(\Sigma_m)
+\Psi_k \colon \aE_m \to \aD(\Sigma_m)
 \]
 as the assignment that takes $t \in \aE_m$ to the empirical distribution induced by $\Psi_S$ as $S$ varies over all subsets of $\{1,\ldots,m\}$ of size $k$.
 \end{definition}
 
-In practice, we expect to approximate $\Psi(t)$ using Monte Carlo approximations.
+In practice, we expect to approximate $\Psi_k$ using Monte Carlo approximations.
 
 {\bf Insert a picture of this operation!}
 
@@ -549,7 +550,36 @@ as the assignment that takes $t \in \aE_m$ to the curve induced by $\Psi_S$ as $
 In order to validate these procedures, it is necessary to assess their stability under perturbation of the original data.
 For instance, we would like to know that small random perturbation of the original sample results in a distribution of subsamples that is ``close'' in some sense (e.g., small shifts in the centroid in $\Sigma_m$).
 Conversely, if two distributions of subsamples are suitably close, we would like to be able to conclude that the sampled trees are also close.
-The next two theorems provide the theoretical support for the use of tree dimensionality reduction.
+
+The main technical fact we rely on is that for $S \subseteq \{1,\ldots,m\}$, the projection $\Psi_S$ preserves paths and does not increase the length.  More precisely, we have the following lemma.
+
+\begin{lemma}\label{lem:projcont}
+Let $S \subseteq \{1,\ldots,m\}$ and $\gamma \colon [0,1] \to \aE_m$ be a path from $T$ to $T'$.
+Then $\gamma \circ \Psi_S \colon [0,1] \to \Sigma_{|S|}$ is a path from $\Psi_S(T)$ to $\Psi_S(T')$ and $|\gamma'| \leq |\gamma|$.
+\end{lemma}
+
+\begin{proof}
+{\bf Reminder: insert review of tree rotation in discuss of phylogenetic tree spaces above.}
+First, observe that if $T$ and $T'$ are in the same orthant of $\aE_m$, the result is clear; for any $S$, $\Psi_S(T)$ and $\Psi_S(T')$ will be in the same orthant of $\Sigma_{|S|}$, and the distance is bounded by the distance on edges.
+
+Now suppose that $T$ and $T'$ are not in the same orthant and neither $T$ nor $T'$ is contained in a positive codimension subspace of $\aE_m$ (i.e., they are not on the boundary of any orthant).  
+The result essentially follows from explicit consideration of rotations as well as~\cite[4.2]{billera2001geometry}.
+Specifically, $\gamma$ can be expressed in terms of a finite list of tree rotations $(R_1, R_2, \ldots, R_k)$ along with a scaling factor for each edge.
+Now, fix a subset $S \in \{1,\ldots,m\}$.
+The projection $\Psi_S(\gamma)$ yields a path from $\Psi_S(T)$ to $\Psi_S(T')$ in $\Sigma_{|S|}$ as follows.
+For each rotation $R_i$, either the rotation is completely contained within $\Psi_S(T)$ (which means that $\Psi_S(T)$ contains the vertex of the rotation and all of the edges involved in the rotation) or at least one edge involved in the rotation is missing.
+If the rotation is completely contained, then the projection includes the corresponding rotation on $\Psi_S(T)$ and scales the edges as specified by $\gamma$.
+If the rotation is not completely contained, the projection scales the edges incident to the rotation vertex as specified by $\gamma$.
+Inductively, we obtain a path in $\aE_{|S|}$.
+The result now follows from two assertions.
+First, we claim that the set of rotations contained in $\gamma'$ specify a path (ignoring edge lengths) from $T$ to $T'$.
+This is clear, since a rotation is not contained in $\gamma'$ only when it is not needed to change the topology of $T$ to $T'$.
+Second, we claim that the length of the path $\gamma'$ is bounded by $\epsilon$.
+This is also clear, since the contribution of each rotation in $\gamma'$ is bounded by its contribution in $\gamma$.
+\end{proof}
+
+Using this, we can now easily prove the next two theorems that provide the theoretical support for the use of tree dimensionality reduction.
+The following theorem is an immediate consequence of Lemma~\ref{lem:projcont}, choosing the path realizing the distance between $T$ and $T'$.
 
 \begin{theorem}
 For $T,T' \in \aE_m$ such that $d_{\aE_m}(T,T') \leq \epsilon$, then for any $S \in \{1,\ldots,m\}$,
@@ -558,30 +588,6 @@ d_{\Sigma_{|S|}}(\Psi_S(T), \Psi_S(T')) \leq \epsilon.
 \]
 Moreover, this bound is tight.
 \end{theorem}
-
-\begin{proof}
-First, observe that if $T$ and $T'$ are in the same orthant of $\aE_m$, the result is clear; for any $S$, $\Psi_S(T)$ and $\Psi_S(T')$ will be in the same orthant of $\Sigma_{|S|}$, and the distance is bounded by the distance on edges.
-
-{\bf Reminder: insert review of tree rotation in discuss of phylogenetic tree spaces above.}
-Now suppose that $T$ and $T'$ are not in the same orthant and neither $T$ nor $T'$ is contained in a positive codimension subspace of $\aE_m$ (i.e., they are not on the boundary of any orthant).  
-The strategy of proof is simply to observe that a path $\gamma$ from $T$ to $T'$ in $\aE_m$ induces a path $\Psi_S(\gamma)$ from $\Psi_S(T)$ to $\Psi_S(T')$ in $\Sigma_{|S|}$, with length of the induced path bounded by length of $\gamma$.
-
-{\bf Question: maybe this should go above?}
-To be specific, we argue as follows.
-The distance $d_{\aE_m}(T,T')$ is realized by a path $\gamma$, which we can express in terms of a finite list of tree rotations $(R_1, R_2, \ldots, R_k)$ along with a scaling factor for each edge.
-Now, fix a subset $S \in \{1,\ldots,m\}$.
-We will construct a path from $\Psi_S(T)$ to $\Psi_S(T')$ in $\Sigma_{|S|}$ as follows.
-For each rotation $R_i$, either the rotation is completely contained within $\Psi_S(T)$ (which means that $\Psi_S(T)$ contains the vertex of the rotation and all of the edges involved in the rotation) or at least one edge involved in the rotation is missing.
-If the rotation is completely contained, then we can perform the corresponding rotation on $\Psi_S(T)$ and scale the edges as specified by $\gamma$.
-If the rotation is not completely contained, we scale the edges incident to the rotation vertex as specified by $\gamma$ and move on to the next rotation in $\gamma$.
-This forms a path $\gamma'$ contained in $\Sigma_{|S|}$.
-
-The result follows from two assertions.
-First, we claim that the set of rotations contained in $\gamma'$ specify a path (ignoring edge lengths) from $T$ to $T'$.
-This is clear, since a rotation is not contained in $\gamma'$ only when it is not needed to change the topology of $T$ to $T'$.
-Second, we claim that the length of the path $\gamma'$ is bounded by $\epsilon$.
-This is also clear, since the contribution of each rotation in $\gamma'$ is bounded by its contribution in $\gamma$.
-\end{proof}
 
 Let $A$ and $B$ be subsets of $\aE_m$ such that $|A| = |B| \leq 2^m$.  
 If we assume that each item of $A$ and $B$ has a label in $L \subset \aP(\{1,\ldots,m\})$ (where $\aP(-)$ denotes the power set of $\{1,\ldots,m\}$), then we can define a matching distance as
@@ -595,17 +601,18 @@ d_M(A,B) = \min_{\phi} \max_{a \in A} d_{\aE_m}(a,\phi(b)),
 \]
 where $\phi$ varies over all bijections $A \to B$.
 
-\begin{theorem}
+The following is now also immediate from Lemma~\ref{lem:projcont}.
+
+\begin{theorem}\label{thm:converse}
 For $T, T' \in \aE_m$, 
 \[
 d_{\aE_m}(T,T') \leq d_{M,L}(\Psi_C(T), \Psi_C(T')).
 \]
 \end{theorem}
 
-\begin{proof}
-\end{proof}
-
-{\bf Insert remarks about not being able to detect symmetries of trees this way.}
+In practice, we are interested in $d_M$ rather than $d_{M,L}$; we do not expect to be given the labelling for the projection.
+However, it is clear that we cannot expect an analogue of Theorem~\ref{thm:converse}; if $T$ and $T'$ admit any kind of symmetry visible on subtrees, it is possible for $d_M$ to be substantially smaller than $d_{\aE_m}(T,T')$.
+We describe some experimental results about the divergence between $d_M$ and $d_{\aE_m}(T,T')$ below.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
