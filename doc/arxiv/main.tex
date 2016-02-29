@@ -486,10 +486,15 @@ Once again, it is not straightforward to produce classification boundaries in th
 
 \section{Tree dimensionality reduction}\label{sec:treedimred}
 
-A difficulty that arises in our framework is the fact that as the number of sequential samples used to generate each tree increases, so does the dimensionality of the evolutionary moduli space.
-High-dimensional spaces pose problems both because statistical procedures become more difficult to use and because visualization is impossible.
+A difficulty that arises in this framework is the fact that as the number of sequential samples used to generate each tree increases, so does the dimensionality of the evolutionary moduli space.
+High-dimensional spaces of trees pose problems both because statistical procedures become more difficult to use and because visualization is impossible.
 Thus, we are led to consider strategies for dimensionality reduction.
-In this section, we describe a technique for dimensionality reduction that project a single tree in $\Sigma_m$ or $\mathbb{P}\Sigma_m$ onto a set of trees in $\Sigma_{n}$, for $n < m$.  We show that this procedure is stable, in the sense that it reflects metric information about the original tree; stability justifies the use of tree dimensionality reduction for analyzing data.
+Previously, we discussed dimensionality reduction techniques that do not preserve the geometric structure of the evolutionary moduli space.
+
+In this section, we describe a technique for dimensionality reduction that projects a single tree in $\Sigma_m$ or $\mathbb{P}\Sigma_m$ onto a set of trees in $\Sigma_{n}$, for $n < m$.
+Given a sample in $\Sigma_m$ or $\mathbb{P}\Sigma_m$, applying this projection to each tree yields an expanded sample in $\Sigma_n$.
+We believe that the analysis and visualization of the resulting clouds of trees is an effective way to study high-dimensional evolutionary moduli spaces.
+To just the use of tree dimensionality reduction, we prove that this procedure is stable, in the sense that it reflects metric information about the original tree.
 
 \subsection{Structured dimensionality reduction}
 
