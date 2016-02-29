@@ -1,0 +1,68 @@
+\documentclass[a4paper,11pt]{article}
+\usepackage{fullpage}
+\usepackage{hyperref}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{fancybox}
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{float}
+\usepackage{natbib}
+\bibliographystyle{abbrv}
+
+\newtheorem{corollary}{Corollary}
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
+\newtheorem{definition}{Definition}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{warning}[theorem]{Warning}
+\newcommand{\CAT}{\textrm{CAT}}
+\newcommand{\BHV}{\textrm{BHV}}
+\newcommand{\aC}{\mathcal{C}}
+\newcommand{\aD}{\mathcal{D}}
+\newcommand{\aE}{\mathcal{E}}
+\newcommand{\aK}{\mathcal{K}}
+\newcommand{\aP}{\mathcal{P}}
+\newcommand{\Out}{\textrm{Out}}
+
+\begin{document}
+
+\title{Synthetic experiments to-do list}
+
+\author{Sakellarios Zairis$^1$, Hossein Khiabanian$^1$, Andrew J. Blumberg$^2$, and Raul Rabadan$^1$\\
+\\
+$^1$ Department of Systems Biology, Columbia University\\
+$^2$ Department of Mathematics, UT Austin\\}
+\maketitle
+
+\section{Experiments}
+
+This is a list of potential synthetic experiments to do and techniques
+to incorporate with real data, for that matter:
+
+\begin{enumerate}
+
+\item Distinguishing distributions by mapping into Euclidean space, as
+  in section 3.2.  Representative basic idea: take a bunch of
+  landmarks, embed samples from tree space into Euclidean space by
+  using the distances to these landmarks.  Then take moments there or
+  somesuch.  As discussed in 3.3, we might consider using the
+  Kolmogorov-Smirnov test on such an embedding.  These tests will 
+  make sense in the analysis for sections 6.1 and 6.2.
+
+\item Clustering: we probably want to test spectral clustering on our
+  synthetic data as well.  And maybe dbscan.  This is all pretty easy,
+  of course, given the clustering framework.  (We should also consider
+  k-medoids, and can contemplate test statistics that involve the
+  distance to the medoid associated to a cluster --- this is probably
+  a further useful addendum to what happens in 6.1 and 6.2.)
+
+\item Tree dimensionality reduction: we need to do a bunch of
+  synthetic experiments to provide quantitative examples of the
+  behavior guaranteed by the stability theorems.
+
+\end{enumerate}
+
+\end{document}
