@@ -336,6 +336,23 @@ Unfortunately, computing the rotation distance is not known to have a polynomial
 Returning to the case of $\mathbb{P}\Sigma_m$, the join with the standard simplex adds further complication; paths that realize the distance may involve motion in the cone coordinate as well as in the ``rotation'' direction.
 In practice, we can determine if two points are connected by a unique geodesic by repeated use of Djikstra's algorithm in $G$; after finding the shortest path, we can successively form graphs $G'$ by removing edges and then using Djikstra's algorithm on $G'$.
 
+\subsection{Binary trees and triangulations of convex polygons}
+
+Two trees $T_1$ and $T_2$ are in adjacent orthants of $\Sigma_m$ when they are related by a rotation, which we described above as the transformation on a tree performed by collapsing a specified edge to one of its incident vertices and then expanding out an edge from that vertex.
+In order to study the geometry of tree space, it is often useful to have an alternate description of the rotation operation.
+We now explain the connection between binary trees and triangulations of convex polygons; in the setting of polygons, the rotation operation has a simple geometric description.
+This model was used in the computation of the diameter in rotation distance of tree space described above, and will be applied below when we study tree dimensionality reduction~\ref{sec:treedimred}.
+
+Given a triangulation of a convex polygon with $n$ vertices, the dual graph is formed by taking a vertex for each triangle and an edge connecting vertices in adjacent triangles.
+It is clear that the dual graph forms a binary tree.
+On the other hand, given a rooted binary tree with $n$ leaves, we can recursively produce a triangulation of the regular $n+1$-gon as follows.
+We label the edges of the polygon by the leaves in counterclockwise order.  
+We then add the triangle formed by the edge corresponding to the root of the tree and the vertex $k+3$, where $k$ denotes the number of leaves on the left side of the root.
+The process is then recursively carried out on the two polygons formed by this triangle.
+
+A rotation of a tree in this context is now specified by choosing a quadrilateral formed by two adjacent triangles and ``flipping the diagonal''; i.e., deleting the diagonal chord and replacing it with the diagonal through the two vertices the original diagonal did not use.
+(It is straightforward to check that this corresponds to the rotation operation on binary trees.)
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -357,6 +374,7 @@ x(t) = \kappa e^{\alpha d_{\Sigma_m}(t_1, t)}
 \] 
 for fixed $t_1 \in \Sigma_m$, and an analogous family can be defined on $\mathbb{P}\Sigma_m$.
 Sampling from these distributions is somewhat subtle; the natural approach is to use a Markov chain Monte Carlo (MCMC) algorithm, but convergence for such chains is not well-understood and can have pathological behavior near the origin (due to the explosion in the number of trees within an $\epsilon$ ball).
+{\bf Say something here about rotation walk.}
 
 A much more tractable source of distributions on $\Sigma_m$ and $\mathbb{P}\Sigma_m$ arise from resampling from a given set of empirical data points.
 However, as we discuss below, since the central limit theorem in nonpositively curved metric spaces can be quite complicated, once again our understanding of the behavior of resampling estimators is incomplete.
