@@ -547,10 +547,14 @@ For $1 \leq k < m$, define the map
 \[
 \Psi_k \colon \aE_m \to \aD(\Sigma_m)
 \]
-as the assignment that takes $t \in \aE_m$ to the empirical distribution induced by $\Psi_S$ as $S$ varies over all subsets of $\{1,\ldots,m\}$ of size $k$.
+as the assignment that takes $T \in \aE_m$ to the empirical distribution induced by $\Psi_S$ as $S$ varies over all subsets of $\{1,\ldots,m\}$ of size $k$.  Define the map
+\[
+\Psi'_k \colon \aE_m \to \prod_{S \subseteq \{1,\ldots,m\}, |S| = k} \Sigma_k 
+\]
+as the map that takes $T \in \aE_m$ to the product of $\Psi_S(T)$ as $S$ varies over all subsets of $\{1, \ldots, m\}$ of size $k$.
 \end{definition}
 
-In practice, we expect to approximate $\Psi_k$ using Monte Carlo approximations.
+In practice, we expect to approximate $\Psi_k$ using Monte Carlo approximations and equivalently consider the restriction of $\Psi'_k$ to a randomly chosen selection of subsets of $\{1,\ldots,m\}$ of size $k$.
 
 {\bf Insert a picture of this operation!}
 
@@ -658,6 +662,21 @@ d_{\aE_m}(T,T') \leq d_{M,L}(\Psi_C(T), \Psi_C(T')).
 In practice, we may be interested in $d_M$ rather than $d_{M,L}$ when we do not expect to be given the labelling for the projection.
 However, it is clear that we cannot expect an analogue of Theorem~\ref{thm:converse}; if $T$ and $T'$ admit any kind of symmetry visible on subtrees, it is possible for $d_M$ to be substantially smaller than $d_{\aE_m}(T,T')$.
 We describe some experimental results about the divergence between $d_M$ and $d_{\aE_m}(T,T')$ below.
+
+\subsection{Using tree dimensionality reduction for inference and machine learning}
+
+Broadly speaking, the various tree dimensionality reduction operators transform questions about comparison of trees or analysis of finite sets of trees to questions about comparisons and analysis of sets of clouds of trees.
+This has several advantages.
+First, when working with $\mathbb{P}\Sigma_m$, the resulting clouds live in $\Sigma_k$, and as discussed above analysis in the non-projectivized space is much simpler.
+Second, when projecting to $\Sigma_3$ or $\Sigma_4$, both visualization and analysis is easier (particularly in $\Sigma_3$, since that has a Euclidean metric).
+
+For example, in order to perform supervised classification on a labelled set of trees $X$, we can simultaneously solve classification problems in $\Psi'_k(X)$ and use majority voting in order to assign labels to new trees.
+Another interesting direction of research is to consider the use of topological data analysis summaries (i.e., hierarchical clustering dendrograms or barcodes) for the clouds of projected points.
+The stability results above easily imply stability results for the associated barcodes of the projections.
+
+We discuss some examples of this kind of analysis below.
+
+{\bf Expand these remarks.}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
