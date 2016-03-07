@@ -531,6 +531,11 @@ An edge $e$ created by vertex deletion is assigned weight $w_1 + w_2$, where the
 (It is easy to check that the order of vertex deletion does not change the resulting tree.)
 \end{definition}
 
+Ignoring the weights, $\Psi_S$ has a very simple description in terms of an operation on the regular $n$-gon corresponding to a tree $T \in \Sigma_n$.  
+Specifically, $\Psi_S$ deletes the external edges corresponding to leaves not in $S$, identifying chords that are connected by a deleted edge.
+Note that an extra collapse is required when all of the leaves on the right side of the root are removed.
+(Again, it is straightforward to check that the order of deletion of edges does not affect the resulting triangulated polygon.)
+
 {\bf Insert a picture of this operation!}
 
 Using $\Psi$, we can describe a number of dimensionality reduction procedures.  
@@ -574,35 +579,52 @@ In order to validate these procedures, it is necessary to assess their stability
 For instance, we would like to know that small random perturbation of the original sample results in a distribution of subsamples that is ``close'' in some sense (e.g., small shifts in the centroid in $\Sigma_m$).
 Conversely, if two distributions of subsamples are suitably close, we would like to be able to conclude that the sampled trees are also close.
 
-The main technical fact we rely on is that for $S \subseteq \{1,\ldots,m\}$, the projection $\Psi_S$ preserves paths and does not increase the length.  More precisely, we have the following lemma.
+We begin with a lemma describing the interaction of $\Psi_S$ and tree rotation.
+For a tree $T$, we say that a rotation $R$ on $T$ is completely contained in $\Psi_S(T)$ if $\Psi_S(T)$ contains the vertex of the rotation and all of the edges involved in the rotation.
+In terms of the convex $n$-gon corresponding to $T$, the rotation is completely contained in $\Psi_S(T)$ if and only if the quadrilateral corresponding to the rotation is present in the polygon corresponding to $\Psi_S(T)$.
+Denote by $\Psi_S(R)$ the induced rotation on $\Psi_S(T)$ if it is completely contained and the identity map otherwise.
 
-\begin{lemma}\label{lem:projcont}
-Let $S \subseteq \{1,\ldots,m\}$ and $\gamma \colon [0,1] \to \aE_m$ be a path from $T$ to $T'$.
-Then $\gamma \circ \Psi_S \colon [0,1] \to \Sigma_{|S|}$ is a path from $\Psi_S(T)$ to $\Psi_S(T')$ and $|\gamma'| \leq |\gamma|$.
+\begin{lemma}\label{lem:rotprojcom}
+There is a canonical identification
+\[
+\Psi_S(RT) \cong \Psi_S(R) \Psi_S(T).
+\]
 \end{lemma}
 
 \begin{proof}
-{\bf Reminder: insert review of tree rotation in discuss of phylogenetic tree spaces above.}
+If $R$ is not completely contained in $\Psi_S(T)$, then $\Psi_S(RT) = \Psi_S(T)$.
+Consider the polygon corresponding to $T$; if the rotation is not completely contained, then the quadrilateral involved in the rotation has been collapsed out by $\Psi$, and after this collapse, the remaining polygons are identical.
+On the other hand, if the rotation is completely contained, then the relevant quadrilateral is present in both $\Psi_S(T)$ and $T$, and so performing it before or after applying $\Psi_S$ does not change the result.
+\end{proof}
+
+The main technical fact we rely on is that for $S \subseteq \{1,\ldots,m\}$, the projection $\Psi_S$ preserves paths and does not increase the length.  
+
+\begin{proposition}\label{prop:projcont}
+Let $S \subseteq \{1,\ldots,m\}$ and $\gamma \colon [0,1] \to \aE_m$ be a path from $T$ to $T'$.
+Then $\gamma \circ \Psi_S \colon [0,1] \to \Sigma_{|S|}$ is a path from $\Psi_S(T)$ to $\Psi_S(T')$ and $|\gamma'| \leq |\gamma|$.
+\end{proposition}
+
+\begin{proof}
 First, observe that if $T$ and $T'$ are in the same orthant of $\aE_m$, the result is clear; for any $S$, $\Psi_S(T)$ and $\Psi_S(T')$ will be in the same orthant of $\Sigma_{|S|}$, and the distance is bounded by the distance on edges.
 
 Now suppose that $T$ and $T'$ are not in the same orthant and neither $T$ nor $T'$ is contained in a positive codimension subspace of $\aE_m$ (i.e., they are not on the boundary of any orthant).  
-The result essentially follows from explicit consideration of rotations as well as~\cite[4.2]{billera2001geometry}.
-Specifically, $\gamma$ can be expressed in terms of a finite list of tree rotations $(R_1, R_2, \ldots, R_k)$ along with a scaling factor for each edge.
+Further, we assume that $\gamma$ does not go through the origin. 
+
+Then $\gamma$ can be expressed in terms of a finite list of tree rotations $(R_1, R_2, \ldots, R_k)$ and paths $(\gamma_1, \gamma_2, \ldots, \gamma_k)$ that describe the restriction of $\gamma$ to the orthant prior to the rotation $R_i$.
 Now, fix a subset $S \in \{1,\ldots,m\}$.
-The projection $\Psi_S(\gamma)$ yields a path from $\Psi_S(T)$ to $\Psi_S(T')$ in $\Sigma_{|S|}$ as follows.
-For each rotation $R_i$, either the rotation is completely contained within $\Psi_S(T)$ (which means that $\Psi_S(T)$ contains the vertex of the rotation and all of the edges involved in the rotation) or at least one edge involved in the rotation is missing.
-If the rotation is completely contained, then the projection includes the corresponding rotation on $\Psi_S(T)$ and scales the edges as specified by $\gamma$.
-If the rotation is not completely contained, the projection scales the edges incident to the rotation vertex as specified by $\gamma$.
-Inductively, we obtain a path in $\aE_{|S|}$.
-The result now follows from two assertions.
-First, we claim that the set of rotations contained in $\gamma'$ specify a path (ignoring edge lengths) from $T$ to $T'$.
-This is clear, since a rotation is not contained in $\gamma'$ only when it is not needed to change the topology of $T$ to $T'$.
-Second, we claim that the length of the path $\gamma'$ is bounded by $\epsilon$.
-This is also clear, since the contribution of each rotation in $\gamma'$ is bounded by its contribution in $\gamma$.
+The projection $\Psi_S(\gamma)$ yields a path $\gamma'$ from $\Psi_S(T)$ to $\Psi_S(T')$ in $\Sigma_{|S|}$ as follows.
+For each rotation $R_i$, either the rotation is completely contained within $\Psi_S(R_{i-1} R_{i-2} \ldots R_1 T)$ or at least one edge involved in the rotation is missing.
+We write $\Psi_S(R_i)$ for the rotation induced by the projection on $\Psi_S(R_{i-1} R_{i-2} \ldots R_1 T)$; if the rotation is not completely contained, we let $\Psi_S(R_i)$ be the identity map.
+
+Therefore, we obtain a sequence of rotations $\Psi_S(R_1), \Psi_S(R_2), \ldots, \Psi_S(R_k)$.
+By Lemma~\ref{lem:rotprojcom}, we conclude that this sequence specifies a path of tree rotations from $\Psi_S(T)$ to $\Psi_S(T')$.
+For the actual path in $\Sigma_{|S|}$, we simply observe that the restriction of $\gamma_i$ to the restriction of the projected orthant specifies a path from $\Psi_S(R_{i-1} R_{i-2} \ldots R_1 T)$ to $\Psi_S(R_i R_{i-1} R_{i-2} \ldots R_1 T)$.  This follows from the fact that the restriction of $\gamma_i$ specifies a path through the boundary of the orthant if and only if the corresponding rotation is completely contained.
+
+Finally, continuity implies the result for a path that starts or ends on a positive codimension subspace of $\aE_m$.  For a path that goes through the origin and involves no rotations, the result is also clear.  More complicated paths that involve both rotations and movements through the origin can be handled by induction.
 \end{proof}
 
 Using this, we can now easily prove the next two theorems that provide the theoretical support for the use of tree dimensionality reduction.
-The following theorem is an immediate consequence of Lemma~\ref{lem:projcont}, choosing the path realizing the distance between $T$ and $T'$.
+The following theorem is an immediate consequence of Proposition~\ref{prop:projcont}, choosing the path realizing the distance between $T$ and $T'$.
 
 \begin{theorem}
 For $T,T' \in \aE_m$ such that $d_{\aE_m}(T,T') \leq \epsilon$, then for any $S \in \{1,\ldots,m\}$,
@@ -624,7 +646,7 @@ d_M(A,B) = \min_{\phi} \max_{a \in A} d_{\aE_m}(a,\phi(b)),
 \]
 where $\phi$ varies over all bijections $A \to B$.
 
-The following is now also immediate from Lemma~\ref{lem:projcont}.
+The following is now also immediate from Proposition~\ref{prop:projcont}.
 
 \begin{theorem}\label{thm:converse}
 For $T, T' \in \aE_m$, 
@@ -633,7 +655,7 @@ d_{\aE_m}(T,T') \leq d_{M,L}(\Psi_C(T), \Psi_C(T')).
 \]
 \end{theorem}
 
-In practice, we are interested in $d_M$ rather than $d_{M,L}$; we do not expect to be given the labelling for the projection.
+In practice, we may be interested in $d_M$ rather than $d_{M,L}$ when we do not expect to be given the labelling for the projection.
 However, it is clear that we cannot expect an analogue of Theorem~\ref{thm:converse}; if $T$ and $T'$ admit any kind of symmetry visible on subtrees, it is possible for $d_M$ to be substantially smaller than $d_{\aE_m}(T,T')$.
 We describe some experimental results about the divergence between $d_M$ and $d_{\aE_m}(T,T')$ below.
 
