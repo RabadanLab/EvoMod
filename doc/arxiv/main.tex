@@ -17,6 +17,7 @@
 \newtheorem{lemma}{Lemma}
 \newtheorem{definition}{Definition}
 \newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{remark}[theorem]{Remark}
 \newtheorem{warning}[theorem]{Warning}
 \newcommand{\CAT}{\textrm{CAT}}
 \newcommand{\BHV}{\textrm{BHV}}
@@ -601,15 +602,30 @@ Consider the polygon corresponding to $T$; if the rotation is not completely con
 On the other hand, if the rotation is completely contained, then the relevant quadrilateral is present in both $\Psi_S(T)$ and $T$, and so performing it before or after applying $\Psi_S$ does not change the result.
 \end{proof}
 
-The main technical fact we rely on is that for $S \subseteq \{1,\ldots,m\}$, the projection $\Psi_S$ preserves paths and does not increase the length.  
+The main technical fact we rely on is that for $S \subseteq \{1,\ldots,m\}$, the projection $\Psi_S$ preserves paths and the increase in length is bounded.
+To understand the nature of the bound, we need to consider the impact of the addition of edge lengths that occurs when a degree 2 vertex is produced by the reduction process.
+In the simplest case, we are considering the map $\mathbb{R}^2 \to \mathbb{R}$ specified by $(x,y) \mapsto x+y$, and in general, we are looking at $\mathbb{R}^n \mapsto \mathbb{R}$ specified by $(x_1, x_2, \ldots, x_n) \mapsto \sum_{i=1}^n x_i$.
+Squaring both sides, it is clear that
+\[
+\partial_{\mathbb{R}^n}((x_i), (y_i))^2 \leq \partial_{\mathbb{R}}(\sum_{i=1}^n x_i, \sum_{i=1}^n y_i).
+\]
+On the other hand, since 
+\[
+\partial_{\mathbb{R}}(\sum_{i=1}^n x_i, \sum_{i=1}^n y_i) \leq n(\max_i |x_i - y_i|) \leq n \partial_{\mathbb{R}^n}((x_i), (y_i))^2,
+\]
+We find that the addition of edge lengths can result in an expansion bounded by the size of the sum.
+
+\begin{remark}
+Another way to interpret the previous result is to observe that the addition map is an isometry for the Manhattan distance (when working in the positive orthant) but not for the Euclidean distance.
+\end{remark}
 
 \begin{proposition}\label{prop:projcont}
 Let $S \subseteq \{1,\ldots,m\}$ and $\gamma \colon [0,1] \to \aE_m$ be a path from $T$ to $T'$.
-Then $\gamma \circ \Psi_S \colon [0,1] \to \Sigma_{|S|}$ is a path from $\Psi_S(T)$ to $\Psi_S(T')$ and $|\gamma'| \leq |\gamma|$.
+Then $\gamma \circ \Psi_S \colon [0,1] \to \Sigma_{|S|}$ is a path from $\Psi_S(T)$ to $\Psi_S(T')$ and $|\gamma'| \leq (\log_2 m) |\gamma|$.
 \end{proposition}
 
 \begin{proof}
-First, observe that if $T$ and $T'$ are in the same orthant of $\aE_m$, the result is clear; for any $S$, $\Psi_S(T)$ and $\Psi_S(T')$ will be in the same orthant of $\Sigma_{|S|}$, and the distance is bounded by the distance on edges.
+First, observe that if $T$ and $T'$ are in the same orthant of $\aE_m$, the result is clear.  For any $S$, $\Psi_S(T)$ and $\Psi_S(T')$ will be in the same orthant of $\Sigma_{|S|}$.  The length of the projected path in that orthant, by the discussion above, is bounded by the length of the path in $\aE_m$ scaled by the depth of the tree, which is $\log_2 m$.
 
 Now suppose that $T$ and $T'$ are not in the same orthant and neither $T$ nor $T'$ is contained in a positive codimension subspace of $\aE_m$ (i.e., they are not on the boundary of any orthant).  
 Further, we assume that $\gamma$ does not go through the origin. 
@@ -622,9 +638,9 @@ We write $\Psi_S(R_i)$ for the rotation induced by the projection on $\Psi_S(R_{
 
 Therefore, we obtain a sequence of rotations $\Psi_S(R_1), \Psi_S(R_2), \ldots, \Psi_S(R_k)$.
 By Lemma~\ref{lem:rotprojcom}, we conclude that this sequence specifies a path of tree rotations from $\Psi_S(T)$ to $\Psi_S(T')$.
-For the actual path in $\Sigma_{|S|}$, we simply observe that the restriction of $\gamma_i$ to the restriction of the projected orthant specifies a path from $\Psi_S(R_{i-1} R_{i-2} \ldots R_1 T)$ to $\Psi_S(R_i R_{i-1} R_{i-2} \ldots R_1 T)$.  This follows from the fact that the restriction of $\gamma_i$ specifies a path through the boundary of the orthant if and only if the corresponding rotation is completely contained.
+For the actual path in $\Sigma_{|S|}$, we simply observe that the projection of $\gamma_i$ to the restriction of the projected orthant specifies a path from $\Psi_S(R_{i-1} R_{i-2} \ldots R_1 T)$ to $\Psi_S(R_i R_{i-1} R_{i-2} \ldots R_1 T)$.  This follows from the fact that the restriction of $\gamma_i$ specifies a path through the boundary of the orthant if and only if the corresponding rotation is completely contained.  As above, the length of the projected path is bounded by $(\log_2 m) |\gamma_i|$.  Summing, we find that the length of the projected path is bounded by $(\log_2 m) \sum_{i=1}^k |\gamma_i| = |\gamma'|$.
 
-Finally, continuity implies the result for a path that starts or ends on a positive codimension subspace of $\aE_m$.  For a path that goes through the origin and involves no rotations, the result is also clear.  More complicated paths that involve both rotations and movements through the origin can be handled by induction.
+Finally, continuity implies the result for a path that starts or ends on a positive codimension subspace of $\aE_m$.  For a path that goes through the origin and involves no rotations, the result follows from the same argument as in the case of a path entirely contained in a single orthant.  More complicated paths that involve both rotations and movements through the origin can be handled by induction.
 \end{proof}
 
 Using this, we can now easily prove the next two theorems that provide the theoretical support for the use of tree dimensionality reduction.
@@ -633,7 +649,7 @@ The following theorem is an immediate consequence of Proposition~\ref{prop:projc
 \begin{theorem}
 For $T,T' \in \aE_m$ such that $d_{\aE_m}(T,T') \leq \epsilon$, then for any $S \in \{1,\ldots,m\}$,
 \[
-d_{\Sigma_{|S|}}(\Psi_S(T), \Psi_S(T')) \leq \epsilon.
+d_{\Sigma_{|S|}}(\Psi_S(T), \Psi_S(T')) \leq (\log_2 m)\epsilon.
 \]
 Moreover, this bound is tight.
 \end{theorem}
@@ -655,7 +671,7 @@ The following is now also immediate from Proposition~\ref{prop:projcont}.
 \begin{theorem}\label{thm:converse}
 For $T, T' \in \aE_m$, 
 \[
-d_{\aE_m}(T,T') \leq d_{M,L}(\Psi_C(T), \Psi_C(T')).
+d_{\aE_m}(T,T') \leq (\log_2 m) d_{M,L}(\Psi_C(T), \Psi_C(T')).
 \]
 \end{theorem}
 
@@ -671,12 +687,23 @@ First, when working with $\mathbb{P}\Sigma_m$, the resulting clouds live in $\Si
 Second, when projecting to $\Sigma_3$ or $\Sigma_4$, both visualization and analysis is easier (particularly in $\Sigma_3$, since that has a Euclidean metric).
 
 For example, in order to perform supervised classification on a labelled set of trees $X$, we can simultaneously solve classification problems in $\Psi'_k(X)$ and use majority voting in order to assign labels to new trees.
-Another interesting direction of research is to consider the use of topological data analysis summaries (i.e., hierarchical clustering dendrograms or barcodes) for the clouds of projected points.
-The stability results above easily imply stability results for the associated barcodes of the projections.
+Another possibility is to perform hierarchical clustering on the clouds in $\Psi'_k(X)$, resulting in another tree, and use the distance in tree space as a test statistic to discriminate between clouds.
 
 We discuss some examples of this kind of analysis below.
 
-{\bf Expand these remarks.}
+{\bf Expand these remarks once the flu analysis efforts converge.}
+
+\iffalse
+
+\subsection{Barcodes for tree dimensionality reduction}
+
+Another strategy for handling embedding $\mathbb{P}\Sigma_m$ and $\Sigma_m$ is an analytically tractable metric space involves the use of {\em barcodes} and some of the techniques associated to topological data analysis.
+A barcode is a multiset of pairs $(a,b)$ with $0 \leq a \leq b \leq \infty$.
+
+
+Another interesting direction of research is to consider the use of topological data analysis summaries (i.e., hierarchical clustering dendrograms or barcodes) for the clouds of projected points.
+The stability results above easily imply stability results for the associated barcodes of the projections.
+\fi
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
