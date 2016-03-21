@@ -2,4 +2,10 @@
 .DS_Store
 *.pyc
 *.synctex.gz
-*.{aux,bbl,blg,log,out,pdf}
+*.aux
+*.bbl
+*.blg
+*.log
+*.out
+*.pdf
+*.toc
