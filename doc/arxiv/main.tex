@@ -45,20 +45,20 @@ $^2$ Department of Mathematics, UT Austin\\}
 \begin{abstract}
 
 Phylogenetic trees are arguably the most popular representations of evolutionary processes, including the characterization of pathogen spread, the relation between different bacterial species and the evolution of cancers.
-Many evolutionary problems can be formulated as a comparison of different independent evolutionary processes.
-For instance, one could be interested in comparing the evolutionary trajectories of tumors in different patients to stratify patients or identify specific evolutionary patterns associated to particular therapies.
-In other circumstances when the trees are heavily populated, it is cumbersome to visualize and extract statistical properties in an unbiased fashion.
+Studying these evolutionary processes often involves the generation of densely populated phylogenetic trees, or the comparison between different trees.
+For instance, one could be interested in comparing the evolutionary trajectories of tumors in different patients to study the differential response to therapy.
+In other circumstances one faces heavily populated phylogenetic trees, where it is cumbersome to visualize and perform statistical inferences.
 
 Recently, an elegant geometric approach has been introduced that allows a systematic comparison of different evolutionary histories.
 Building upon the description of the geometric properties of space of trees by Billera-Holmes-Vogtman and Sturm, we review in detail the relevant mathematical and computational foundations for applying standard techniques from machine learning and statistical inference in these spaces, which we refer to as evolutionary moduli spaces.
 We then introduce {\em tree dimensionality reduction}, a structured approach to reducing complex phylogenetic trees to a set of projections.  
 We explain the theoretical properties of this procedure and describe how performing statistical analysis in these projections one can visualize different evolutionary behaviors.
 
-Using synthetic datasets, we validate statistical inference methods such as supervised and unsupervised learning, model selection, and estimating bootstrap confidence intervals.
-Then, we show the use of these geometric techniques in a series of biological examples, in the evolution of cancers and in infectious diseases. We study first the disruption of evolutionary trajectories by therapy in chronic lymphocytic leukemias, and the strong association between geometric information and the grade of relapse in low-grade gliomas. Then, we discuss the use of these geometric techniques in single-cell genomic data to systematically identify clonal replacement events in cancer. 
+First using synthetic datasets, we validate statistical inference methods such as supervised and unsupervised learning, model selection, and estimating bootstrap confidence intervals.
+Then, we show the use of these geometric techniques in a series of biological examples, including the evolution of cancers and the spread of infectious diseases. We study first the disruption of evolutionary trajectories by therapy in chronic lymphocytic leukemias, and the strong association between geometric information and the grade of relapse in low-grade gliomas. Then, we discuss the use of these geometric techniques in single-cell genomic data to systematically identify clonal replacement events in cancer. 
 
 Then we analyze an example where a large phylogenetic tree is deconstructed into distributions of smaller trees to identify unexpected strain replacements in influenza A associated with influenza vaccine efficacy.
-The evolutionary moduli space approach provides a useful geometric framework to visualize and extract statistical patterns from large collections of genomic data across diverse evolutionary problems.
+The evolutionary moduli space approach provides an insightful geometric framework to visualize and extract statistical patterns from large collections of genomic data across diverse evolutionary problems.
 
 \end{abstract}
 
@@ -86,7 +86,7 @@ On the other hand, if an ancestral clone gains resistance to therapy and dominat
 
 Other sets of related problems arises when phylogenetic trees are so densely populated that hamper discerning distinct patterns that may emerge when only a few ``relevant'' leaves are considered.
 ``Relevance'' is, however, often unknown, and a way of ``pruning'' of complex trees into a simpler tree is essential to perform unbiased machine learning and statistical analysis.
-In other words, we would like to perform a ``tree dimensionality reduction'' procedure that preserves the tree structure. Such a methodology will be particularly applicable to study the evolution of a viral outbreak with thousands of isolates, or the genomics of thousands of single cells.
+In other words, we would like to perform a ``tree dimensionality reduction'' procedure that preserves the tree structure. Such a methodology will be particularly applicable to study the evolution of a viral outbreak with thousands of isolates, or the genomic characterization of thousands of single cells.
 %% XXX THIS MUST BE DELETED: Many biological problems could benefit from these techniques, for instance, we could be interested in studying the evolution of a virus in a outbreak with thousands of isolates, or in a non so futuristic work to study the genomics of thousands of cells. XXX
 
 \begin{figure}
@@ -114,8 +114,8 @@ In other words, we would like to perform a ``tree dimensionality reduction'' pro
 \end{figure}
 
 These and many other questions associated with clonal processes can be expressed in terms of comparing  evolutionary histories.
-For instance, stratifying patients according to their evolutionary history requires a way of comparing trees and associating statistics to their ``distances.''
-In a recent paper~\cite{zairis2014moduli}, we suggested a simple strategy to construct and study the properties of the space of all potential evolutionary histories, where each history/patient is represented by a point  [REF] \ref{fig:cartoon_2}. We referred to these spaces as  ``evolutionary moduli spaces'' in which classifying histories translates into finding patterns within a point cloud.
+For instance, stratifying cancer patients according to their evolutionary history requires a way of comparing trees and associating statistics to their ``distances.''
+In a recent paper~\cite{zairis2014moduli}, we suggested a simple strategy to construct and study the properties of the space of all potential evolutionary histories, where each history/patient is represented by a point  [REF] \ref{fig:cartoon_2}. We referred to these tree spaces as  ``evolutionary moduli spaces'' in which classifying histories translates into finding patterns within a point cloud.
 
 In this manuscript,  we present a set of techniques that allow machine learning, tree dimensionality reduction, and statistical inference in ``evolutionary moduli  spaces.''
 In Section~\ref{sec:phylospace}, we rapidly review some of the fundamental notions regarding the geometry of evolutionary moduli spaces, following Billera-Holmes-Vogtman \cite{billera2001geometry}, Sturm \cite{sturm2003probability}, and our prior work \cite{zairis2014moduli}. 
