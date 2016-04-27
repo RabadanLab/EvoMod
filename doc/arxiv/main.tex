@@ -758,66 +758,55 @@ The tesselation suggests a ``prognostic landscape in the space of tumor evolutio
 
 \section{Assessing predictive value of genomic information in cancer genomic data}\label{sec:cancer}
 
-Clinical progression of cancer is believed to be intimately related to the accumulation of genomic alterations in tumor cells.
-A small subset of protein coding genes have been implicated in the pathogenesis of certain cancer types, either as activated oncogenes or inactived tumor suppressors.
-Documenting the mutational status of the protein coding genome at diagnosis via whole exome sequencing (WES) or even whole genome sequencing (WGS) is increasingly becoming a standard of care at university hospitals.
-Targeted small-molecule inhibitors may be available for patients with mutations yielding constitutively active oncogenic proteins, or, as can be the case, a mutation in a signaling pathway can disqualify a patient from receiving pharmacologic blockade of the pathway upstream.
-\textit{KRAS} (intracellular) mutations, for example, are known to negate the efficacy of EGFR blockade, which acts at the cell membrane.
-A key question, however, is whether the mutational spectrum observed at diagnosis will be representative of the tumor throughout the disease course, and to what extent mutations will be gained or lost with treatment.
+Clinical progression of cancer is believed to be intimately related to the accumulation of genomic alterations in tumor cells [REF Nowell]. Mutations that accumulate in our cells could lead to increase proliferation. Depending on the effect on proliferation,  
+a subset of protein coding genes have been implicated in the pathogenesis of certain cancer types, either as activated oncogenes or inactivated tumor suppressors. These subset of alterations not only provide information about the molecular mechanisms of tumor initiation and progression  \cite{wang2015tumor}, they also could inform about prognosis [example IDH1 mutations in gliomas for instance], identify early markers of progression \cite{rossi2014clinical} and mechanisms of drug resistance [REF ALL and other papers]. So, knowing what are the genes altered in a particular patient could provide an extremely valuable information about specific personalized therapies, and in such a framework, it is not surprising that there is an increased interest on genomic technologies. Documenting the mutational status of the protein coding genome at diagnosis via specific panel of cancer related genes, whole exome sequencing (WES) or even whole genome sequencing (WGS) is increasingly becoming a standard of care at hospitals.  There are, however, several obstacles that could obscure a clear interventional pathway after a genomic characterization of a tumor. One has to be with clonal heterogeneity. It has been observed in several tumors that different biopsis from the shame tumor could contained different altered genes. The second is the branching behavior in the evolution of a tumor. Some alterations at some time point could not be p[resent al later time points while new ones appear at later times. The spacial and temporal heterogeneity of tumors beclouds clear targeted interventional approaches.   
 
-A tumor is a dynamic and heterogeneous compartment, and it is not clear yet what the hallmarks of tumor evolution are over the full disease course.
-Longitudinal sequencing of tumor series provide the best data for studying the evolutionary patterns of cancer \cite{wang2015tumor} and to find early markers of progression \cite{rossi2014clinical}.
-Such efforts are sure to accelerate with the widespread adoption of genomic techniques in clinical medicine.
-WES is typically performed at a sufficient depth of coverage to characterize the genotype of the dominant cell fraction, termed the dominant clone.
-At this level of resolution one can characterize the evolution via the degree of branching observed in the dominant clone.
-Chemotherapy represents a powerful selective pressure on the tumor, and it is of interest to calculate the proportion of mutations observed at diagnosis that persist at a later clinical time point.
-Two published studies, in chronic lymphocytic leukemia and relapsed glioma, show a clear effect of chemotherapy on the evolution of the dominant clone.
+The spacial and temporal heterogeneity of tumors could be addressed by reconstructing the evolutionary history of tumors from different samples. From each location and time point one can reconstruct (partially or totally) the genome of the dominant clone. As the evolution proceeds in a clonal fashion, the genomic information could be structured as a phylogenetic tree. Questions about the nature of the evolutionary process, mechanisms of resistance, stratification of patient tumor histories or prognosis could be formulated as a comparison between different phylogenetic structures. This formulation allows the use of the mathematical machinery described in this manuscript in a systematic fashion. To illustrate the use we have chosen an extremely clinically and biological relevant problem, how therapy disrupts the evolution of tumors, and two different applications, in chronic lymphocytic leukemias and gliomas. We show that the different evolutionary patterns associated to therapeutic regimes are reflected as different distributions in the moduli space.
 
 \subsection{Disruption of linear evolution by therapy in chronic leukemias}
 
 Chronic lymphocytic leukemia (CLL) is the most common leukemia in adults, primarily affecting the elderly population (median age at diagnosis is 70).~\cite{smith2011incidence}
-CLL was classically considered a very indolent disease, with patients often dying of causes unrelated to the cancer, however it is increasingly being appreciated that the prognosis of CLL is highly variable.
+CLL was mostly considered a very indolent disease, with patients often dying of causes unrelated to the cancer, however it is increasingly being appreciated that the prognosis of CLL is highly variable depending on different genetic factors [REF].
 CLL is a proliferative disorder of B-lymphoctyes characterized by a steady accumulation of clonal, non-functional B-cells.
-Treatment strategies vary greatly given the heterogeneity in disease course, ranging from watchful waiting, to localized radiation, to systemic chemotherapy.
-None of these approaches are considered potentially curative; the only such option is bone marrow transplant.
+Treatment strategies vary greatly given the heterogeneity in disease course, ranging from watchful waiting, to localized radiation, to systemic chemotherapy [REF].
+When none of these approaches are considered potentially curative; the only such option is bone marrow transplant.
 
-The fact that CLL is a relatively indolent malignancy allows a longer time window than usual for studying clonal evolution.
+The fact that CLL is a relatively indolent malignancy makes it an excellent model for studying clonal evolution under different therapeutic strategies [REF paper Jiguang CLL eLife].  
 A recent genomic study~\cite{landau2013evolution} performed WES on 160 CLL cases covering the spectrum of clinical courses the disease can take.
 This data established a space of recurrent alterations, which was then used to genotype 18 patients for whom two time points were available.
 Of these 18 patients, 10 of 12 treated with chemotherapy underwent clonal evolution compared to only 1 of 6 receiving no treatment according to the authors of the study.
 We combine the 18 patients of \cite{landau2013evolution} with those of a similar study~\cite{schuh2012monitoring} wherein 3 CLL patients received chemotherapy and were sequenced at multiple time points.
 The multiple time points for the 3 patients studied in~\cite{schuh2012monitoring} are decomposed into all combinatorial triplets.
 Therefore, there are a total of 18 phylogenetic trees inferred from \cite{landau2013evolution} and 12 phylogenetic trees inferred from \cite{schuh2012monitoring}.
-In Figure N, we map this data to $\mathbb{P}\Sigma_3$ and color based on treatment status.
+In Figure \ref{CLL}, we map this data to $\mathbb{P}\Sigma_3$ and color based on treatment status.
 
 \begin{figure}
     \begin{subfigure}{0.5\linewidth}
     \centering
     \includegraphics[height=2.2in]{figures/CLL_triplet.png}
-    \caption{caption goes here.}
+    \caption{ADD CAPTION}
+    \label{CLL}
     \end{subfigure}
     ~
     \begin{subfigure}{0.5\linewidth}
     \centering
     \includegraphics[height=2in]{figures/CLL_histogram.pdf}
-    \caption{caption goes here.}
+    \caption{ADD CAPTION}
     \end{subfigure}
 
-    \caption{Frozen vs. Branched evolution observed in CLL patients receiving no chemotherapy and chemotherapy respectively. Cases with no chemotherapy are represented in red while cases involving chemotherapy are represented in green. Colored circles are scaled by patients' total number of mutations. The centroids of the two distributions are represented as gold stars, and their associated phylogenetic trees are visualized.}
+    \caption{Frozen vs. Branched evolution observed in CLL patients receiving no chemotherapy and chemotherapy respectively. Cases with no chemotherapy are represented in red while cases involving chemotherapy are represented in green. Colored circles are scaled by patients' total number of mutations. The centroids of the two distributions are represented as gold stars, and their associated phylogenetic trees are visualized.[ADD STARS OR OTHER SYMBOLS]}
     \label{fig:chemoCLL}
 \end{figure}
 
-From a clinical standpoint, the central question is whether treatment promotes evolution of the cancer and whether there is strong evidence for avoiding cytotoxic therapy in patient management.
-Quite clearly the distribution of 6 untreated patients resembles a frozen pattern, while the 15 patients who underwent chemotherapy have a far more branched mode of evolution.
-The 95\% CI for the distance between the centroids of the treated / untreated groups is (0.15, 0.36), under 1000-fold bootstrap resampling.
-The analogous intervals for untreated / untreated and treated / treated are (0.01, 0.14) and (0.02, 0.16) respectively.
-The centroids of these clinically distinct sets of patients are statistically well-resolved.
+From a clinical standpoint, a central question is whether treatment promotes evolution of the cancer and whether there is strong evidence for avoiding cytotoxic therapy in patient management.
+Quite clearly the distribution of 6 untreated patients resembles a pattern (in green) forms a tight cluster, indicating that tumors from patients who did not received therapy are stable genetically, sharing most of the mutations. However, in red are represented the histories of tumors of 15 patients under therapy, presenting some mutations at different times that are not shared across different samples. The ratio between the number of mutations that are exclusive in the early branch versus the ones that are share with other phases is represented in right hand side of figure \ref{CLL}. A number close to zero indicates a genetically stable tumor. To assess if the clonal histories how different are the clonal histories of tumors from untreated vs treated patients, we studied the distance between the centroids of the two populations. The 95\% CI for the distance between the centroids of the treated / untreated groups is (0.15, 0.36), under 1000-fold bootstrap resampling. The analogous intervals for untreated / untreated and treated / treated are (0.01, 0.14) and (0.02, 0.16) respectively.
+This analysis shows that the centroids of these clinically distinct sets of patients are statistically well-resolved, supporting the idea that untreated tumors are more stable than treated ones, where district mutations can appear along the evolution of the tumor.
 
 \subsection{The geometry of a tree is associated with grade at relapse in gliomas}
 
-Low grade gliomas (LGG) are a set of tumors of the central nervous system most often involving astrocytes or oligodendrocytes.
+Next, we will study low grade gliomas (LGG), a set of tumors of the central nervous system most often involving astrocytes or oligodendrocytes.
 They are distinguised from high grade gliomas (III, IV), such as glioblastoma multiforme, by the absence of anaplasia and have a more favorable prognosis.
-Surgery alone is not considered curative for LGG and patients are typically treated with adjuvant radiation therary, chemotherapy, or both.
+Surgery alone is not considered curative for LGG and patients are typically treated with adjuvant radiation therapy, chemotherapy, or both [REF].
 If a patient relapses, the tumor may be observed to have a higher grade at that time.
 Johnson \textit{et al.} studied a cohort of 23 LGG patients who relapsed, many of whom were treated with the chemotherapeutic agent temozolamide (TMZ).~\cite{johnson2014mutational}
 WES was performed on tumor tissue at diagnosis and at relapse in an effort to characterize the evolution of recurrent glioma.
@@ -847,12 +836,14 @@ Also of interest is the apparent correlation between the geometry of the phyloge
 A 1-nearest neighbor classifier of this trinary observable (grade II, III, or IV at relapse) yields 85\% accuracy under two-fold CV, and the accuracy does not improve with larger values of $k$.
 The tesselation of the space associated to a 1-nearest neighbor classifier is known as a Voronoi diagram, and we have colored the cells in accordance with the grade at relapse.
 
+This is a nice example that show that in the simple case of three leaves trees, evolutionary tumor histories are different under different therapeutic regimes, and that they do associate with prognosis (as measured by grade at relapse).
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \section{Phylogenetic dimensional reduction}\label{sec:flu}
 
-Phylogenetic trees are often too complex to visualize and analyze; however, lower dimensional representations (such as ``tree'' dimensionality reduction procedures) are able to capture important phenomena. 
+
 
 \begin{figure}
     \begin{subfigure}{\linewidth}
@@ -877,25 +868,21 @@ Phylogenetic trees are often too complex to visualize and analyze; however, lowe
      \label{fig:flu_schematic}
 \end{figure}
 
-The approach we present here is based on sub-sampling of a larger structure and preforming statistical analysis in lower dimensional projections.
+Phylogenetic trees are often too complex to visualize and analyze as they can contain thousands of branches. However, lower dimensional representations (such as ``tree'' dimensionality reduction procedures) are able to visualize capture important phenomena. The approach we present here is based on sub-sampling of a larger structure and preforming statistical analysis in lower dimensional projections. The main idea is that by subsampling leaves of a large tree we can have a distribution of smaller trees that can capture properties of the more complex structure.
 This procedure has two advantages in relation to larger trees: on the one hand one can easily visualize, extract, perform statistical analysis, and interpret different types of evolutionary relationships.
-On the other hand, it avoids the problem of scalability of phylogenetic algorithms with the number of leaves.
-One particular application of these projections is the identification of clonal replacement, when a clone, not directly descending from the dominant clone at the previous phase, shows dominant presence \ref{fig:flu_schematic}.
-The reason for this clonal replacement phenomena could be manifold, from strong bottlenecks associated to ancestral clone's loss of fitness or a sub-clone's rapid adaptation.
-Here, we present the analysis of two distinct datasets.
-We first study the evolution of influenza A virus in humans and show the presence of clonal replacement events that lead to vaccine failure.
-Then, we investigate clonal evolution in patient-derived xenografts at single-cell levels and characterize tumor evolutionary trajectories.
+On the other hand, it avoids the problem of scalability of phylogenetic algorithms with the number of leaves. In this section we will show two different applications of this procedure to identify interesting changes in tree shapes. In particular, we will be looking for clonal replacements, when a clone, not directly descending from the dominant clone at the previous phase, shows dominant presence in a later phase \ref{fig:flu_schematic}.
+The reason for this clonal replacement phenomena could be manifold, from stochastic fluctuations in small populations to selection processes (loss of fitness of the dominant clone, or rapid adaptation of a novel unrelated clone).
+Here, we will show the application of the tree reduction techniques to two distinct datasets.
+We first study the evolution of influenza A virus in humans and show the presence of clonal replacement events that could lead to vaccine failure.
+Then, we investigate clonal evolution in patient-derived xenografts by studying the genomes of large number of single-cells at different passages. 
 
 \subsection{Detecting new dominant strains in seasonal influenza}
 
-The design of influenza vaccine is based on samples of previous years under the assumption that virus in the coming season will be antigenically similar to most recent circulating strains. This is an strong assumption, as relatively small genetic changes in the genome of the virus can cause drastic antigenic shif.  Influenza vaccine failures are usually associated with the emergence of new clones with novel antigenic properties that have replaced recent circulating strains. Here we study how the emergence of a novel subclone could be identified by the unusual/unexpected tree structures. For this purpose we study the recent history of influenza A H3N2 using 580 sequences of hemmagglutinin (HA) collected in New York State between 1993 and 2007.
+Influenza A is an RNA virus that infects every year approximately 5 ? 10\% in adults and 20 ? 30\% in children (REF WHO http://www.who.int/biologicals/vaccines/influenza/en/) leading to more than half a million flu associated deaths. Vaccination against the virus remains a major way of preventing morbidity. The virus genome however evolves rapidly changing the antigenic presentation of proteins that are in the envelop of the virus, mostly haemagglutinin (HA). These continuous antigenic changes, sometimes referred as antigenic drift, could lead to failures in vaccine efficacy.  The design of influenza vaccine is based on samples of previous years under the assumption that virus in the coming season will be antigenically similar to most recent circulating strains. This is a very strong assumption, as relatively small genetic changes in the genome of the virus can cause drastic antigenic changes.  Influenza vaccine failures can be associated with the emergence of new clones with novel antigenic properties that have replaced recent circulating strains. Here we study how the emergence of a novel subclone could be identified by the unusual/unexpected tree structures. For this purpose we study the recent history of influenza A H3N2 using 5,608 sequences of hemmagglutinin collected in the United States between 1993 and 2015.
 
-
-The influenza virus genome consists of eight single-stranded RNA segments, two of which code the antigenic surface glycoproteins, hemagglutinin (HA) and neuraminidase (NA).
-The evolution of influenza viruses follows two distinct patterns: 1) genomic drift, the random accumulation of mutations due to antigenic pressure and high error rate in the replication process; 2) reassortment, the mixing of segments from two different strains during co-infection.
-The former is the reason behind annual updates of the influenza vaccine; the latter, when introducing viral segments from non-human reservoirs, has led to major pandemics over the past century~\cite{rabadan2007evolution, rabadan2008non} and  was particularly associated with the emergence of the 2009 H1N1 pandemic.~\cite{trifonov2009geographic, solovyov2009cluster}
+A different but related phenomenon that can lead to significant antigenic changes is reassortment. The influenza virus genome consists of eight single-stranded RNA segments, two of which code the antigenic surface glycoproteins, hemagglutinin (HA) and neuraminidase (NA). When two different viruses co-infect the same host, they could generate a progeny of virus containing segments from both parental strains. Changes in the constellation of segments could introduce dramatic genetic and antigenic changes. Reassortments could occur between different viruses infecting the same host or even, more rarely, viruses that are typically found in different hosts. Introducing viral segments from non-human reservoirs has led to major pandemics over the past century~\cite{rabadan2007evolution, rabadan2008non} and  was particularly associated with the emergence of the 2009 H1N1 pandemic.~\cite{trifonov2009geographic, solovyov2009cluster}
 In 1968, the reassortment of then-circulating H2N2 with avian strains created H3N2 viruses, which have since been infecting human population.
-Reassortment of seasonal strains can also contribute to vaccine failure as low frequency hemagglutinin segments can combine with highly transmissible strains. In particular, reassortment of two H3N2 clades during the 2002-2003 season resulted in a major epidemic and higher incidents of vaccine failure in the succeeding season.~\cite{centers2004preliminary}
+Reassortment of seasonal strains can also contribute to vaccine failure as low frequency hemagglutinin segments could combine with highly transmissible strains. In particular, reassortment of two H3N2 clades during the 2002-2003 season resulted in a major epidemic and higher incidents of vaccine failure in the succeeding season.~\cite{centers2004preliminary}
 
 \begin{figure}
     \centering
@@ -904,7 +891,7 @@ Reassortment of seasonal strains can also contribute to vaccine failure as low f
     \label{fig:flu_quad}
 \end{figure} 
 
-Using 580 H3N2 strains collected in New York State between 1993 and 2009, we relate HA sequences from one season to those from the succeeding ones.
+Using 5,608 sequences of hemmagglutinin collected in the United States between 1993 and 2015, we relate HA sequences from one season to those from the succeeding ones.
 We pick random strains from four and five consecutive seasons, and using neighbor-joining based on hamming distances, generate un-rooted trees compromising 14 $\mathbb{P}\Sigma_4$ (Fig \ref{fig:flu_quad}) and 13 $\mathbb{P}\Sigma_5$  (Fig \ref{fig:flu_quint}) spaces.
 The majority of spaces for HA show linear evolution of influenza from one season to another, indicating genetic drift as virus's dominant evolutionary process.
 We, however, detect distinct clusters of trees in HA'„s evolutionary spaces that indicate clonal replacement and reemergence of strains in the 2002-2003 season genetically similar to those circulating in the 1999-2000 season. [NEED STATISTICS]
@@ -945,21 +932,16 @@ However, we observe significant divergence of tumor clones during multiple engra
 
 \section{Conclusions}\label{sec:conclusions}
 
-There is an exciting frontier of open questions related to evolutionary moduli spaces.
-One obvious question is how our visualization framework can scale to much larger numbers of sequential tissue samples.
-In the limit of extremely dense sampling of a patient's tumor progression, our current strategy may become unwieldy due to the high dimensionality of the spaces.
-Even for the case of 6 samples it is challenging construct a succinct visualization of $\mathbb{P}\Sigma_6$, a space in which each patient could be represented by a point.
-An alternate strategy is to use a sliding window to decompose densely sampled patients into overlapping tuples of length $3 \leq j \leq 5$.
-Over the course of a densely sampled tumor progression one could thus observe the local evolutionary relationships between adjacent samples.
-A patient with $m$ tissue samples would then be decomposed into $m - j$ tuples, each of which correspond to a point in $\mathbb{P}\Sigma_j$, thus tracing out a curve in the projective space.
-The underlying biology of the cancer would be encoded by the shape, direction, and neighborhood of confinement of the curve on $\mathbb{P}\Sigma_j$.
-This approach to visualization scales nicely with $m$, since there would be more tuples with which to fit a curve, but replaces point clouds with sets of curves as the representational scheme for a patient population.
+Phylogenetic trees remain one of the most useful representations of evolutionary processes. Sometimes, however, these trees could be very complex with thousands of branches complicating visualization and unsupervised learning approaches. Other times, trees representing different but related processes need to be compared. We show that these two kinds of problems can be understood within a simple framework, where each tree is represented by a point in what we refer to as evolutionary moduli spaces. We show how to reduce complex trees to a large collections of small trees amenable to statistical and machine learning approaches. We the illustrated the use of these techniques to study the evolution of diverse cancers, influenza and to study single cells from tumor models.
 
-Another question that looms large is how to define useful probability distributions, such as those of the exponential family, on $\Sigma_m$.
+There are many open questions related to evolutionary moduli spaces.One question is how to define useful probability distributions, such as those of the exponential family, on $\Sigma_m$.
 The k--means algorithm demonstrated earlier, for example, can be thought of as a limiting case of hard assignment in a mixture of $k$ Gaussian densities.
 Any attempt at soft assignment of patients to an underlying probabilistic clustering model would necessarily rely upon well defined notions of distributions in $\Sigma_m$.
 Defining distributions on $\Sigma_m$ would open a more direct communication between evolutionary moduli spaces and the field of generative modeling.
 One potentially fruitful approach for approximating probability densities such as the normal distribution is to simulate diffusive processes in $\Sigma_m$, taking advantage of the relationship between random walks and their limiting distributions.
+
+NEEDS TO BE EXPANDED.
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
