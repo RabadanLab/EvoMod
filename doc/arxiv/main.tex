@@ -577,6 +577,51 @@ as the assignment that takes $t \in \aE_m$ to the curve induced by $\Psi_S$ as $
 
 {\bf Insert a picture of this operation!}
 
+\subsection{Tree dimensionality reduction and neighbor-joining}
+
+We have described tree dimensionality reduction in terms of the map $\Psi$, which is an operation on tree spaces.
+In practice, this technique would be applied by producing a very large phylogenetic tree from the raw data and subsequently applying $\Psi$.
+However, there is an alternative form of tree dimensionality reduction that instead subsamples the raw data to produce smaller phylogenetic trees.
+In this section, we discuss the relationship between these two procedures in the context of neighbor-joining.
+
+Neighbor-joining is an algorithm for producing a tree from metric data (or more broadly, a dissimilarity measure)~\cite{}.
+That is, the input is a set of points $X$ and a metric $\partial_X \colon X \times X \to \mathbb{R}$.
+One of the main theorems about consistency of neighbor-joining is that when $\partial_X$ is ``close'' to a tree metric $\partial_T$, neighbor-joining recovers $T$.
+Recall that given a tree $T$, the associated metric $\partial_T$ is defined by taking the distance between leaves $i$ and $j$ to be 
+\[
+\partial_T(i,j) = \sum_{e \in P_{ij}} \ell(e),
+\]
+where $P_{ij}$ is the unique path in $T$ from $i$ to $j$ and $\ell(e)$ is the length of the edge $e$.
+
+The specific consistency theorem we use is due to Atteson~\cite{}: if
+\[
+\max_{x_i,x_j \in X} |\partial_X(x_i,x_j) - \partial_T(x_i,x_j)| \leq \frac{1}{2} \min_{e \in T} \ell(e),
+\]
+then neighbor-joining recovers $T$.  
+In this case we say that $(X, \partial_X)$ is consistent with $T$.
+
+\begin{theorem}
+If $(X,\partial_X)$ is consistent with $T$, for any subset $S = \{x_1, x_2, \ldots x_k\} \subseteq X$, the associated submetric space is consistent with $\Psi_S(T)$.
+\end{theorem}
+
+\begin{proof}
+It is clear from the definition of $\Psi_S(T)$ that 
+\[
+\min_{e \in \Psi_S(T)} \ell(e) \geq \min_{e \in T} \ell(e).
+\]
+On the other hand, 
+\[
+\max_{x_i,x_j \in S} |\partial_X(x_i,x_j) - \partial_T(x_i,x_j)| \leq
+\max_{x_i,x_j \in X} |\partial_X(x_i,x_j) - \partial_T(x_i,x_j)| 
+\]
+The result follows.
+\end{proof}
+
+For a metric space $(X,\partial_X)$, let $T(X)$ denote the tree obtained from neighbor-joining applied to $(X,\partial_X)$.
+The conclusion is that given a metric space $(X, \partial_X)$, the distribution $\Psi_k(T(X))$ is identical to the distribution $\{T(X_S)\}$ where $S$ varies over all subsets of $X$ of cardinality $k$ and $X_S$ denotes the metric space structure on $S$ induced by $\partial_X$.
+
+{\bf Say something about the fancier criterion of Pachter and company~\cite{}?  (Presumably, provide counterexample.)}
+
 \subsection{Stability of Tree dimensionality reduction}
 
 In order to validate these procedures, it is necessary to assess their stability under perturbation of the original data.
