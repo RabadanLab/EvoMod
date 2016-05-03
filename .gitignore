@@ -1,5 +1,6 @@
-*Icon
 .DS_Store
+evomod_preprint.pdf
+*Icon
 *.fdb_latexmk
 *.fls
 *.pyc
@@ -9,5 +10,4 @@
 *.blg
 *.log
 *.out
-*.pdf
 *.toc
