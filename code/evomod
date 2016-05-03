@@ -15,6 +15,7 @@ import matplotlib as mpl
 import matplotlib.pyplot as plt
 import matplotlib.cm as cm
 from mpl_toolkits.mplot3d import Axes3D
+import seaborn as sn
 
 mpl.rcParams['lines.linewidth'] = '2.0'
 mpl.rcParams['axes.facecolor'] = 'white'
@@ -23,9 +24,8 @@ mpl.rcParams['axes.grid'] = 'False'
 mpl.rcParams['axes.edgecolor'] = 'white'
 mpl.rcParams['pdf.fonttype'] = 42
 
-def penta_color(smallest, largest, val):
-    normalized_val = float(val - smallest) / (largest - smallest)
-    return cm.jet(normalized_val)[:3]
+sn.set_context('paper')
+sn.set_style('whitegrid')
 
 parser = argparse.ArgumentParser(description='statistical exploration of evolutionary moduli space')
 parser.add_argument('-p', '--path', required=True,
