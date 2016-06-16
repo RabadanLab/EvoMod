@@ -110,7 +110,7 @@ Such a methodology will be particularly applicable to study the evolution of a v
     \includegraphics[height=3in]{../figures/illustration_longitudinal.pdf}
     % \caption{Right}
     \end{subfigure}
-    \caption{Clonal evolution of an asexually reproducing genome. (a) Through acquisition of mutations, the primordial clone gives rise to a large heterogeneous population, whose evolutionary history can be accurately described by a tree. (b) Longitudinal sampling of a clonal population permits the construction of phylogenetic trees that approximate the underlying history. Subpopulations are represented in different colors; stochastic sampling of a particular genotype at each time point is illustrated in the color of the external branch in the tree; this tree is one of many that could be observed when sampling this population.}
+    \caption{{\bf Clonal evolution of an asexually reproducing genome}. (a) Through acquisition of mutations, the primordial clone gives rise to a large heterogeneous population, whose evolutionary history can be accurately described by a tree. (b) Longitudinal sampling of a clonal population permits the construction of phylogenetic trees that approximate the underlying history. Subpopulations are represented in different colors; stochastic sampling of a particular genotype at each time point is illustrated in the color of the external branch in the tree; this tree is one of many that could be observed when sampling this population.}
      \label{fig:illustration_1}
 \end{figure}
 
@@ -118,7 +118,7 @@ Such a methodology will be particularly applicable to study the evolution of a v
 \begin{figure}
     \centering
     \includegraphics[height=3.5in]{../figures/illustration_BHV_5.png}
-    \caption{Mapping collections of phylogenetic trees onto the evolutionary moduli space, where they form a point cloud.}
+    \caption{{\bf Moduli space of phylogenetic trees describing clonal evolution.} Collections of trees can be mapped onto a geometric space, forming a point cloud. Trees with the same topology will live in the same orthant, and crossing into an adjacent orthant corresponds to a tree rotation. Points closer to the vertex of the cone have relatively little internal branch length, while points near the base of the cone have little weight in the external branches.}
     \label{fig:illustration_2}
 \end{figure}
 
@@ -273,6 +273,22 @@ The subspace metric is also very natural from the perspective of our application
 However, from the perspective of metric geometry, the characterization of $\mathbb{P} \Sigma_m$ as the link of the origin endows it with the structure of an all-right spherical complex.
 Gromov's theorem then implies that with this metric, $\mathbb{P} \Sigma_m$ is a $\CAT(1)$ space.
 Furthermore, it is clear that with either of these metrics, $\mathbb{P} \Sigma_m$ is a Polish space.
+
+\begin{figure}
+    \begin{subfigure}{0.5\linewidth}
+    \centering
+    \includegraphics[height=2in]{../figures/synthetic_graph_layout.png}
+    \end{subfigure}
+    ~
+    \begin{subfigure}{0.5\linewidth}
+    \centering
+    \includegraphics[height=2.5in]{../figures/PSigma5_v4.png}
+    \end{subfigure}
+
+    \caption{{\bf Discrete approximation of $\mathbb{P}\Sigma_m$, projective BHV space.} Unit norm phylogenetic trees on $m$ leaves are densely sampled and used as vertices in a graph weighted by pairwise BHV distances. All edges above a threshold distance are removed, with the threshold determined as the smallest value that maintains a single connected component. We call this graph the  $\epsilon$-net. The projective distance is then defined as the graph distance along the $\epsilon$-net, and we visualize a force directed layout of the graph. On the left we represent $\mathbb{P}\Sigma_4$, and on the right $\mathbb{P}\Sigma_5$. The case of four leaves is more easily appreciated as a join space, as described earlier.}
+     \label{fig:epsilon_net}
+\end{figure}
+
 
 Since neither metric on $\mathbb{P} \Sigma_m$ makes it into a $\CAT(0)$ space, the problem of efficiently computing the metric becomes more acute.
 We approach this problem by using $\epsilon$-nets and a local-to-global construction.
@@ -483,6 +499,14 @@ The advantage of $k$-medoids over $k$-means is that the problem of finding a cen
 Another natural family of clustering algorithms comes from spectral clustering techniques.
 Recall that spectral clustering can be applied to finite subsets of any metric space; one constructs an embedding into Euclidean space using the graph Laplacian associated to a graph encoding the local metric structure of the set of points and then performs $k$-means clustering.
 As such, spectral clustering can be applied both to $\Sigma_m$ and $\mathbb{P}\Sigma_m$.
+As illustrated in Figure \ref{fig:embedding}, we 
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.75\linewidth]{../figures/synthetic_distortion.pdf}
+    \caption{{\bf Euclidean embedding of discrete $\mathbb{P}\Sigma_m$.} A spectral embedding approach is taken to finding Euclidean approximations of our $\epsilon$-nets. We are interested in the relation between $m$ and the smallest $d$ with acceptable distortion of embedding into $\mathbb{R}^d$.}
+     \label{fig:embedding}
+\end{figure}
 
 \subsection{Supervised Learning}
 
@@ -542,12 +566,13 @@ Ignoring the weights, $\Psi_S$ has a very simple description in terms of an oper
 Specifically, $\Psi_S$ deletes the external edges corresponding to leaves not in $S$, identifying chords that are connected by a deleted edge.
 Note that an extra collapse is required when all of the leaves on the right side of the root are removed.
 (Again, it is straightforward to check that the order of deletion of edges does not affect the resulting triangulated polygon.)
+This procedure is depicted in a step-wise fashion in Figure \ref{fig:dimred_def2}.
 
 \begin{figure}
     \centering
     \includegraphics[width=6in]{../figures/dimred_def2.pdf}
-    \caption{Step-wise removal of leaves not contained in the desired subtree.}
-    \label{fig:definition2}
+    \caption{{\bf Correspondence between tree retraction and edge removal in a polygon.} The leaves that are not highlighted in the starting phylogeny are pruned and their external edges removed, during the tree projection operation. This can equivalently be described via step-wise removal of edges in a triangulated polygon, identifying chords incident upon a shared edge that is removed.}
+    \label{fig:dimred_def2}
 \end{figure} 
 
 Using $\Psi$, we can describe a number of dimensionality reduction procedures.
@@ -569,19 +594,20 @@ as the map that takes $T \in \aE_m$ to the product of $\Psi_S(T)$ as $S$ varies 
 
 In practice, we expect to approximate $\Psi_k$ using Monte Carlo approximations and equivalently consider the restriction of $\Psi'_k$ to a randomly chosen selection of subsets of $\{1,\ldots,m\}$ of size $k$.
 
-\begin{figure}
-    \centering
-    \includegraphics[width=4in]{../figures/dimred_def4.pdf}
-    \caption{Schematic of a sequential tree decomposition, whose windows respect the temporal ordering of the samples. Periodicity in the sequence of branch lengths can give rise to cycles in the evolutionary moduli space.}
-    \label{fig:definition4}
-\end{figure} 
-
 Often there is additional structure in the labels that can be exploited.
 For instance, in many natural examples, the genomic data has a natural chronological ordering.
 When this holds, sliding windows over the labels induces an ordering on subtrees generated by $\Psi_S$.
 Rather than just regarding such a sequence as a distribution, the ordering makes it sensible to consider the associated trees as forming a piecewise-linear curve in $\Sigma_k$.
 (Note that given a set of points in $\Sigma_k$ it is always reasonable to form the associated piecewise-linear curve because each pair of points is connected by a unique geodesic.)
 Let $\aC_k(\Sigma_m)$ denote the set of piecewise linear curves in $\Sigma_m$; equivalently, $\aC_k(\Sigma_m)$ can be thought as the set of ordered sequences in $\Sigma_m$ of cardinality $k$.
+A schematic example of this sequential operation is given in Figure \ref{fig:dimred_def4}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=4in]{../figures/dimred_def4.pdf}
+    \caption{{\bf Sequential tree decomposition on a set of ordered samples.} The subsets of trees generated from the initial phylogeny respect the ordering on the leaves, as would be the case in a temporally ordered set of samples. Each subtree can be visualized on a common set of axes, to chart motion through time. Periodicity in the sequence of branch lengths, for example, might give rise to cycles in the evolutionary moduli space.}
+    \label{fig:dimred_def4}
+\end{figure} 
 
 \begin{definition}[Sequential tree dimensionality reduction]
 For $1 \leq k < m$, define the map
@@ -592,8 +618,6 @@ as the assignment that takes $t \in \aE_m$ to the curve induced by $\Psi_S$ as $
 \end{definition}
 
 (Of course, there are many variants of $\Psi_C$ depending on the precise strategy for windowing that is employed.)
-
-{\bf Insert a picture of this operation!}
 
 \subsection{Tree dimensionality reduction and neighbor-joining}
 
@@ -744,16 +768,21 @@ d_{\aE_m}(T,T') \leq (\log_2 m) d_{M,L}(\Psi_C(T), \Psi_C(T')).
 \]
 \end{theorem}
 
-In practice, we may be interested in $d_M$ rather than $d_{M,L}$ when we do not expect to be given the labelling for the projection.
-However, it is clear that we cannot expect an analogue of Theorem~\ref{thm:converse}; if $T$ and $T'$ admit any kind of symmetry visible on subtrees, it is possible for $d_M$ to be substantially smaller than $d_{\aE_m}(T,T')$.
-We describe some experimental results about the divergence between $d_M$ and $d_{\aE_m}(T,T')$ in Figure \ref{fig:dimred_calibration}.
-
-\begin{figure}[t!]
+\begin{figure}
     \centering
     \includegraphics[width=0.8\linewidth]{../figures/dimred_calibration.pdf}
-    \caption{(top) Distribution of subsample distances can exceed the original inter-phylogeny distance, represented as a black line, but never exceeds the bound of $(\log_2 m)\epsilon$. (bottom) As the dimension of subsampling approaches the dimension of the inital phylogeny there is a monotonic increase in the median $d_{M,L}$ and decrease in the variance of $d_{M,L}$.}
+    \caption{{\bf Distributions of subsample distances under the tree projection operation.} (top) Pairs of $m$-dimensional phylogenies with known distance (horizontal black lines) are projected into distributions of low dimensional trees. The distances between elements of the projections can exceed the original inter-phylogeny distance ($\epsilon$), but rarely approach the bound of $(\log_2 m)\epsilon$. (bottom) As the dimension of the projection operator approaches that of the initial phylogenies, there is a monotonic increase in the median and decrease in the variance of $d_{M,L}$.}
     \label{fig:dimred_calibration}
 \end{figure}
+
+In practice, we may be interested in $d_M$ rather than $d_{M,L}$ when we do not expect to be given the labelling for the projection.
+However, it is clear that we cannot expect an analogue of Theorem~\ref{thm:converse}; if $T$ and $T'$ admit any kind of symmetry visible on subtrees, it is possible for $d_M$ to be substantially smaller than $d_{\aE_m}(T,T')$.
+We illustrate some computational results about the divergence between $d_M$ and $d_{\aE_m}(T,T')$ in Figure \ref{fig:dimred_calibration}.
+To demonstrate the stability of the tree projection operation, and to empirically test its approach of the distance bound, we constructed a panel of pairs of $m$-dimensional trees, $m > 10$.
+The distances between the pairs of trees were computed and compared against the distributions of distances induced by the $k$-dimensional projection operator, $\Psi_k$ with $k \in {3,4,5,6}$.
+The distances between elements of the projections can exceed the original inter-phylogeny distance ($\epsilon$), but rarely approach the bound of $(\log_2 m)\epsilon$.
+To further characterize the behavior of the distribution $d_{M,L}$ as a function of $k$, we compared the distributions of projected distances ranging from $k=3$ to $k=m-1$ for a fixed pair of $m$-dimensional phylogenies.
+It was noted that the median $d_{M,L}$ grows monotonically with $k,$ approaching the true $m$-dimensional $d_{BHV}(T, T')$, while the variance in $d_{M,L}$ appears to decrease monotonically with $k$.
 
 \subsection{Using tree dimensionality reduction for inference and machine learning}
 
@@ -791,21 +820,6 @@ Reconstructing the epsilon net and leveraging Dijkstra's algorithm for shortest 
 A methodological point worth mentioning here is that no principled, graph-theoretic quantity is currently being used to define the threshold for adjacency in our epsilon net.
 We simply require that the discretized projective space be a single connected component so that every shortest path distance is finite.
 
-\begin{figure}
-    \begin{subfigure}{0.5\linewidth}
-    \centering
-    \includegraphics[height=2in]{../figures/synthetic_graph_layout.png}
-    \end{subfigure}
-    ~
-    \begin{subfigure}{0.5\linewidth}
-    \centering
-    \includegraphics[height=2in]{../figures/synthetic_distortion.pdf}
-    \end{subfigure}
-
-    \caption{Computational implementation of $\mathbb{P}\Sigma_m$. (a) A force directed layout used on the $\epsilon$-net. (b) Distortions of embedding the projective space into $\mathbb{R}^k$.}
-     \label{fig:epsilon_net}
-\end{figure}
-
 \subsection{Model selection}
 
 We created three synthetic data sets upon which to demonstrate that plotting the DB-index for the k--Means implementation correctly discerns the optimal number of clusters present in the data.
@@ -814,7 +828,7 @@ The figures that have already been generated used the BHV distance metric, and n
 \begin{figure}[t!]
     \centering
     \includegraphics[height=3in]{../figures/synthetic_davies_bouldin.pdf}
-    \caption{We recover the correct value of K for clustering in different dimensions of projective space.}
+    \caption{Populations of trees are generated }
     \label{fig:davies_bouldin}
 \end{figure}
 
@@ -867,7 +881,7 @@ In Figure \ref{fig:chemoCLL}, we map this data to $\mathbb{P}\Sigma_3$ and color
     \includegraphics[height=2.2in]{../figures/CLL_histogram.pdf}
     \end{subfigure}
 
-    \caption{Frozen vs. Branched evolution observed in CLL patients receiving no chemotherapy and chemotherapy respectively. Cases with no chemotherapy are represented in red while cases involving chemotherapy are represented in green. The proportion of mutations shared between time points is significantly lower among patients treated with chemotherapy ($p = 0.049$, log-rank test).}
+    \caption{{\bf Frozen vs. Branched evolution observed in CLL.} Patients receiving no chemotherapy vs. chemotherapy displayed frozen vs. branched evolution respectively. Cases with no chemotherapy are represented in greeb while cases involving chemotherapy are represented in red. The proportion of mutations shared between time points is significantly lower among patients treated with chemotherapy ($p = 0.049$, log-rank test).}
     \label{fig:chemoCLL}
 \end{figure}
 
