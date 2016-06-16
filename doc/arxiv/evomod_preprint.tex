@@ -87,18 +87,17 @@ On the other hand, if an ancestral clone gains resistance to therapy and dominat
 Other sets of related problems arises when phylogenetic trees are so densely populated that hamper discerning distinct patterns that may emerge when only a few ``relevant'' leaves are considered.
 ``Relevance'' is, however, often unknown, and a way of ``pruning'' of complex trees into a simpler tree is essential to perform unbiased machine learning and statistical analysis.
 In other words, we would like to perform a ``tree dimensionality reduction'' procedure that preserves the tree structure. Such a methodology will be particularly applicable to study the evolution of a viral outbreak with thousands of isolates, or the genomic characterization of thousands of single cells.
-%% XXX THIS MUST BE DELETED: Many biological problems could benefit from these techniques, for instance, we could be interested in studying the evolution of a virus in a outbreak with thousands of isolates, or in a non so futuristic work to study the genomics of thousands of cells. XXX
 
 \begin{figure}
     \begin{subfigure}{0.5\linewidth}
     \centering
-    \includegraphics[height=3in]{figures/ClonalEvolutionTrees.png}
+    \includegraphics[height=3in]{../figures/illustration_clonal_tree.png}
     \caption{Left}
     \end{subfigure}
     ~
     \begin{subfigure}{0.5\linewidth}
     \centering
-    \includegraphics[height=3in]{figures/cartoon_1.pdf}
+    \includegraphics[height=3in]{../figures/illustration_longitudinal.pdf}
     \caption{Right}
     \end{subfigure}
     \caption{Clonal evolution of an asexually reproducing organism. (a) Through acquiring mutations and differentiation, the primordial clonal gives rise to a large heterogeneous population, whose evolution can be described with tree-like structures. (b) Longitudinal sampling of a clonal population permits the construction of phylogenetic trees that describe its evolutionary history. Here, sub-populations are represented by different colors; sub-sampling of a particular sub-population is illustrated by the color of the branch in the tree, one of the many trees that can be reconstructed from this population. }
@@ -108,7 +107,7 @@ In other words, we would like to perform a ``tree dimensionality reduction'' pro
 
 \begin{figure}
     \centering
-    \includegraphics[height=3in]{figures/cartoon_2.pdf}
+    \includegraphics[height=3.5in]{../figures/illustration_BHV_5.png}
     \caption{Comparing the evolution of clonal populations by mapping their phylogenetic tree onto the evolutionary moduli space.}
     \label{fig:cartoon_2}
 \end{figure}
@@ -538,7 +537,7 @@ Note that an extra collapse is required when all of the leaves on the right side
 
 \begin{figure}
     \centering
-    \includegraphics[width=6in]{figures/definition_2.pdf}
+    \includegraphics[width=6in]{../figures/dimred_def2.pdf}
     \caption{CAPTION.}
     \label{fig:definition2}
 \end{figure} 
@@ -563,7 +562,7 @@ In practice, we expect to approximate $\Psi_k$ using Monte Carlo approximations 
 
 \begin{figure}
     \centering
-    \includegraphics[width=6in]{figures/definition_4.pdf}
+    \includegraphics[width=6in]{../figures/dimred_def4.pdf}
     \caption{CAPTION.}
     \label{fig:definition4}
 \end{figure} 
@@ -773,13 +772,13 @@ We simply require that the discretized projective space be a single connected co
 \begin{figure}
     \begin{subfigure}{\linewidth}
     \centering
-    \includegraphics[height=2.5in]{figures/synthetic_graph_layout.png}
+    \includegraphics[height=2.5in]{../figures/synthetic_graph_layout.png}
     \caption{A force directed layout was used on the graph.}
     \end{subfigure}
    
     \begin{subfigure}{\linewidth}
     \centering
-    \includegraphics[height=2.5in]{figures/synthetic_distortion.pdf}
+    \includegraphics[height=2.5in]{../figures/synthetic_distortion.pdf}
     \caption{Distortions of embedding the projective space into $\mathbb{R}^k$.}
     \end{subfigure}
 
@@ -794,7 +793,7 @@ The figures that have already been generated used the BHV distance metric, and n
 
 \begin{figure}[t!]
     \centering
-    \includegraphics[height=3in]{figures/synthetic_davies_bouldin.pdf}
+    \includegraphics[height=3in]{../figures/synthetic_davies_bouldin.pdf}
     \caption{We recover the correct value of K for clustering in different dimensions of projective space.}
     \label{fig:davies_bouldin}
 \end{figure}
@@ -839,13 +838,13 @@ In Figure \ref{CLL}, we map this data to $\mathbb{P}\Sigma_3$ and color based on
 \begin{figure}
     \begin{subfigure}{0.5\linewidth}
     \centering
-    \includegraphics[height=2.2in]{figures/CLL_triplet.png}
+    \includegraphics[height=2.2in]{../figures/CLL_triplet.png}
     \label{CLL}
     \end{subfigure}
     ~
     \begin{subfigure}{0.5\linewidth}
     \centering
-    \includegraphics[height=2.2in]{figures/CLL_histogram.pdf}
+    \includegraphics[height=2.2in]{../figures/CLL_histogram.pdf}
     \end{subfigure}
 
     \caption{Frozen vs. Branched evolution observed in CLL patients receiving no chemotherapy and chemotherapy respectively. Cases with no chemotherapy are represented in red while cases involving chemotherapy are represented in green. The proportion of mutations shared between time points is significantly lower among patients treated with chemotherapy ($p = 0.049$, log-rank test).}
@@ -868,12 +867,12 @@ WES was performed on tumor tissue at diagnosis and at relapse in an effort to ch
 \begin{figure}
     \begin{subfigure}{0.5\linewidth}
     \centering
-    \includegraphics[height=2.2in]{figures/glioma_triplet.png}
+    \includegraphics[height=2.2in]{../figures/glioma_triplet.png}
     \end{subfigure}
     ~
     \begin{subfigure}{0.5\linewidth}
     \centering
-    \includegraphics[height=2in]{figures/glioma_voronoi_stage.png}
+    \includegraphics[height=2in]{../figures/glioma_voronoi_stage.png}
     \end{subfigure}
 
     \caption{Evolution of recurrent glioma. Expand caption.}
@@ -896,22 +895,16 @@ This is a nice example that show that in the simple case of three leaves trees, 
 \section{Phylogenetic dimensional reduction}\label{sec:flu}
 
 \begin{figure}
-    \begin{subfigure}{\linewidth}
+    \begin{subfigure}{0.5\linewidth}
     \centering
-    \includegraphics[height=4in]{figures/influenza_overall_tree.png}
+    \includegraphics[height=2.5in]{../figures/influenza_overall_tree.png}
     \caption{Large tree.}
     \end{subfigure}
-
-    \begin{subfigure}{\linewidth}
+    ~
+    \begin{subfigure}{0.5\linewidth}
     \centering
-    \includegraphics[width=4in]{figures/influenza_schematic_part1.png}
-    \caption{Scheme.}
-    \end{subfigure}
-   
-    \begin{subfigure}{\linewidth}
-    \centering
-    \includegraphics[width=4in]{figures/influenza_schematic_part2.png}
-    \caption{Small tress.}
+    \includegraphics[width=2.5in]{../figures/influenza_schematic.png}
+    \caption{Scheme with small tress.}
     \end{subfigure}
 
     \caption{Evolution of influenza A virus presenting clear seasonal variation.(a) Identifying statistical patterns in large trees is often difficult. This phylogenetic tree of the hemmagglutinin (HA) segment from 580 H3N2 influenza viruses across 15 seasons  can be  sub-sampled for statistical analysis in lower dimensional projections. (b)  Due to genomic drift, new strains appear each season, dominating the periods of viral expansion. (c) Different clones across seasons can be characterized through sub-sampling viral populations. If the pattern is highly linear, clones at some season will be directly related to emerging clones in the following seasons. However, if clones emerge that are genetically very different from previously sampled clones (on the right, branched or divergent behaviors) it will be difficult to make predictions based on recent samples. Currently influenza vaccine depends critically on these data and these predictions.}
@@ -936,7 +929,7 @@ Reassortment of seasonal strains can also contribute to vaccine failure as low f
 
 \begin{figure}
     \centering
-    \includegraphics[width=6in]{figures/influenza_quad.png}
+    \includegraphics[width=6in]{../figures/supplement_influenza_quad.png}
     \caption{Superimposed $\mathbb{P}\Sigma_4$ spaces relating four consecutive influenza seasons, using 580 influenza A H3N2 strains collected from New York from 1993 to 2009.}
     \label{fig:flu_quad}
 \end{figure} 
@@ -949,7 +942,7 @@ These results corroborate previously published whole-genome and segment-specific
 
 \begin{figure}
     \centering
-    \includegraphics[width=6in]{figures/influenza_quint.png}
+    \includegraphics[width=6in]{../figures/influenza_quint.png}
     \caption{Superimposed $\mathbb{P}\Sigma_5$ spaces relating five consecutive influenza seasons, using 580 influenza A H3N2 strains collected from New York from 1993 to 2009.}
     \label{fig:flu_quint}
 \end{figure} 
@@ -966,7 +959,7 @@ These sites include variants that Eirew \textit{et al.} associated with eight di
 
 \begin{figure}
     \centering
-    \includegraphics[height=4in]{figures/xenograft_single_cell.png}
+    \includegraphics[height=4in]{../figures/xenograft_single_cell.png}
     \caption{Single cell analysis of tumor evolution in a breast cancer derived xenograft model. Single-nucleus deep-sequence data obtained from passage 1, 2, and 4. Single-cell data from primary tumor is not available, however  Eirew \textit{et al.}~\cite{eirew2014dynamics} identified eight distinct clusters. These data were used to generate two $\mathbb{P}\Sigma_4 $ spaces.}
     \label{fig:xenograft}
 \end{figure} 
