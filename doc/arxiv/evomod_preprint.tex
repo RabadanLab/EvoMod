@@ -878,7 +878,7 @@ In Figure \ref{fig:chemoCLL}, we map this data to $\mathbb{P}\Sigma_3$ and color
     \includegraphics[height=2.2in]{../figures/CLL_histogram.pdf}
     \end{subfigure}
 
-    \caption{{\bf Frozen vs. Branched evolution observed in CLL.} Patients receiving no chemotherapy vs. chemotherapy displayed frozen vs. branched evolution respectively. Cases with no chemotherapy are represented in greeb while cases involving chemotherapy are represented in red. The proportion of mutations shared between time points is significantly lower among patients treated with chemotherapy ($p = 0.049$, log-rank test).}
+    \caption{{\bf Different evolutionary patterns observed in CLL.} (Left) In patients that did not receive chemotherapy the  tumor genome did not change. Tumors from these patients, represented in green, shared most mutations along different time points. However, under therapy (shown in red) mutations before therapy were not present after treatment, and new mutations were acquired. (Right) The proportion of mutations shared between time points is significantly lower among patients treated with chemotherapy ($p = 0.049$, log-rank test).}
     \label{fig:chemoCLL}
 \end{figure}
 
@@ -912,7 +912,7 @@ WES was performed on tumor tissue at diagnosis and at relapse in an effort to ch
     \includegraphics[height=2in]{../figures/glioma_voronoi_stage.png}
     \end{subfigure}
 
-    \caption{{\bf Effects of temozolamide (TMZ) treatment in relapsed glioma.} Exome sequencing was performed both at diagnosis and at relapse in 23 glioma patients, allowing for 46 phylogenetic trees to be inferred (spatial replicates in certain cases). (a) Patients treated with TMZ are colored red, and the size of a point denotes the total number of mutations observed. There is a clear tendency of TMZ-treated patients to localize in a particular corner of the space and to exhibit a hypermutant phenotype. (b) Less obvious was the association between the shape of patint's tree and the histologic grade of the tumor at relapse, displayed as a Voronoi tessellation.}
+    \caption{{\bf Effects of temozolamide (TMZ) treatment in relapsed glioma.} Exome sequencing was performed both at diagnosis and at relapse in 23 glioma patients, allowing for 46 phylogenetic trees to be inferred (spatial replicates in certain cases). (a) Patients treated with TMZ are colored red, and the size of a point denotes the total number of mutations observed. There is a clear tendency of TMZ-treated patients to localize in a particular corner of the space and to exhibit more mutations associated to the therapy. (b) Less obvious was the association between the shape of patient's tree and the histologic grade of the tumor at relapse, displayed as a Voronoi tessellation.}
     \label{fig:gliomaTMZ}
 \end{figure}
 
@@ -921,7 +921,7 @@ The 95\% CI for the distance between the centroids of the treated / untreated gr
 The analogous intervals for untreated / untreated and treated / treated are (0.02, 0.13) and (0.02, 0.16) respectively.
 TMZ treatment status defines two statistically well-resolved sub-populations of patients with respect to the shape of their evolutionary behavior.
 Also of interest is the apparent correlation between the geometry of the phylogenetic tree and the histologic grade at relapse.
-A 1-nearest neighbor classifier of this trinary observable (grade II, III, or IV at relapse) yields 85\% accuracy under two-fold CV, and the accuracy does not improve with larger values of $k$.
+A 1-nearest neighbor classifier of this trinary observable (grade II, III, or IV at relapse) yields 85\% accuracy under two-fold cross-validation, and the accuracy does not improve with larger values of $k$.
 The tesselation of the space associated to a 1-nearest neighbor classifier is known as a Voronoi diagram, and we have colored the cells in accordance with the grade at relapse.
 
 This is a nice example that show that in the simple case of three leaves trees, evolutionary tumor histories are different under different therapeutic regimes, and that they do associate with prognosis (as measured by grade at relapse).
@@ -954,12 +954,14 @@ The design of influenza vaccine is based on samples of previous years under the 
 This is a very strong assumption, as relatively small genetic changes in the genome of the virus can cause drastic antigenic changes.
 Influenza vaccine failures can be associated with the emergence of new clones with novel antigenic properties that have replaced recent circulating strains.
 Here we study how the emergence of a novel subclone could be identified by the unusual/unexpected tree structures.
-For this purpose we study the recent history of influenza A H3N2 using 5,608 sequences of hemmagglutinin collected in the United States between 1993 and 2015 (Figure \ref{fig:HA_tree}).
+For this purpose we study the recent history of influenza A H3N2 using 5,608 sequences of hemmagglutinin collected in the United States between 1993 and 2016 (Figure \ref{fig:HA_tree}).
+Genomic data was downloaded from the GISAID EpiFlu database (www.gisaid.org), and aligned with MUSCLE using default parameters.
+Vaccine effectiveness figures were drawn from 
 
 \begin{figure}
     \centering
     \includegraphics[height=4in]{../figures/influenza_overall_tree.png}
-    \caption{{\bf H3N2 Hemagglutinin (HA) isolates 1993--2016.} Identifying statistical patterns in large phylogenies is often difficult. This phylogenetic tree contains 1089 sequences, collected in New York state, spanning 24 influenza seasons. This structure is suitable for statistical analysis via lower dimensional tree projections.}
+    \caption{{\bf H3N2 Hemagglutinin (HA) isolates 1993--2016.} Identifying statistical patterns in large phylogenies is often difficult. This phylogenetic tree contains 1,089 sequences, collected in New York state, spanning 24 influenza seasons. This structure is suitable for statistical analysis via lower dimensional tree projections.}
      \label{fig:HA_tree}
 \end{figure}
 
@@ -973,19 +975,19 @@ In 1968, the reassortment of then-circulating H2N2 with avian strains created H3
 Reassortment of seasonal strains can also contribute to vaccine failure as low frequency hemagglutinin segments could combine with highly transmissible strains.
 In particular, reassortment of two H3N2 clades during the 2002-2003 season resulted in a major epidemic and higher incidents of vaccine failure in the succeeding season.~\cite{centers2004preliminary}
 
-Using 1089 full length sequences of hemmagglutinin collected in New York state between 1993 and 2016, we relate HA sequences from one season to those from the preceeding ones.
+Using 1,089 full length sequences of hemmagglutinin collected in New York state between 1993 and 2016, we relate HA sequences from one season to those from the preceeding ones.
 We randomly select three, four, or five consecutive seasons to form a temporal window, and use neighbor-joining on hamming distance to generate sets of unrooted trees.
 The case of length five winows is illustrated in \ref{fig:flu_quint}, where we superimpose each temporal slice onto the same moduli space.
 The majority subsampled trees show linear evolution of HA from one season to another, indicating genetic drift as the virus's dominant evolutionary process.
 Certain windows yield well resolved clusters of trees, while others display a highly dispersed point cloud.
 Either scenario might be indiciative of elevated diversity in the HA segment or clonal replacement event underway.
-The window ending in the 2003-2004 season shows a clear reemergence of strains in 2003-2004 that were genetically similar to those circulating in the 1999-2000 season.
-Make sure that these results corroborate previously published whole-genome and segment-specific phylogenetic analyses!!~\cite{holmes2005whole}
+The window ending in the 2003-2004 season shows a clear reemergence of strains in 2003-2004 that were genetically similar to those circulating in the 1999-2000 season. \cite{holmes2005whole}
+%Make sure that these results corroborate previously published whole-genome and segment-specific phylogenetic analyses!!~\cite{holmes2005whole}
 
 \begin{figure}
     \centering
     \includegraphics[width=6in]{../figures/influenza_quint.png}
-    \caption{{\bf Temporally windowed subtrees in $\mathbb{P}\Sigma_5$.} Using a common set of axes for projective tree space, we superimpose the distributions of trees derived from windows five seasons long. 1089 full-length HA segments (H3N2) were collected in New York state from 1993 to 2016. Two consecutive seasons of poor vaccine effectiveness are 2003-2004 and 2004-2005, highlighted with green and gray arrows respectively. The green distribution strongly pairs the 1999-2000 and 2003-2004 strains, hinting at a reemergence.}
+    \caption{{\bf Temporally windowed subtrees in $\mathbb{P}\Sigma_5$.} Using a common set of axes for projective tree space, we superimpose the distributions of trees derived from windows five seasons long. 1,089 full-length HA segments (H3N2) were collected in New York state from 1993 to 2016. Two consecutive seasons of poor vaccine effectiveness are 2003-2004 and 2004-2005, highlighted with green and gray arrows respectively. The green distribution strongly pairs the 1999-2000 and 2003-2004 strains, hinting at a reemergence.}
     \label{fig:flu_quint}
 \end{figure}
 
