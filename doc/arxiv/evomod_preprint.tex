@@ -51,13 +51,16 @@ In other circumstances one faces heavily populated phylogenetic trees, where it 
 
 Recently, an elegant geometric approach has been introduced that allows a systematic comparison of different evolutionary histories.
 Building upon the description of the geometric properties of space of trees by Billera-Holmes-Vogtman and Sturm, we review in detail the relevant mathematical and computational foundations for applying standard techniques from machine learning and statistical inference in these spaces, which we refer to as evolutionary moduli spaces.
-We then introduce {\em tree dimensionality reduction}, a structured approach to reducing complex phylogenetic trees to a set of projections.  
+We then introduce {\em tree dimensionality reduction}, a structured approach to reducing complex phylogenetic trees to a set of projections.
 We explain the theoretical properties of this procedure and describe how performing statistical analysis in these projections one can visualize different evolutionary behaviors.
 
-First using synthetic datasets, we validate statistical inference methods such as supervised and unsupervised learning, model selection, and estimating bootstrap confidence intervals.
-Then, we show the use of these geometric techniques in a series of biological examples, including the evolution of cancers and the spread of infectious diseases. We study first the disruption of evolutionary trajectories by therapy in chronic lymphocytic leukemias, and the strong association between geometric information and the grade of relapse in low-grade gliomas. Then, we discuss the use of these geometric techniques in single-cell genomic data to systematically identify clonal replacement events in cancer. 
+Using synthetic datasets, we validate statistical inference methods such as supervised and unsupervised learning, model selection, and estimating bootstrap confidence intervals.
+Then, we show the use of these geometric techniques in a series of biological examples, including the evolution of cancers and the spread of infectious diseases.
+We study first the disruption of evolutionary trajectories by therapy in chronic lymphocytic leukemias, and the strong association between geometric information and the grade of relapse in low-grade gliomas.
+Then, we discuss the use of these geometric techniques in single-cell genomic data to systematically identify clonal replacement events in cancer.
 
-Then we analyze an example where a large phylogenetic tree is deconstructed into distributions of smaller trees to identify unexpected strain replacements in influenza A associated with influenza vaccine efficacy.
+Finally, we decompose 24 years of longitudinally collected H3N2 hemagglutinin sequences into distributions of smaller trees spanning between three and five seasons.
+A negative correlation is observed between the influenza vaccine efficacy during a season and the variance of the set trees constructed constructed using the preceding seasons' sequence data.
 The evolutionary moduli space approach provides an insightful geometric framework to visualize and extract statistical patterns from large collections of genomic data across diverse evolutionary problems.
 
 \end{abstract}
@@ -71,62 +74,67 @@ The evolutionary moduli space approach provides an insightful geometric framewor
 
 The importance of phylogenetic tree structures in biological sciences cannot be overstated.
 In 1859, Charles Darwin proposed the tree as a metaphor for the process of species generation through branching of ancestral lineages~\cite{darwin1859origin}.
-Since, tree structures have been used pervasively in biology, where terminal branches have represented a diverse set of biological entities and taxonomic units: from individual or families of genes, to organisms, populations of related organisms, species, genera, or higher taxa. Recently, the widespread use of trees have been questioned on the grounds that some biological taxa are not the results of simple branching processes \cite{doolittle1999phylogenetic, chan2013topology}, as fairly distant branches could exchange genomic material.
+Since, tree structures have been used pervasively in biology, where terminal branches have represented a diverse set of biological entities and taxonomic units: from individual or families of genes, to organisms, populations of related organisms, species, genera, or higher taxa.
+Recently, the widespread use of trees have been questioned on the grounds that some biological taxa are not the results of simple branching processes \cite{doolittle1999phylogenetic, chan2013topology}, as fairly distant branches could exchange genomic material.
 
 A large set of evolutionary processes are, however, captured well by tree-like structures.
-In particular, clonal evolution events that start from asexual reproduction of a single organism (primordial clone), which mutates and differentiates into a large progeny (see figure \ref{fig:cartoon_1}).~\cite{khiabanian2014viral}
+In particular, clonal evolution events that start from asexual reproduction of a single organism (primordial clone), which mutates and differentiates into a large progeny (see figure \ref{fig:illustration_1}).~\cite{khiabanian2014viral}
 Examples of these processes include single gene phylogeny in non-recombinant viruses, bacteria that are not involved in horizontal gene transfer events, and metazoon development from a single germ cell.
 The recent developments in genomics have allowed the study of such events in exquisite detail, particularly at single cell/clone levels \cite{navin2011tumour, shalek2013single, eirew2014dynamics}.
 
 An important example of clonal evolution can be observed in cancer where a single cell replicates and spreads beyond control.
-The answers to many clinical and biological questions involve investigating different phases of tumor's clonal evolution. How do tumors originate? How do tumors spread? How a particular therapy may disrupt tumor evolution? How does evolutionary information correlate with disease prognosis? How patients' tumors can be classified according to their evolutionary history?
+The answers to many clinical and biological questions involve investigating different phases of tumor's clonal evolution.
+How do tumors originate?
+How do tumors spread?
+How a particular therapy may disrupt tumor evolution?
+How does evolutionary information correlate with disease prognosis?
+How patients' tumors can be classified according to their evolutionary history?
 It is also necessary to assess the predictive value of genomic information, at a particular time, about subsequent events in tumor progression.
 If the evolution is believed to be highly linear, subsequent phases are expected to contain all the information at the current phase.
 On the other hand, if an ancestral clone gains resistance to therapy and dominates the long time evolution, very different shapes of trees compared to those from a linear process can be observed, where semi-extinct clones are replaced by fitter ones.
 
-Other sets of related problems arises when phylogenetic trees are so densely populated that hamper discerning distinct patterns that may emerge when only a few ``relevant'' leaves are considered.
-``Relevance'' is, however, often unknown, and a way of ``pruning'' of complex trees into a simpler tree is essential to perform unbiased machine learning and statistical analysis.
-In other words, we would like to perform a ``tree dimensionality reduction'' procedure that preserves the tree structure. Such a methodology will be particularly applicable to study the evolution of a viral outbreak with thousands of isolates, or the genomic characterization of thousands of single cells.
+Other sets of related problems arises when phylogenetic trees are so densely populated that hamper discerning distinct patterns that may emerge when only a few relevant leaves are considered.
+Relevance is, however, often unknown, and a way of pruning of complex trees into a simpler tree is essential to perform unbiased machine learning and statistical analysis.
+In other words, we would like to perform a ``tree dimensionality reduction'' procedure that preserves the tree structure.
+Such a methodology will be particularly applicable to study the evolution of a viral outbreak with thousands of isolates, or the genomic characterization of thousands of single cells.
 
 \begin{figure}
     \begin{subfigure}{0.5\linewidth}
     \centering
     \includegraphics[height=3in]{../figures/illustration_clonal_tree.png}
-    \caption{Left}
+    % \caption{Left}
     \end{subfigure}
     ~
     \begin{subfigure}{0.5\linewidth}
     \centering
     \includegraphics[height=3in]{../figures/illustration_longitudinal.pdf}
-    \caption{Right}
+    % \caption{Right}
     \end{subfigure}
-    \caption{Clonal evolution of an asexually reproducing organism. (a) Through acquiring mutations and differentiation, the primordial clonal gives rise to a large heterogeneous population, whose evolution can be described with tree-like structures. (b) Longitudinal sampling of a clonal population permits the construction of phylogenetic trees that describe its evolutionary history. Here, sub-populations are represented by different colors; sub-sampling of a particular sub-population is illustrated by the color of the branch in the tree, one of the many trees that can be reconstructed from this population. }
-     \label{fig:cartoon_1}
+    \caption{Clonal evolution of an asexually reproducing genome. (a) Through acquisition of mutations, the primordial clone gives rise to a large heterogeneous population, whose evolutionary history can be accurately described by a tree. (b) Longitudinal sampling of a clonal population permits the construction of phylogenetic trees that approximate the underlying history. Subpopulations are represented in different colors; stochastic sampling of a particular genotype at each time point is illustrated in the color of the external branch in the tree; this tree is one of many that could be observed when sampling this population.}
+     \label{fig:illustration_1}
 \end{figure}
 
 
 \begin{figure}
     \centering
     \includegraphics[height=3.5in]{../figures/illustration_BHV_5.png}
-    \caption{Comparing the evolution of clonal populations by mapping their phylogenetic tree onto the evolutionary moduli space.}
-    \label{fig:cartoon_2}
+    \caption{Mapping collections of phylogenetic trees onto the evolutionary moduli space, where they form a point cloud.}
+    \label{fig:illustration_2}
 \end{figure}
 
-These and many other questions associated with clonal processes can be expressed in terms of comparing  evolutionary histories.
-For instance, stratifying cancer patients according to their evolutionary history requires a way of comparing trees and associating statistics to their ``distances.''
-In a recent paper~\cite{zairis2014moduli}, we suggested a simple strategy to construct and study the properties of the space of all potential evolutionary histories, where each history/patient is represented by a point  [REF] \ref{fig:cartoon_2}. We referred to these tree spaces as  ``evolutionary moduli spaces'' in which classifying histories translates into finding patterns within a point cloud.
+These and many other questions associated with clonal processes can be expressed in terms of comparing evolutionary histories.
+For instance, stratifying cancer patients according to their evolutionary history requires a way of comparing trees and associating statistics to their distances.
+In a recent paper~\cite{zairis2014moduli}, we suggested a simple strategy to construct and study the properties of the space of all potential evolutionary histories, where each history/patient is represented by a point.~\ref{fig:illustration_2}
+We referred to these tree spaces as ``evolutionary moduli spaces'' in which classifying histories translates into finding patterns within a point cloud.
 
-In this manuscript,  we present a set of techniques that allow machine learning, tree dimensionality reduction, and statistical inference in ``evolutionary moduli  spaces.''
-In Section~\ref{sec:phylospace}, we rapidly review some of the fundamental notions regarding the geometry of evolutionary moduli spaces, following Billera-Holmes-Vogtman \cite{billera2001geometry}, Sturm \cite{sturm2003probability}, and our prior work \cite{zairis2014moduli}. 
+In this manuscript, we present a set of techniques that allow machine learning, tree dimensionality reduction, and statistical inference in evolutionary moduli spaces.
+In Section~\ref{sec:phylospace}, we rapidly review some of the fundamental notions regarding the geometry of evolutionary moduli spaces, following Billera-Holmes-Vogtman \cite{billera2001geometry}, Sturm \cite{sturm2003probability}, and our prior work \cite{zairis2014moduli}.
 Motivated by several biological applications, we will introduce a projective version of these spaces and study some of their geometric properties.
-In Section~\ref{sec:ML}, we give an overview of the application of standard machine learning and statistical inference techniques in these spaces. 
-In Section~\ref{sec:treedimred}, we will also introduce the concept of ``tree dimensionality reduction'' as a means to visualize and study densely populated trees. 
+In Section~\ref{sec:ML}, we give an overview of the application of standard machine learning and statistical inference techniques in these spaces.
+In Section~\ref{sec:treedimred}, we will also introduce the concept of tree dimensionality reduction as a means to visualize and study densely populated trees.
 In Section~\ref{sec:simulated}, we evaluate our methodology using synthetic data, and In the last two chapters, we will discuss two sets of biologically relevant examples.
-In Section~\ref{sec:cancer}, we report the predictive power of evolutionary moduli spaces using cancer genomic data, and in Section~\ref{sec:flu}, we study complex trees whose lower dimensional projections readily represent and capture interesting biological phenomena such as clonal replacement events.
-%%In our first example, we study how therapy disrupts the linear evolutionary process of chronic lymphocytic leukemias.
-%%The second examples shows how patients whose gliomas evolve in a similar fashion present similar grade in later phases of the disease.
-%The first example deals the evolution of the hemagglutinin gene of influenza A in humans.
-%In our second example we study data from single cell genomics in cancer.
+In Section~\ref{sec:cancer}, we report the predictive power of evolutionary moduli spaces using cancer genomic data, and in Section~\ref{sec:xeno_flu}, we study complex trees whose lower dimensional projections readily represent and capture interesting biological phenomena such as clonal replacement events.
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -345,7 +353,7 @@ This model was used in the computation of the diameter in rotation distance of t
 Given a triangulation of a convex polygon with $n$ vertices, the dual graph is formed by taking a vertex for each triangle and an edge connecting vertices in adjacent triangles.
 It is clear that the dual graph forms a binary tree.
 On the other hand, given a rooted binary tree with $n$ leaves, we can recursively produce a triangulation of the regular $n+1$-gon as follows.
-We label the edges of the polygon by the leaves in counterclockwise order.  
+We label the edges of the polygon by the leaves in counterclockwise order.
 We then add the triangle formed by the edge corresponding to the root of the tree and the vertex $k+3$, where $k$ denotes the number of leaves on the left side of the root.
 The process is then recursively carried out on the two polygons formed by this triangle.
 
@@ -432,7 +440,7 @@ Unfortunately, the required $k$ may well be quite large.
 In our work, we use cross-validation techniques to determine suitable $k$, as discussed below.
 
 Finally, there is a substantial body of work on low-distortion embeddings of finite metric spaces into $\ell^p$ spaces, in particular Euclidean spaces.
-Recall that the distortion of a non-contractive (distance expanding) embedding of metric spaces $f \colon (X, \partial_X) \to (Y, \partial_Y)$ is given by $\sup_{x_1 \neq x_2} \frac{\partial_Y (f(x_1), f(x_2))}{\partial_X (x_1, x_2)}$. 
+Recall that the distortion of a non-contractive (distance expanding) embedding of metric spaces $f \colon (X, \partial_X) \to (Y, \partial_Y)$ is given by $\sup_{x_1 \neq x_2} \frac{\partial_Y (f(x_1), f(x_2))}{\partial_X (x_1, x_2)}$.
 Notably, Abraham, Bartal, and Neiman show that one can construct a probabilistic embedding of an $n$-point finite metric space into an $O(\log n)$ dimensional space with distortion $O(\log n)$.
 Pushing forward distributions on $\Sigma_m$ and $\mathbb{P}\Sigma_m$ provide another way of reducing statistical questions to Euclidean space.
 
@@ -454,7 +462,7 @@ Examples of this are presented below.{\bf Forward pointer here.}
 
 In contrast, when working in $\mathbb{P}\Sigma_m$, we have no choice to consider tests induced by the projections into $\mathbb{R}^n$ discussed above.
 Here, we can compare collections $\aC_i$ and $\aC_j$ by using any of the many standard non-parametric comparison techniques for real distributions, for example $\chi^2$ tests or two-sample Kolmogorov-Smirnov tests.
-Again, we present examples of this below.  {\bf Forward pointer here.}
+Again, we present examples of this below. {\bf Forward pointer here.}
 
 One pervasive problem in clinical applications is that often the number of samples is quite small, and so we are often far from the asymptotic regime for statistical tests.
 Standard small-sample corrections can be applied.
@@ -466,7 +474,7 @@ Given the difficulties with statistical inference in $\Sigma_m$ and $\mathbb{P}\
 The most basic family of techniques we might consider is clustering, a kind of unsupervised learning.
 Here, given a finite set $X$ in $\Sigma_m$ or $\mathbb{P}\Sigma_m$, we search for a partitionings of the points into clusters which optimize some criterion for the ``goodness'' of the clustering.
 
-Regarding $\Sigma_m$ and $\mathbb{P}\Sigma_m$ simply as metric spaces, we can apply standard clustering algorithms that operate on arbitrary metric spaces.  
+Regarding $\Sigma_m$ and $\mathbb{P}\Sigma_m$ simply as metric spaces, we can apply standard clustering algorithms that operate on arbitrary metric spaces.
 The simplest of these is the $k$-medoids algorithm.
 Like $k$-means, $k$-medoids seeks partitions which are optimal in the sense of minimizing the sum of squared distances; the cost function for a cluster $C = \{x_i, x_j\}$ is given by $\sum_{i < j} \partial(x_i,x_j)^2$.
 But instead of using cluster centroids as in $k$-means, cluster assignments are determined by medoids, which are points $z \in C$ that minimize $\sum_i d(z,i)$.
@@ -516,8 +524,8 @@ To just the use of tree dimensionality reduction, we prove that this procedure i
 \subsection{Structured dimensionality reduction}
 
 Since our collections of points in $\Sigma_m$ and $\mathbb{P}\Sigma_m$ are generated by computing phylogenetic trees from genomic data, it is natural to consider dimensionality reduction techniques that involve using subsamples of the genomic data to produce smaller trees.
-We describe this process in terms of an operation on trees, as follows.  
-Let $\aE_m$ denote either $\Sigma_m$ or $\mathbb{P}\Sigma_m$.  
+We describe this process in terms of an operation on trees, as follows.
+Let $\aE_m$ denote either $\Sigma_m$ or $\mathbb{P}\Sigma_m$.
 Assume that each $t \in \aE_m$ is equipped with a labelling of the leaves, i.e., a bijection $L_t \to \{1,\ldots,m\}$.
 
 \begin{definition}
@@ -525,12 +533,12 @@ For $S \subseteq \{1,\ldots,m\}$, define the tree projection function
 \[
 \Psi_S \colon \aE_m \to \Sigma_{|S|}
 \] 
-by specifying $\Psi_S(t)$ to be the unique tree obtained by taking the full subgraph of $t$ on the leaves that have labels in $S$ and then deleting vertices of degree $2$.  
+by specifying $\Psi_S(t)$ to be the unique tree obtained by taking the full subgraph of $t$ on the leaves that have labels in $S$ and then deleting vertices of degree $2$.
 An edge $e$ created by vertex deletion is assigned weight $w_1 + w_2$, where the $w_i$ are the weights of the incident edges for the deleted vertex.
 (It is easy to check that the order of vertex deletion does not change the resulting tree.)
 \end{definition}
 
-Ignoring the weights, $\Psi_S$ has a very simple description in terms of an operation on the regular $n$-gon corresponding to a tree $T \in \Sigma_n$.  
+Ignoring the weights, $\Psi_S$ has a very simple description in terms of an operation on the regular $n$-gon corresponding to a tree $T \in \Sigma_n$.
 Specifically, $\Psi_S$ deletes the external edges corresponding to leaves not in $S$, identifying chords that are connected by a deleted edge.
 Note that an extra collapse is required when all of the leaves on the right side of the root are removed.
 (Again, it is straightforward to check that the order of deletion of edges does not affect the resulting triangulated polygon.)
@@ -538,11 +546,11 @@ Note that an extra collapse is required when all of the leaves on the right side
 \begin{figure}
     \centering
     \includegraphics[width=6in]{../figures/dimred_def2.pdf}
-    \caption{CAPTION.}
+    \caption{Step-wise removal of leaves not contained in the desired subtree.}
     \label{fig:definition2}
 \end{figure} 
 
-Using $\Psi$, we can describe a number of dimensionality reduction procedures.  
+Using $\Psi$, we can describe a number of dimensionality reduction procedures.
 The most basic example is simply to exhaustively subsample the labels.
 Let $\aD(\Sigma_m)$ denote the set of distributions on $\Sigma_m$.
 
@@ -551,7 +559,8 @@ For $1 \leq k < m$, define the map
 \[
 \Psi_k \colon \aE_m \to \aD(\Sigma_m)
 \]
-as the assignment that takes $T \in \aE_m$ to the empirical distribution induced by $\Psi_S$ as $S$ varies over all subsets of $\{1,\ldots,m\}$ of size $k$.  Define the map
+as the assignment that takes $T \in \aE_m$ to the empirical distribution induced by $\Psi_S$ as $S$ varies over all subsets of $\{1,\ldots,m\}$ of size $k$.
+Define the map
 \[
 \Psi'_k \colon \aE_m \to \prod_{S \subseteq \{1,\ldots,m\}, |S| = k} \Sigma_k 
 \]
@@ -562,11 +571,10 @@ In practice, we expect to approximate $\Psi_k$ using Monte Carlo approximations 
 
 \begin{figure}
     \centering
-    \includegraphics[width=6in]{../figures/dimred_def4.pdf}
-    \caption{CAPTION.}
+    \includegraphics[width=4in]{../figures/dimred_def4.pdf}
+    \caption{Schematic of a sequential tree decomposition, whose windows respect the temporal ordering of the samples. Periodicity in the sequence of branch lengths can give rise to cycles in the evolutionary moduli space.}
     \label{fig:definition4}
 \end{figure} 
-
 
 Often there is additional structure in the labels that can be exploited.
 For instance, in many natural examples, the genomic data has a natural chronological ordering.
@@ -607,7 +615,7 @@ The specific consistency theorem we use is due to Atteson~\cite{}: if
 \[
 \max_{x_i,x_j \in X} |\partial_X(x_i,x_j) - \partial_T(x_i,x_j)| \leq \frac{1}{2} \min_{e \in T} \ell(e),
 \]
-then neighbor-joining recovers $T$.  
+then neighbor-joining recovers $T$.
 In this case we say that $(X, \partial_X)$ is consistent with $T$.
 
 \begin{theorem}
@@ -679,10 +687,12 @@ Then $\gamma \circ \Psi_S \colon [0,1] \to \Sigma_{|S|}$ is a path from $\Psi_S(
 \end{proposition}
 
 \begin{proof}
-First, observe that if $T$ and $T'$ are in the same orthant of $\aE_m$, the result is clear.  For any $S$, $\Psi_S(T)$ and $\Psi_S(T')$ will be in the same orthant of $\Sigma_{|S|}$.  The length of the projected path in that orthant, by the discussion above, is bounded by the length of the path in $\aE_m$ scaled by the depth of the tree, which is $\log_2 m$.
+First, observe that if $T$ and $T'$ are in the same orthant of $\aE_m$, the result is clear. 
+For any $S$, $\Psi_S(T)$ and $\Psi_S(T')$ will be in the same orthant of $\Sigma_{|S|}$.
+The length of the projected path in that orthant, by the discussion above, is bounded by the length of the path in $\aE_m$ scaled by the depth of the tree, which is $\log_2 m$.
 
-Now suppose that $T$ and $T'$ are not in the same orthant and neither $T$ nor $T'$ is contained in a positive codimension subspace of $\aE_m$ (i.e., they are not on the boundary of any orthant).  
-Further, we assume that $\gamma$ does not go through the origin. 
+Now suppose that $T$ and $T'$ are not in the same orthant and neither $T$ nor $T'$ is contained in a positive codimension subspace of $\aE_m$ (i.e., they are not on the boundary of any orthant).
+Further, we assume that $\gamma$ does not go through the origin.
 
 Then $\gamma$ can be expressed in terms of a finite list of tree rotations $(R_1, R_2, \ldots, R_k)$ and paths $(\gamma_1, \gamma_2, \ldots, \gamma_k)$ that describe the restriction of $\gamma$ to the orthant prior to the rotation $R_i$.
 Now, fix a subset $S \in \{1,\ldots,m\}$.
@@ -692,9 +702,14 @@ We write $\Psi_S(R_i)$ for the rotation induced by the projection on $\Psi_S(R_{
 
 Therefore, we obtain a sequence of rotations $\Psi_S(R_1), \Psi_S(R_2), \ldots, \Psi_S(R_k)$.
 By Lemma~\ref{lem:rotprojcom}, we conclude that this sequence specifies a path of tree rotations from $\Psi_S(T)$ to $\Psi_S(T')$.
-For the actual path in $\Sigma_{|S|}$, we simply observe that the projection of $\gamma_i$ to the restriction of the projected orthant specifies a path from $\Psi_S(R_{i-1} R_{i-2} \ldots R_1 T)$ to $\Psi_S(R_i R_{i-1} R_{i-2} \ldots R_1 T)$.  This follows from the fact that the restriction of $\gamma_i$ specifies a path through the boundary of the orthant if and only if the corresponding rotation is completely contained.  As above, the length of the projected path is bounded by $(\log_2 m) |\gamma_i|$.  Summing, we find that the length of the projected path is bounded by $(\log_2 m) \sum_{i=1}^k |\gamma_i| = |\gamma'|$.
+For the actual path in $\Sigma_{|S|}$, we simply observe that the projection of $\gamma_i$ to the restriction of the projected orthant specifies a path from $\Psi_S(R_{i-1} R_{i-2} \ldots R_1 T)$ to $\Psi_S(R_i R_{i-1} R_{i-2} \ldots R_1 T)$.
+This follows from the fact that the restriction of $\gamma_i$ specifies a path through the boundary of the orthant if and only if the corresponding rotation is completely contained.
+As above, the length of the projected path is bounded by $(\log_2 m) |\gamma_i|$.
+Summing, we find that the length of the projected path is bounded by $(\log_2 m) \sum_{i=1}^k |\gamma_i| = |\gamma'|$.
 
-Finally, continuity implies the result for a path that starts or ends on a positive codimension subspace of $\aE_m$.  For a path that goes through the origin and involves no rotations, the result follows from the same argument as in the case of a path entirely contained in a single orthant.  More complicated paths that involve both rotations and movements through the origin can be handled by induction.
+Finally, continuity implies the result for a path that starts or ends on a positive codimension subspace of $\aE_m$.
+For a path that goes through the origin and involves no rotations, the result follows from the same argument as in the case of a path entirely contained in a single orthant.
+More complicated paths that involve both rotations and movements through the origin can be handled by induction.
 \end{proof}
 
 Using this, we can now easily prove the next two theorems that provide the theoretical support for the use of tree dimensionality reduction.
@@ -708,7 +723,7 @@ d_{\Sigma_{|S|}}(\Psi_S(T), \Psi_S(T')) \leq (\log_2 m)\epsilon.
 Moreover, this bound is tight.
 \end{theorem}
 
-Let $A$ and $B$ be subsets of $\aE_m$ such that $|A| = |B| \leq 2^m$.  
+Let $A$ and $B$ be subsets of $\aE_m$ such that $|A| = |B| \leq 2^m$.
 If we assume that each item of $A$ and $B$ has a label in $L \subset \aP(\{1,\ldots,m\})$ (where $\aP(-)$ denotes the power set of $\{1,\ldots,m\}$), then we can define a matching distance as
 \[
 d_{M,L}(A,B) \max_{S \in L} d_{\aE_m}(A(S), B(S)).
@@ -731,7 +746,14 @@ d_{\aE_m}(T,T') \leq (\log_2 m) d_{M,L}(\Psi_C(T), \Psi_C(T')).
 
 In practice, we may be interested in $d_M$ rather than $d_{M,L}$ when we do not expect to be given the labelling for the projection.
 However, it is clear that we cannot expect an analogue of Theorem~\ref{thm:converse}; if $T$ and $T'$ admit any kind of symmetry visible on subtrees, it is possible for $d_M$ to be substantially smaller than $d_{\aE_m}(T,T')$.
-We describe some experimental results about the divergence between $d_M$ and $d_{\aE_m}(T,T')$ below.
+We describe some experimental results about the divergence between $d_M$ and $d_{\aE_m}(T,T')$ in Figure \ref{fig:dimred_calibration}.
+
+\begin{figure}[t!]
+    \centering
+    \includegraphics[width=0.8\linewidth]{../figures/dimred_calibration.pdf}
+    \caption{(top) Distribution of subsample distances can exceed the original inter-phylogeny distance, represented as a black line, but never exceeds the bound of $(\log_2 m)\epsilon$. (bottom) As the dimension of subsampling approaches the dimension of the inital phylogeny there is a monotonic increase in the median $d_{M,L}$ and decrease in the variance of $d_{M,L}$.}
+    \label{fig:dimred_calibration}
+\end{figure}
 
 \subsection{Using tree dimensionality reduction for inference and machine learning}
 
@@ -770,20 +792,18 @@ A methodological point worth mentioning here is that no principled, graph-theore
 We simply require that the discretized projective space be a single connected component so that every shortest path distance is finite.
 
 \begin{figure}
-    \begin{subfigure}{\linewidth}
+    \begin{subfigure}{0.5\linewidth}
     \centering
-    \includegraphics[height=2.5in]{../figures/synthetic_graph_layout.png}
-    \caption{A force directed layout was used on the graph.}
+    \includegraphics[height=2in]{../figures/synthetic_graph_layout.png}
     \end{subfigure}
-   
-    \begin{subfigure}{\linewidth}
+    ~
+    \begin{subfigure}{0.5\linewidth}
     \centering
-    \includegraphics[height=2.5in]{../figures/synthetic_distortion.pdf}
-    \caption{Distortions of embedding the projective space into $\mathbb{R}^k$.}
+    \includegraphics[height=2in]{../figures/synthetic_distortion.pdf}
     \end{subfigure}
 
-    \caption{Computational implementation of $\mathbb{P}\Sigma_m$.}
-     \label{fig:discretization}
+    \caption{Computational implementation of $\mathbb{P}\Sigma_m$. (a) A force directed layout used on the $\epsilon$-net. (b) Distortions of embedding the projective space into $\mathbb{R}^k$.}
+     \label{fig:epsilon_net}
 \end{figure}
 
 \subsection{Model selection}
@@ -798,48 +818,48 @@ The figures that have already been generated used the BHV distance metric, and n
     \label{fig:davies_bouldin}
 \end{figure}
 
+\subsection{Birth-Death Processes}
 
-We also illustrate the order--1 Voronoi partition on the data, even though the optimal value of k is not 1.
-We can mention the computational difficulty with computing the order--k Voronoi partition or we could man up and figure out how to actually do it.
-The tesselation suggests a ``prognostic landscape in the space of tumor evolutionary modes.'' 
-
-
-%\subsection{Simulating stochastic processes}
-%Here we implemented certain archetypes of tumor evolution as forward time simulations, and we observed the distributions they generated in the EMS.
-%Here we also examined diffusive processes in $\Sigma_m$ to gain intuition about exponential family distributions.
+Here we simulatws clonal evolution at varying degrees of selection strength and mutation rate.
+The most prevalent genotypes at pre-determined sampling intervals were recorded and used to contruct phylogenetic trees.
+We observe the distributions generated in the moduli space as a function of the simulation parameters.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \section{Assessing predictive value of genomic information in cancer genomic data}\label{sec:cancer}
 
-Clinical progression of cancer is believed to be intimately related to the accumulation of genomic alterations in tumor cells [REF Nowell]. Mutations that accumulate in our cells could lead to increase proliferation. Depending on the effect on proliferation,  
-a subset of protein coding genes have been implicated in the pathogenesis of certain cancer types, either as activated oncogenes or inactivated tumor suppressors. These subset of alterations not only provide information about the molecular mechanisms of tumor initiation and progression  \cite{wang2015tumor}, they also could inform about prognosis [example IDH1 mutations in gliomas for instance], identify early markers of progression \cite{rossi2014clinical} and mechanisms of drug resistance [REF ALL and other papers]. So, knowing what are the genes altered in a particular patient could provide an extremely valuable information about specific personalized therapies, and in such a framework, it is not surprising that there is an increased interest on genomic technologies. Documenting the mutational status of the protein coding genome at diagnosis via specific panel of cancer related genes, whole exome sequencing (WES) or even whole genome sequencing (WGS) is increasingly becoming a standard of care at hospitals.  There are, however, several obstacles that could obscure a clear interventional pathway after a genomic characterization of a tumor. One has to be with clonal heterogeneity. It has been observed in several tumors that different biopsis from the shame tumor could contained different altered genes. The second is the branching behavior in the evolution of a tumor. Some alterations at some time point could not be p[resent al later time points while new ones appear at later times. The spacial and temporal heterogeneity of tumors beclouds clear targeted interventional approaches.   
+Clinical progression of cancer is believed to be intimately related to the accumulation of genomic alterations in tumor cells.
+Mutations can spur proliferation, either via activation of an oncogene or inactivation of a tumor suppressor.
+A first step towards personalizing cancer therapy is to monitor the mutational status of patients, a process greatly facilitated by recent advances in sequencing technology.
+Certain aspects of cancer biology confound the straight-forward attempt at genomic characterization of a tumor, including clonal heterogeneity and branching evolution.
 
-The spacial and temporal heterogeneity of tumors could be addressed by reconstructing the evolutionary history of tumors from different samples. From each location and time point one can reconstruct (partially or totally) the genome of the dominant clone. As the evolution proceeds in a clonal fashion, the genomic information could be structured as a phylogenetic tree. Questions about the nature of the evolutionary process, mechanisms of resistance, stratification of patient tumor histories or prognosis could be formulated as a comparison between different phylogenetic structures. This formulation allows the use of the mathematical machinery described in this manuscript in a systematic fashion. To illustrate the use we have chosen an extremely clinically and biological relevant problem, how therapy disrupts the evolution of tumors, and two different applications, in chronic lymphocytic leukemias and gliomas. We show that the different evolutionary patterns associated to therapeutic regimes are reflected as different distributions in the moduli space.
+The spatial and temporal heterogeneity of tumors can be addressed by reconstructing the evolutionary history of tumors from different samples.
+For each location and time point, one can define (partially or totally) the genotype of the dominant clone.
+As the evolution proceeds in a clonal fashion, the relationships between dominant clones can be structured as a phylogenetic tree.
+Questions about the nature of the evolutionary process, mechanisms of resistance, stratification of patient tumor histories, or prognosis can be formulated as a comparison between sets of trees.
+This formulation allows the use of the mathematical machinery described in this manuscript in a systematic fashion.
+To illustrate the use we have chosen a medically relevant problem, how therapy affects the evolution of cancer.
+Using public data from chronic lymphocytic leukemia and relaped glioma, we highlight clinical correlates to the spatial distribution of patients in the moduli space.
 
 \subsection{Disruption of linear evolution by therapy in chronic leukemias}
 
 Chronic lymphocytic leukemia (CLL) is the most common leukemia in adults, primarily affecting the elderly population (median age at diagnosis is 70).~\cite{smith2011incidence}
-CLL was mostly considered a very indolent disease, with patients often dying of causes unrelated to the cancer, however it is increasingly being appreciated that the prognosis of CLL is highly variable depending on different genetic factors [REF].
 CLL is a proliferative disorder of B-lymphoctyes characterized by a steady accumulation of clonal, non-functional B-cells.
-Treatment strategies vary greatly given the heterogeneity in disease course, ranging from watchful waiting, to localized radiation, to systemic chemotherapy [REF].
-When none of these approaches are considered potentially curative; the only such option is bone marrow transplant.
-
-The fact that CLL is a relatively indolent malignancy makes it an excellent model for studying clonal evolution under different therapeutic strategies [REF paper Jiguang CLL eLife].  
+Treatment strategies vary greatly given the heterogeneity in disease course, ranging from watchful waiting, to localized radiation, to systemic chemotherapy.
+The fact that CLL is a relatively indolent malignancy makes it an excellent model for studying clonal evolution under different therapeutic strategies.~\cite{wang2015tumor}  
 A recent genomic study~\cite{landau2013evolution} performed WES on 160 CLL cases covering the spectrum of clinical courses the disease can take.
 This data established a space of recurrent alterations, which was then used to genotype 18 patients for whom two time points were available.
 Of these 18 patients, 10 of 12 treated with chemotherapy underwent clonal evolution compared to only 1 of 6 receiving no treatment according to the authors of the study.
 We combine the 18 patients of \cite{landau2013evolution} with those of a similar study~\cite{schuh2012monitoring} wherein 3 CLL patients received chemotherapy and were sequenced at multiple time points.
-The multiple time points for the 3 patients studied in~\cite{schuh2012monitoring} are decomposed into all combinatorial triplets.
+The multiple time points for the 3 patients studied in \cite{schuh2012monitoring} are decomposed into all combinatorial triplets.
 Therefore, there are a total of 18 phylogenetic trees inferred from \cite{landau2013evolution} and 12 phylogenetic trees inferred from \cite{schuh2012monitoring}.
-In Figure \ref{CLL}, we map this data to $\mathbb{P}\Sigma_3$ and color based on treatment status.
+In Figure \ref{fig:chemoCLL}, we map this data to $\mathbb{P}\Sigma_3$ and color based on treatment status.
 
 \begin{figure}
     \begin{subfigure}{0.5\linewidth}
     \centering
     \includegraphics[height=2.2in]{../figures/CLL_triplet.png}
-    \label{CLL}
     \end{subfigure}
     ~
     \begin{subfigure}{0.5\linewidth}
@@ -852,8 +872,14 @@ In Figure \ref{CLL}, we map this data to $\mathbb{P}\Sigma_3$ and color based on
 \end{figure}
 
 From a clinical standpoint, a central question is whether treatment promotes evolution of the cancer and whether there is strong evidence for avoiding cytotoxic therapy in patient management.
-Quite clearly the distribution of 6 untreated patients resembles a pattern (in green) forms a tight cluster, indicating that tumors from patients who did not received therapy are stable genetically, sharing most of the mutations. However, in red are represented the histories of tumors of 15 patients under therapy, presenting some mutations at different times that are not shared across different samples. The ratio between the number of mutations that are exclusive in the early branch versus the ones that are share with other phases is represented in right hand side of figure \ref{CLL}. A number close to zero indicates a genetically stable tumor. To assess if the clonal histories how different are the clonal histories of tumors from untreated vs treated patients, we studied the distance between the centroids of the two populations. The 95\% CI for the distance between the centroids of the treated / untreated groups is (0.15, 0.36), under 1000-fold bootstrap resampling. The analogous intervals for untreated / untreated and treated / treated are (0.01, 0.14) and (0.02, 0.16) respectively.
-This analysis shows that the centroids of these clinically distinct sets of patients are statistically well-resolved, supporting the idea that untreated tumors are more stable than treated ones, where district mutations can appear along the evolution of the tumor.
+Quite clearly the distribution of 6 untreated patients resembles a pattern (in green) forms a tight cluster, indicating that tumors from patients who did not received therapy are stable genetically, sharing most of the mutations.
+However, in red are represented the histories of tumors of 15 patients under therapy, presenting some mutations at different times that are not shared across different samples.
+The ratio between the number of mutations that are exclusive in the early branch versus the ones that are share with other phases is represented in right hand side of figure \ref{fig:chemoCLL}.
+A number close to zero indicates a genetically stable tumor.
+To assess if the clonal histories how different are the clonal histories of tumors from untreated vs treated patients, we studied the distance between the centroids of the two populations.
+The 95\% CI for the distance between the centroids of the treated / untreated groups is (0.15, 0.36), under 1000-fold bootstrap resampling.
+The analogous intervals for untreated / untreated and treated / treated are (0.01, 0.14) and (0.02, 0.16) respectively.
+This analysis shows that the centroids of these clinically distinct sets of patients are well-resolved, supporting the idea that untreated tumors are more stable than treated ones, where district mutations can appear along the evolution of the tumor.
 
 \subsection{The geometry of a tree is associated with grade at relapse in gliomas}
 
@@ -875,7 +901,7 @@ WES was performed on tumor tissue at diagnosis and at relapse in an effort to ch
     \includegraphics[height=2in]{../figures/glioma_voronoi_stage.png}
     \end{subfigure}
 
-    \caption{Evolution of recurrent glioma. Expand caption.}
+    \caption{46 trees generated from 23 patients. (a) Patients treated with TMZ are colored red, and the size of a point denotes the total number of mutations observed. There is a clear tendency of TMZ-treated patients to localize in a particular corner of the space. (b) Less obvious was the association between the shape of patint's tree and the histologic grade of the tumor at relapse.}
     \label{fig:gliomaTMZ}
 \end{figure}
 
@@ -892,66 +918,87 @@ This is a nice example that show that in the simple case of three leaves trees, 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\section{Phylogenetic dimensional reduction}\label{sec:flu}
+\section{Phylogenetic dimensionality reduction}\label{sec:xeno_flu}
 
 \begin{figure}
-    \begin{subfigure}{0.5\linewidth}
     \centering
-    \includegraphics[height=2.5in]{../figures/influenza_overall_tree.png}
-    \caption{Large tree.}
-    \end{subfigure}
-    ~
-    \begin{subfigure}{0.5\linewidth}
-    \centering
-    \includegraphics[width=2.5in]{../figures/influenza_schematic.png}
-    \caption{Scheme with small tress.}
-    \end{subfigure}
-
-    \caption{Evolution of influenza A virus presenting clear seasonal variation.(a) Identifying statistical patterns in large trees is often difficult. This phylogenetic tree of the hemmagglutinin (HA) segment from 580 H3N2 influenza viruses across 15 seasons  can be  sub-sampled for statistical analysis in lower dimensional projections. (b)  Due to genomic drift, new strains appear each season, dominating the periods of viral expansion. (c) Different clones across seasons can be characterized through sub-sampling viral populations. If the pattern is highly linear, clones at some season will be directly related to emerging clones in the following seasons. However, if clones emerge that are genetically very different from previously sampled clones (on the right, branched or divergent behaviors) it will be difficult to make predictions based on recent samples. Currently influenza vaccine depends critically on these data and these predictions.}
-     \label{fig:flu_schematic}
+    \includegraphics[height=4in]{../figures/influenza_overall_tree.png}
+    \caption{Identifying statistical patterns in large phylogenies is often difficult. This phylogenetic tree of the hemmagglutinin (HA) segment from 1089 H3N2 influenza isolates across 24 seasons can be subsampled for statistical analysis in lower dimensional projections.}
+     \label{fig:HA_tree}
 \end{figure}
 
-Phylogenetic trees are often too complex to visualize and analyze as they can contain thousands of branches. However, lower dimensional representations (such as ``tree'' dimensionality reduction procedures) are able to visualize capture important phenomena. The approach we present here is based on sub-sampling of a larger structure and preforming statistical analysis in lower dimensional projections. The main idea is that by subsampling leaves of a large tree we can have a distribution of smaller trees that can capture properties of the more complex structure.
+% (b)  Due to genomic drift, new strains appear each season, dominating the periods of viral expansion. (c) Different clones across seasons can be characterized through sub-sampling viral populations. If the pattern is highly linear, clones at some season will be directly related to emerging clones in the following seasons. However, if clones emerge that are genetically very different from previously sampled clones (on the right, branched or divergent behaviors) it will be difficult to make predictions based on recent samples. Currently influenza vaccine depends critically on these data and these predictions.
+
+Phylogenetic trees are often too complex to visualize and analyze as they can contain thousands of branches.
+However, lower dimensional representations (such as ``tree'' dimensionality reduction procedures) are able to visualize capture important phenomena.
+The approach we present here is based on sub-sampling of a larger structure and preforming statistical analysis in lower dimensional projections.
+The main idea is that by subsampling leaves of a large tree we can have a distribution of smaller trees that can capture properties of the more complex structure.
 This procedure has two advantages in relation to larger trees: on the one hand one can easily visualize, extract, perform statistical analysis, and interpret different types of evolutionary relationships.
-On the other hand, it avoids the problem of scalability of phylogenetic algorithms with the number of leaves. In this section we will show two different applications of this procedure to identify interesting changes in tree shapes. In particular, we will be looking for clonal replacements, when a clone, not directly descending from the dominant clone at the previous phase, shows dominant presence in a later phase \ref{fig:flu_schematic}.
+On the other hand, it avoids the problem of scalability of phylogenetic algorithms with the number of leaves.
+In this section we will show two different applications of this procedure to identify interesting changes in tree shapes.
+In particular, we will be looking for clonal replacements, when a clone, not directly descending from the dominant clone at the previous phase, shows dominant presence in a later phase \ref{fig:HA_tree}.
 The reason for this clonal replacement phenomena could be manifold, from stochastic fluctuations in small populations to selection processes (loss of fitness of the dominant clone, or rapid adaptation of a novel unrelated clone).
 Here, we will show the application of the tree reduction techniques to two distinct datasets.
 We first study the evolution of influenza A virus in humans and show the presence of clonal replacement events that could lead to vaccine failure.
-Then, we investigate clonal evolution in patient-derived xenografts by studying the genomes of large number of single-cells at different passages. 
+Then, we investigate clonal evolution in patient-derived xenografts by studying the genomes of large number of single-cells at different passages.
 
 \subsection{Detecting new dominant strains in seasonal influenza}
 
-Influenza A is an RNA virus that infects every year approximately 5 ? 10\% in adults and 20 ? 30\% in children (REF WHO http://www.who.int/biologicals/vaccines/influenza/en/) leading to more than half a million flu associated deaths. Vaccination against the virus remains a major way of preventing morbidity. The virus genome however evolves rapidly changing the antigenic presentation of proteins that are in the envelop of the virus, mostly haemagglutinin (HA). These continuous antigenic changes, sometimes referred as antigenic drift, could lead to failures in vaccine efficacy.  The design of influenza vaccine is based on samples of previous years under the assumption that virus in the coming season will be antigenically similar to most recent circulating strains. This is a very strong assumption, as relatively small genetic changes in the genome of the virus can cause drastic antigenic changes.  Influenza vaccine failures can be associated with the emergence of new clones with novel antigenic properties that have replaced recent circulating strains. Here we study how the emergence of a novel subclone could be identified by the unusual/unexpected tree structures. For this purpose we study the recent history of influenza A H3N2 using 5,608 sequences of hemmagglutinin collected in the United States between 1993 and 2015.
+Influenza A is an RNA virus that infects every year approximately 5 ? 10\% in adults and 20 ? 30\% in children (REF WHO http://www.who.int/biologicals/vaccines/influenza/en/) leading to more than half a million flu associated deaths.
+Vaccination against the virus remains a major way of preventing morbidity.
+The virus genome however evolves rapidly changing the antigenic presentation of proteins that are in the envelop of the virus, mostly haemagglutinin (HA).
+These continuous antigenic changes, sometimes referred as antigenic drift, could lead to failures in vaccine efficacy.
+The design of influenza vaccine is based on samples of previous years under the assumption that virus in the coming season will be antigenically similar to most recent circulating strains.
+This is a very strong assumption, as relatively small genetic changes in the genome of the virus can cause drastic antigenic changes.
+Influenza vaccine failures can be associated with the emergence of new clones with novel antigenic properties that have replaced recent circulating strains.
+Here we study how the emergence of a novel subclone could be identified by the unusual/unexpected tree structures.
+For this purpose we study the recent history of influenza A H3N2 using 5,608 sequences of hemmagglutinin collected in the United States between 1993 and 2015.
 
-A different but related phenomenon that can lead to significant antigenic changes is reassortment. The influenza virus genome consists of eight single-stranded RNA segments, two of which code the antigenic surface glycoproteins, hemagglutinin (HA) and neuraminidase (NA). When two different viruses co-infect the same host, they could generate a progeny of virus containing segments from both parental strains. Changes in the constellation of segments could introduce dramatic genetic and antigenic changes. Reassortments could occur between different viruses infecting the same host or even, more rarely, viruses that are typically found in different hosts. Introducing viral segments from non-human reservoirs has led to major pandemics over the past century~\cite{rabadan2007evolution, rabadan2008non} and  was particularly associated with the emergence of the 2009 H1N1 pandemic.~\cite{trifonov2009geographic, solovyov2009cluster}
+A different but related phenomenon that can lead to significant antigenic changes is reassortment.
+The influenza virus genome consists of eight single-stranded RNA segments, two of which code the antigenic surface glycoproteins, hemagglutinin (HA) and neuraminidase (NA).
+When two different viruses co-infect the same host, they could generate a progeny of virus containing segments from both parental strains.
+Changes in the constellation of segments could introduce dramatic genetic and antigenic changes.
+Reassortments could occur between different viruses infecting the same host or even, more rarely, viruses that are typically found in different hosts.
+Introducing viral segments from non-human reservoirs has led to major pandemics over the past century~\cite{rabadan2007evolution, rabadan2008non} and was particularly associated with the emergence of the 2009 H1N1 pandemic.~\cite{trifonov2009geographic, solovyov2009cluster}
 In 1968, the reassortment of then-circulating H2N2 with avian strains created H3N2 viruses, which have since been infecting human population.
-Reassortment of seasonal strains can also contribute to vaccine failure as low frequency hemagglutinin segments could combine with highly transmissible strains. In particular, reassortment of two H3N2 clades during the 2002-2003 season resulted in a major epidemic and higher incidents of vaccine failure in the succeeding season.~\cite{centers2004preliminary}
+Reassortment of seasonal strains can also contribute to vaccine failure as low frequency hemagglutinin segments could combine with highly transmissible strains.
+In particular, reassortment of two H3N2 clades during the 2002-2003 season resulted in a major epidemic and higher incidents of vaccine failure in the succeeding season.~\cite{centers2004preliminary}
 
-\begin{figure}
-    \centering
-    \includegraphics[width=6in]{../figures/supplement_influenza_quad.png}
-    \caption{Superimposed $\mathbb{P}\Sigma_4$ spaces relating four consecutive influenza seasons, using 580 influenza A H3N2 strains collected from New York from 1993 to 2009.}
-    \label{fig:flu_quad}
-\end{figure} 
+% \begin{figure}
+%     \centering
+%     \includegraphics[width=6in]{../figures/supplement_influenza_quad.png}
+%     \caption{Superimposed $\mathbb{P}\Sigma_4$ spaces relating four consecutive influenza seasons, using 1089 influenza A H3N2 strains collected from New York from 1993 to 2016.}
+%     \label{fig:flu_quad}
+% \end{figure} 
 
-Using 5,608 sequences of hemmagglutinin collected in the United States between 1993 and 2015, we relate HA sequences from one season to those from the succeeding ones.
-We pick random strains from four and five consecutive seasons, and using neighbor-joining based on hamming distances, generate un-rooted trees compromising 14 $\mathbb{P}\Sigma_4$ (Fig \ref{fig:flu_quad}) and 13 $\mathbb{P}\Sigma_5$  (Fig \ref{fig:flu_quint}) spaces.
-The majority of spaces for HA show linear evolution of influenza from one season to another, indicating genetic drift as virus's dominant evolutionary process.
-We, however, detect distinct clusters of trees in HA'„s evolutionary spaces that indicate clonal replacement and reemergence of strains in the 2002-2003 season genetically similar to those circulating in the 1999-2000 season. [NEED STATISTICS]
-These results corroborate previously published whole-genome and segment-specific phylogenetic analyses.~\cite{holmes2005whole}
+Using 1089 full length sequences of hemmagglutinin collected in New York state between 1993 and 2016, we relate HA sequences from one season to those from the preceeding ones.
+We randomly select three, four, or five consecutive seasons to form a temporal window, and use neighbor-joining on hamming distance to generate sets of unrooted trees.
+The case of length five winows is illustrated in \ref{fig:flu_quint}, where we superimpose each temporal slice onto the same moduli space.
+The majority subsampled trees show linear evolution of HA from one season to another, indicating genetic drift as the virus's dominant evolutionary process.
+Certain windows yield well resolved clusters of trees, while others display a highly dispersed point cloud.
+Either scenario might be indiciative of elevated diversity in the HA segment or clonal replacement event underway.
+The window ending in the 2003-2004 season shows a clear reemergence of strains in 2003-2004 that were genetically similar to those circulating in the 1999-2000 season.
+Make sure that these results corroborate previously published whole-genome and segment-specific phylogenetic analyses!!~\cite{holmes2005whole}
 
 \begin{figure}
     \centering
     \includegraphics[width=6in]{../figures/influenza_quint.png}
-    \caption{Superimposed $\mathbb{P}\Sigma_5$ spaces relating five consecutive influenza seasons, using 580 influenza A H3N2 strains collected from New York from 1993 to 2009.}
+    \caption{Superimposed $\mathbb{P}\Sigma_5$ spaces relating five consecutive influenza seasons, using 1089 influenza A H3N2 strains collected from New York from 1993 to 2016.}
     \label{fig:flu_quint}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\linewidth]{../figures/influenza_VE.png}
+    \caption{.}
+    \label{fig:flu_VE}
 \end{figure} 
 
 \subsection{Clonal heterogeneity from single cell tumor genomics}
 
 The recent development of single cell transcriptomics and genomics is providing an opportunity to study the role of clonal heterogeneity in tumors~\cite{navin2011tumour, eirew2014dynamics, patel2014single} and to identify small, previously uncharacterized cell populations~\cite{grun2015single}.
 Single cell data provides the opportunity to sample complex populations by studying the dynamics of different cell subpopulations.
-However, these data create new challenges associated with a large number of cells necessitating comprehensive sampling of the process. 
+However, these data create new challenges associated with a large number of cells necessitating comprehensive sampling of the process.
 
 Patient-derived xenografts, generated by transplanting tumor tissue into immunodeficient mice, have also emerged as reliable models for studying tumor evolutionary dynamics and heterogeneity.
 Here, we use breast cancer single-nucleus deep-sequence data obtained from three engrafting passages~\cite{eirew2014dynamics}, compromising 55 segregating sites.
@@ -960,7 +1007,7 @@ These sites include variants that Eirew \textit{et al.} associated with eight di
 \begin{figure}
     \centering
     \includegraphics[height=4in]{../figures/xenograft_single_cell.png}
-    \caption{Single cell analysis of tumor evolution in a breast cancer derived xenograft model. Single-nucleus deep-sequence data obtained from passage 1, 2, and 4. Single-cell data from primary tumor is not available, however  Eirew \textit{et al.}~\cite{eirew2014dynamics} identified eight distinct clusters. These data were used to generate two $\mathbb{P}\Sigma_4 $ spaces.}
+    \caption{Single cell analysis of tumor evolution in a breast cancer derived xenograft model. Single-nucleus deep-sequence data obtained from passage 1, 2, and 4. Single-cell data from primary tumor is not available, however Eirew \textit{et al.} identified eight distinct clusters. These data were used to generate two $\mathbb{P}\Sigma_4 $ spaces.}
     \label{fig:xenograft}
 \end{figure} 
 
@@ -975,16 +1022,21 @@ However, we observe significant divergence of tumor clones during multiple engra
 
 \section{Conclusions}\label{sec:conclusions}
 
-Phylogenetic trees remain one of the most useful representations of evolutionary processes. Sometimes, however, these trees could be very complex with thousands of branches complicating visualization and unsupervised learning approaches. Other times, trees representing different but related processes need to be compared. We show that these two kinds of problems can be understood within a simple framework, where each tree is represented by a point in what we refer to as evolutionary moduli spaces. We show how to reduce complex trees to a large collections of small trees amenable to statistical and machine learning approaches. We the illustrated the use of these techniques to study the evolution of diverse cancers, influenza and to study single cells from tumor models.
+Phylogenetic trees remain one of the most useful representations of evolutionary processes.
+As the number of leaves grows, hese trees could be very complex with thousands of branches complicating visualization and unsupervised learning approaches.
+Other times, trees representing different but related processes need to be compared.
+We show that these two kinds of problems can be understood within a simple framework, where each tree is represented by a point in what we refer to as evolutionary moduli spaces.
+We show how to reduce complex trees to a large collections of small trees amenable to statistical and machine learning approaches.
+We the illustrated the use of these techniques to study the evolution of diverse cancers, influenza and to study single cells from tumor models.
 
-There are many open questions related to evolutionary moduli spaces.One question is how to define useful probability distributions, such as those of the exponential family, on $\Sigma_m$.
+There are many open questions related to evolutionary moduli spaces.
+One question is how to define useful probability distributions, such as those of the exponential family, on $\Sigma_m$.
 The k--means algorithm demonstrated earlier, for example, can be thought of as a limiting case of hard assignment in a mixture of $k$ Gaussian densities.
 Any attempt at soft assignment of patients to an underlying probabilistic clustering model would necessarily rely upon well defined notions of distributions in $\Sigma_m$.
 Defining distributions on $\Sigma_m$ would open a more direct communication between evolutionary moduli spaces and the field of generative modeling.
 One potentially fruitful approach for approximating probability densities such as the normal distribution is to simulate diffusive processes in $\Sigma_m$, taking advantage of the relationship between random walks and their limiting distributions.
 
 NEEDS TO BE EXPANDED.
-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
