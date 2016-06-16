@@ -102,13 +102,11 @@ Such a methodology will be particularly applicable to study the evolution of a v
     \begin{subfigure}{0.5\linewidth}
     \centering
     \includegraphics[height=3in]{../figures/illustration_clonal_tree.png}
-    % \caption{Left}
     \end{subfigure}
     ~
     \begin{subfigure}{0.5\linewidth}
     \centering
     \includegraphics[height=3in]{../figures/illustration_longitudinal.pdf}
-    % \caption{Right}
     \end{subfigure}
     \caption{{\bf Clonal evolution of an asexually reproducing genome}. (a) Through acquisition of mutations, the primordial clone gives rise to a large heterogeneous population, whose evolutionary history can be accurately described by a tree. (b) Longitudinal sampling of a clonal population permits the construction of phylogenetic trees that approximate the underlying history. Subpopulations are represented in different colors; stochastic sampling of a particular genotype at each time point is illustrated in the color of the external branch in the tree; this tree is one of many that could be observed when sampling this population.}
      \label{fig:illustration_1}
@@ -277,18 +275,17 @@ Furthermore, it is clear that with either of these metrics, $\mathbb{P} \Sigma_m
 \begin{figure}
     \begin{subfigure}{0.5\linewidth}
     \centering
-    \includegraphics[height=2in]{../figures/synthetic_graph_layout.png}
+    \includegraphics[height=2in]{../figures/epsilon_net_quad.png}
     \end{subfigure}
     ~
     \begin{subfigure}{0.5\linewidth}
     \centering
-    \includegraphics[height=2.5in]{../figures/PSigma5_v4.png}
+    \includegraphics[height=2.5in]{../figures/epsilon_net_quint.png}
     \end{subfigure}
 
     \caption{{\bf Discrete approximation of $\mathbb{P}\Sigma_m$, projective BHV space.} Unit norm phylogenetic trees on $m$ leaves are densely sampled and used as vertices in a graph weighted by pairwise BHV distances. All edges above a threshold distance are removed, with the threshold determined as the smallest value that maintains a single connected component. We call this graph the  $\epsilon$-net. The projective distance is then defined as the graph distance along the $\epsilon$-net, and we visualize a force directed layout of the graph. On the left we represent $\mathbb{P}\Sigma_4$, and on the right $\mathbb{P}\Sigma_5$. The case of four leaves is more easily appreciated as a join space, as described earlier.}
      \label{fig:epsilon_net}
 \end{figure}
-
 
 Since neither metric on $\mathbb{P} \Sigma_m$ makes it into a $\CAT(0)$ space, the problem of efficiently computing the metric becomes more acute.
 We approach this problem by using $\epsilon$-nets and a local-to-global construction.
@@ -312,6 +309,9 @@ In particular, if $\epsilon < \frac{\kappa}{4}$, then
 
 Putting this all together, to approximate the metric on $\mathbb{P}\Sigma_m$ we take the union of $\epsilon$-nets on all of the simplices (including the faces) and form a $\kappa$-approximation $\partial_G$ as above.
 In practice, the required density of samples is determined by looking at when the approximation converges (i.e., when the change in distances drops below a specified precision bound).
+We sample densely on each simplex representing a tree topology on $m$ leaves, and explicitly include certain key singular points of the projective space.
+Reconstructing the epsilon net and leveraging Dijkstra's algorithm for shortest graph distances we can compute an affinity matrix on the discretized projective space.
+Figure \ref{fig:epsilon_net} contains two visualizations of the projective space, using the radial basis function (RBF) kernel for calculating the affinities.
 
 \subsection{The injectivity radius in $\mathbb{P}\Sigma_m$}
 
@@ -815,10 +815,7 @@ The stability results above easily imply stability results for the associated ba
 
 \section{Simulated data}\label{sec:simulated}
 
-We sample densely on each simplex representing a tree topology on $m$ leaves, and explicitly include certain key singular points of the projective space.
-Reconstructing the epsilon net and leveraging Dijkstra's algorithm for shortest graph distances we can compute an affinity matrix on the discretized projective space.
-A methodological point worth mentioning here is that no principled, graph-theoretic quantity is currently being used to define the threshold for adjacency in our epsilon net.
-We simply require that the discretized projective space be a single connected component so that every shortest path distance is finite.
+Describe the purpose and scope the simulations.
 
 \subsection{Model selection}
 
@@ -841,7 +838,7 @@ We observe the distributions generated in the moduli space as a function of the 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\section{Assessing predictive value of genomic information in cancer genomic data}\label{sec:cancer}
+\section{Assessing clinical utility of longitudinal genomic data in cancer}\label{sec:cancer}
 
 Clinical progression of cancer is believed to be intimately related to the accumulation of genomic alterations in tumor cells.
 Mutations can spur proliferation, either via activation of an oncogene or inactivation of a tumor suppressor.
@@ -915,7 +912,7 @@ WES was performed on tumor tissue at diagnosis and at relapse in an effort to ch
     \includegraphics[height=2in]{../figures/glioma_voronoi_stage.png}
     \end{subfigure}
 
-    \caption{46 trees generated from 23 patients. (a) Patients treated with TMZ are colored red, and the size of a point denotes the total number of mutations observed. There is a clear tendency of TMZ-treated patients to localize in a particular corner of the space. (b) Less obvious was the association between the shape of patint's tree and the histologic grade of the tumor at relapse.}
+    \caption{{\bf Effects of temozolamide (TMZ) treatment in relapsed glioma.} Exome sequencing was performed both at diagnosis and at relapse in 23 glioma patients, allowing for 46 phylogenetic trees to be inferred (spatial replicates in certain cases). (a) Patients treated with TMZ are colored red, and the size of a point denotes the total number of mutations observed. There is a clear tendency of TMZ-treated patients to localize in a particular corner of the space and to exhibit a hypermutant phenotype. (b) Less obvious was the association between the shape of patint's tree and the histologic grade of the tumor at relapse, displayed as a Voronoi tessellation.}
     \label{fig:gliomaTMZ}
 \end{figure}
 
@@ -949,15 +946,6 @@ Then, we investigate clonal evolution in patient-derived xenografts by studying 
 
 \subsection{Detecting new dominant strains in seasonal influenza}
 
-\begin{figure}
-    \centering
-    \includegraphics[height=4in]{../figures/influenza_overall_tree.png}
-    \caption{Identifying statistical patterns in large phylogenies is often difficult. This phylogenetic tree of the hemmagglutinin (HA) segment from 1089 H3N2 influenza isolates across 24 seasons can be subsampled for statistical analysis in lower dimensional projections.}
-     \label{fig:HA_tree}
-\end{figure}
-
-% (b)  Due to genomic drift, new strains appear each season, dominating the periods of viral expansion. (c) Different clones across seasons can be characterized through sub-sampling viral populations. If the pattern is highly linear, clones at some season will be directly related to emerging clones in the following seasons. However, if clones emerge that are genetically very different from previously sampled clones (on the right, branched or divergent behaviors) it will be difficult to make predictions based on recent samples. Currently influenza vaccine depends critically on these data and these predictions.
-
 Influenza A is an RNA virus that infects every year approximately 5--10\% in adults and 20--30\% in children (W.H.O. http://www.who.int/biologicals/vaccines/influenza/en) leading to more than half a million flu associated deaths.
 Vaccination against the virus remains a major way of preventing morbidity.
 The virus genome however evolves rapidly changing the antigenic presentation of proteins that are in the envelop of the virus, mostly haemagglutinin (HA).
@@ -967,6 +955,13 @@ This is a very strong assumption, as relatively small genetic changes in the gen
 Influenza vaccine failures can be associated with the emergence of new clones with novel antigenic properties that have replaced recent circulating strains.
 Here we study how the emergence of a novel subclone could be identified by the unusual/unexpected tree structures.
 For this purpose we study the recent history of influenza A H3N2 using 5,608 sequences of hemmagglutinin collected in the United States between 1993 and 2015 (Figure \ref{fig:HA_tree}).
+
+\begin{figure}
+    \centering
+    \includegraphics[height=4in]{../figures/influenza_overall_tree.png}
+    \caption{{\bf H3N2 Hemagglutinin (HA) isolates 1993--2016.} Identifying statistical patterns in large phylogenies is often difficult. This phylogenetic tree contains 1089 sequences, collected in New York state, spanning 24 influenza seasons. This structure is suitable for statistical analysis via lower dimensional tree projections.}
+     \label{fig:HA_tree}
+\end{figure}
 
 A different but related phenomenon that can lead to significant antigenic changes is reassortment.
 The influenza virus genome consists of eight single-stranded RNA segments, two of which code the antigenic surface glycoproteins, hemagglutinin (HA) and neuraminidase (NA).
@@ -990,7 +985,7 @@ Make sure that these results corroborate previously published whole-genome and s
 \begin{figure}
     \centering
     \includegraphics[width=6in]{../figures/influenza_quint.png}
-    \caption{Superimposed $\mathbb{P}\Sigma_5$ spaces relating five consecutive influenza seasons, using 1089 influenza A H3N2 strains collected from New York from 1993 to 2016.}
+    \caption{{\bf Temporally windowed subtrees in $\mathbb{P}\Sigma_5$.} Using a common set of axes for projective tree space, we superimpose the distributions of trees derived from windows five seasons long. 1089 full-length HA segments (H3N2) were collected in New York state from 1993 to 2016. Two consecutive seasons of poor vaccine effectiveness are 2003-2004 and 2004-2005, highlighted with green and gray arrows respectively. The green distribution strongly pairs the 1999-2000 and 2003-2004 strains, hinting at a reemergence.}
     \label{fig:flu_quint}
 \end{figure}
 
@@ -1003,7 +998,7 @@ In Figure \ref{fig:flu_VE} we illustrate the predictions of the variance of a la
 \begin{figure}
     \centering
     \includegraphics[width=\linewidth]{../figures/influenza_VE.png}
-    \caption{Negative correlation observed between vaccine efficacy in season $t$ and the variance in trees generated from seasons $(t-1, t-2, t-3)$.}
+    \caption{{\bf Diversity in recent circulating HA predicts vaccine failure.} Negative correlation observed between vaccine efficacy in season $t$ and the variance in trees generated from seasons $(t-1, t-2, t-3)$.}
     \label{fig:flu_VE}
 \end{figure} 
 
@@ -1020,7 +1015,7 @@ These sites include variants that Eirew \textit{et al.} associated with eight di
 \begin{figure}
     \centering
     \includegraphics[height=4in]{../figures/xenograft_single_cell.png}
-    \caption{Single cell analysis of tumor evolution in a breast cancer derived xenograft model. Single-nucleus deep-sequence data obtained from passage 1, 2, and 4. Single-cell data from primary tumor is not available, however Eirew \textit{et al.} identified eight distinct clusters. These data were used to generate two $\mathbb{P}\Sigma_4 $ spaces.}
+    \caption{{\bf Emerging clonal heterogeneity in patient-derived xenograft.} Single cell analysis of tumor evolution in a breast cancer derived xenograft model. Single-nucleus deep-sequence data obtained from passage 1, 2, and 4. Single-cell data from primary tumor is not available, however Eirew \textit{et al.} identified eight distinct clusters. These data were used to generate two $\mathbb{P}\Sigma_4 $ spaces.}
     \label{fig:xenograft}
 \end{figure} 
 
@@ -1049,8 +1044,6 @@ The k--means algorithm demonstrated earlier, for example, can be thought of as a
 Any attempt at soft assignment of patients to an underlying probabilistic clustering model would necessarily rely upon well defined notions of distributions in $\Sigma_m$.
 Defining distributions on $\Sigma_m$ would open a more direct communication between evolutionary moduli spaces and the field of generative modeling.
 One potentially fruitful approach for approximating probability densities such as the normal distribution is to simulate diffusive processes in $\Sigma_m$, taking advantage of the relationship between random walks and their limiting distributions.
-
-NEEDS TO BE EXPANDED.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
