@@ -920,6 +920,21 @@ This is a nice example that show that in the simple case of three leaves trees, 
 
 \section{Phylogenetic dimensionality reduction}\label{sec:xeno_flu}
 
+Phylogenetic trees are often too complex to visualize and analyze as they can contain thousands of branches.
+However, lower dimensional representations (such as tree dimensionality reduction procedures) are able to visualize capture important phenomena.
+The approach we present here is based on sub-sampling of a larger structure and preforming statistical analysis in lower dimensional projections.
+The main idea is that by subsampling leaves of a large tree we can have a distribution of smaller trees that can capture properties of the more complex structure.
+This procedure has two advantages in relation to larger trees: on the one hand one can easily visualize, extract, perform statistical analysis, and interpret different types of evolutionary relationships.
+On the other hand, it avoids the problem of scalability of phylogenetic algorithms with the number of leaves.
+In this section we will show two different applications of this procedure to identify interesting changes in tree shapes.
+In particular, we will be looking for clonal replacements, when a clone, not directly descending from the dominant clone at the previous phase, shows dominant presence in a later phase.
+The reason for this clonal replacement phenomena could be manifold, from stochastic fluctuations in small populations to selection processes (loss of fitness of the dominant clone, or rapid adaptation of a novel unrelated clone).
+Here, we will show the application of the tree reduction techniques to two distinct datasets.
+We first study the evolution of influenza A virus in humans and show the presence of clonal replacement events that could lead to vaccine failure.
+Then, we investigate clonal evolution in patient-derived xenografts by studying the genomes of large number of single-cells at different passages.
+
+\subsection{Detecting new dominant strains in seasonal influenza}
+
 \begin{figure}
     \centering
     \includegraphics[height=4in]{../figures/influenza_overall_tree.png}
@@ -929,22 +944,7 @@ This is a nice example that show that in the simple case of three leaves trees, 
 
 % (b)  Due to genomic drift, new strains appear each season, dominating the periods of viral expansion. (c) Different clones across seasons can be characterized through sub-sampling viral populations. If the pattern is highly linear, clones at some season will be directly related to emerging clones in the following seasons. However, if clones emerge that are genetically very different from previously sampled clones (on the right, branched or divergent behaviors) it will be difficult to make predictions based on recent samples. Currently influenza vaccine depends critically on these data and these predictions.
 
-Phylogenetic trees are often too complex to visualize and analyze as they can contain thousands of branches.
-However, lower dimensional representations (such as ``tree'' dimensionality reduction procedures) are able to visualize capture important phenomena.
-The approach we present here is based on sub-sampling of a larger structure and preforming statistical analysis in lower dimensional projections.
-The main idea is that by subsampling leaves of a large tree we can have a distribution of smaller trees that can capture properties of the more complex structure.
-This procedure has two advantages in relation to larger trees: on the one hand one can easily visualize, extract, perform statistical analysis, and interpret different types of evolutionary relationships.
-On the other hand, it avoids the problem of scalability of phylogenetic algorithms with the number of leaves.
-In this section we will show two different applications of this procedure to identify interesting changes in tree shapes.
-In particular, we will be looking for clonal replacements, when a clone, not directly descending from the dominant clone at the previous phase, shows dominant presence in a later phase \ref{fig:HA_tree}.
-The reason for this clonal replacement phenomena could be manifold, from stochastic fluctuations in small populations to selection processes (loss of fitness of the dominant clone, or rapid adaptation of a novel unrelated clone).
-Here, we will show the application of the tree reduction techniques to two distinct datasets.
-We first study the evolution of influenza A virus in humans and show the presence of clonal replacement events that could lead to vaccine failure.
-Then, we investigate clonal evolution in patient-derived xenografts by studying the genomes of large number of single-cells at different passages.
-
-\subsection{Detecting new dominant strains in seasonal influenza}
-
-Influenza A is an RNA virus that infects every year approximately 5 ? 10\% in adults and 20 ? 30\% in children (REF WHO http://www.who.int/biologicals/vaccines/influenza/en/) leading to more than half a million flu associated deaths.
+Influenza A is an RNA virus that infects every year approximately 5--10\% in adults and 20--30\% in children (W.H.O. http://www.who.int/biologicals/vaccines/influenza/en) leading to more than half a million flu associated deaths.
 Vaccination against the virus remains a major way of preventing morbidity.
 The virus genome however evolves rapidly changing the antigenic presentation of proteins that are in the envelop of the virus, mostly haemagglutinin (HA).
 These continuous antigenic changes, sometimes referred as antigenic drift, could lead to failures in vaccine efficacy.
@@ -952,7 +952,7 @@ The design of influenza vaccine is based on samples of previous years under the 
 This is a very strong assumption, as relatively small genetic changes in the genome of the virus can cause drastic antigenic changes.
 Influenza vaccine failures can be associated with the emergence of new clones with novel antigenic properties that have replaced recent circulating strains.
 Here we study how the emergence of a novel subclone could be identified by the unusual/unexpected tree structures.
-For this purpose we study the recent history of influenza A H3N2 using 5,608 sequences of hemmagglutinin collected in the United States between 1993 and 2015.
+For this purpose we study the recent history of influenza A H3N2 using 5,608 sequences of hemmagglutinin collected in the United States between 1993 and 2015 (Figure \ref{fig:HA_tree}).
 
 A different but related phenomenon that can lead to significant antigenic changes is reassortment.
 The influenza virus genome consists of eight single-stranded RNA segments, two of which code the antigenic surface glycoproteins, hemagglutinin (HA) and neuraminidase (NA).
@@ -963,13 +963,6 @@ Introducing viral segments from non-human reservoirs has led to major pandemics 
 In 1968, the reassortment of then-circulating H2N2 with avian strains created H3N2 viruses, which have since been infecting human population.
 Reassortment of seasonal strains can also contribute to vaccine failure as low frequency hemagglutinin segments could combine with highly transmissible strains.
 In particular, reassortment of two H3N2 clades during the 2002-2003 season resulted in a major epidemic and higher incidents of vaccine failure in the succeeding season.~\cite{centers2004preliminary}
-
-% \begin{figure}
-%     \centering
-%     \includegraphics[width=6in]{../figures/supplement_influenza_quad.png}
-%     \caption{Superimposed $\mathbb{P}\Sigma_4$ spaces relating four consecutive influenza seasons, using 1089 influenza A H3N2 strains collected from New York from 1993 to 2016.}
-%     \label{fig:flu_quad}
-% \end{figure} 
 
 Using 1089 full length sequences of hemmagglutinin collected in New York state between 1993 and 2016, we relate HA sequences from one season to those from the preceeding ones.
 We randomly select three, four, or five consecutive seasons to form a temporal window, and use neighbor-joining on hamming distance to generate sets of unrooted trees.
@@ -987,10 +980,16 @@ Make sure that these results corroborate previously published whole-genome and s
     \label{fig:flu_quint}
 \end{figure}
 
+We sought to test the hypothesis that elevated antigenic diversity in circulating influenza predicts poor vaccine performance in the subsequent season.
+This amounts to staggering the seasons sampled for distributions of trees from the season of the vaccine effectiveness label, to yield an honest prediction task.
+Distribution features that may intuitively predict future vaccine performance include the variance and the number of clusters in the point cloud.
+Given our limited number of temporal windows, too rich a feature space may predispose to overfitting the vaccine efficacy.
+In Figure \ref{fig:flu_VE} we illustrate the predictions of the variance of a lagging length-3 window on vaccine effectiveness. 
+
 \begin{figure}
     \centering
     \includegraphics[width=\linewidth]{../figures/influenza_VE.png}
-    \caption{.}
+    \caption{Negative correlation observed between vaccine efficacy in season $t$ and the variance in trees generated from seasons $(t-1, t-2, t-3)$.}
     \label{fig:flu_VE}
 \end{figure} 
 
@@ -1014,8 +1013,9 @@ These sites include variants that Eirew \textit{et al.} associated with eight di
 Single-cell data from the primary tumor is not available, however we generate eight cluster-representative sequences and using 27, 36, and 27 single nuclei from the first, second, and fourth passage, we sub-sample 3,000 trees from all possibilities and project the data into $\mathbb{P}\Sigma_4 $.
 First, we include trees relating the germ-line sequence, a randomly selected cluster-representative sequence form the primary tumor, and randomly selected single-nucleus sequences from the initial two xenograft passages.
 Then, in a second analysis, we include trees relating a randomly selected cluster-representative sequence form the primary tumor and randomly selected single-nucleus sequences from three consecutive xenograft passages.
-Our results (Fig \ref{fig:xenograft}) show consistent linear evolution from primary tumor towards xenograft samples.
-However, we observe significant divergence of tumor clones during multiple engraftments. [NEED STATISTICS: standard deviation in each space; clustering too, 1st one should be 1 cluster, 2nd one 3 clusters. etc.]
+Our results (Fig \ref{fig:xenograft}) show consistent linear evolution from primary tumor through the first two xenograft passages, however we observe significant heterogeneity of tumor clones upon the fourth mouse passage.
+The first time window (purple) is completely contained within the topology corresponding the linear evolution, unlike the second (gold) which is centered on the origin and extends into all three possible topologies.
+The point cloud for the second time window displays a higher standard deviation than the first (10.49 vs. 8.69), and its centroid is essentially a star. 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
