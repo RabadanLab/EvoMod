@@ -60,11 +60,11 @@ We study first the disruption of evolutionary trajectories by therapy in chronic
 Then, we discuss the use of these geometric techniques in single-cell genomic data to systematically identify clonal replacement events in cancer.
 
 Finally, we decompose 24 years of longitudinally collected H3N2 hemagglutinin sequences into distributions of smaller trees spanning between three and five seasons.
-A negative correlation is observed between the influenza vaccine efficacy during a season and the variance of the set trees constructed constructed using the preceding seasons' sequence data.
+A negative correlation is observed between the influenza vaccine efficacy during a season and the variance of the set trees constructed constructed using the preceding seasons' sequence data. This provides an estimate of influenza vaccine efficacy using genomic data. 
 The evolutionary moduli space approach provides an insightful geometric framework to visualize and extract statistical patterns from large collections of genomic data across diverse evolutionary problems.
 
 \end{abstract}
-
+\newpage
 \tableofcontents
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -397,7 +397,9 @@ x(t) = \kappa e^{\alpha d_{\Sigma_m}(t_1, t)}
 \] 
 for fixed $t_1 \in \Sigma_m$, and an analogous family can be defined on $\mathbb{P}\Sigma_m$.
 Sampling from these distributions is somewhat subtle; the natural approach is to use a Markov chain Monte Carlo (MCMC) algorithm, but convergence for such chains is not well-understood and can have pathological behavior near the origin (due to the explosion in the number of trees within an $\epsilon$ ball).
-{\bf Say something here about rotation walk.}
+
+%%%%% ANDREW COMMENT
+%{\bf Say something here about rotation walk.}
 
 A much more tractable source of distributions on $\Sigma_m$ and $\mathbb{P}\Sigma_m$ arise from resampling from a given set of empirical data points.
 However, as we discuss below, since the central limit theorem in nonpositively curved metric spaces can be quite complicated, once again our understanding of the behavior of resampling estimators is incomplete.
@@ -452,7 +454,8 @@ One expects that as $k$ increases (provided the landmarks are ``generic''), the 
 
 In both cases, choice of the parameter $k$ depends on some sense of the intrinsic dimension of the support of the distribution as well as the number of points available (in the case of finite samples).
 Unfortunately, the required $k$ may well be quite large.
-{\bf Explain example of wedge of circles.}
+%%%%% ANDREW COMMENT
+%{{\bf Explain example of wedge of circles.}
 In our work, we use cross-validation techniques to determine suitable $k$, as discussed below.
 
 Finally, there is a substantial body of work on low-distortion embeddings of finite metric spaces into $\ell^p$ spaces, in particular Euclidean spaces.
@@ -474,11 +477,16 @@ A standard comparison between groups is then given by the distance
 between the means.
 In order to understand the variability due to sampling, we can use bootstrap resampling (or more general $k$ out of $n$ resampling without replacement) to generate confidence intervals for the value of $\theta_i$.
 (Asymptotic consistency for the bootstrap follows from the fact that the VC dimension of the collections of balls in $\Sigma_m$ and $\mathbb{P}\Sigma_m$ is bounded, via the usual criteria~\cite{Gine1984, Gine1986, Gine1990}.) 
-Examples of this are presented below.{\bf Forward pointer here.}
+
+%%%%% ANDREW COMMENT
+%{Examples of this are presented below.
+%{\bf Forward pointer here.}
 
 In contrast, when working in $\mathbb{P}\Sigma_m$, we have no choice to consider tests induced by the projections into $\mathbb{R}^n$ discussed above.
 Here, we can compare collections $\aC_i$ and $\aC_j$ by using any of the many standard non-parametric comparison techniques for real distributions, for example $\chi^2$ tests or two-sample Kolmogorov-Smirnov tests.
-Again, we present examples of this below. {\bf Forward pointer here.}
+
+%%%%% ANDREW COMMENT
+%{Again, we present examples of this below. {\bf Forward pointer here.}
 
 One pervasive problem in clinical applications is that often the number of samples is quite small, and so we are often far from the asymptotic regime for statistical tests.
 Standard small-sample corrections can be applied.
@@ -662,7 +670,8 @@ The result follows.
 For a metric space $(X,\partial_X)$, let $T(X)$ denote the tree obtained from neighbor-joining applied to $(X,\partial_X)$.
 The conclusion is that given a metric space $(X, \partial_X)$, the distribution $\Psi_k(T(X))$ is identical to the distribution $\{T(X_S)\}$ where $S$ varies over all subsets of $X$ of cardinality $k$ and $X_S$ denotes the metric space structure on $S$ induced by $\partial_X$.
 
-{\bf Say something about the fancier criterion of Pachter and company~\cite{}?  (Presumably, provide counterexample.)}
+%%%%% ANDREW COMMENT
+%{{\bf Say something about the fancier criterion of Pachter and company~\cite{}?  (Presumably, provide counterexample.)}
 
 \subsection{Stability of Tree dimensionality reduction}
 
@@ -796,7 +805,8 @@ Another possibility is to perform hierarchical clustering on the clouds in $\Psi
 
 We discuss some examples of this kind of analysis below.
 
-{\bf Expand these remarks once the flu analysis efforts converge.}
+%%%% ANDREW COMMENT
+%{\bf Expand these remarks once the flu analysis efforts converge.}
 
 \iffalse
 
@@ -813,32 +823,36 @@ The stability results above easily imply stability results for the associated ba
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\section{Simulated data}\label{sec:simulated}
+%\section{Simulated data}\label{sec:simulated}
+%
+%To assess how different sets of trees can be distinguished in the moduli space, we created synthetic data sets.  For generating each cluster of trees,  a single topology was randomly chosen and branch lengths were drawn from a Dirichlet distribution of $2l-3$ number of parameters, where $l$ is the number of leaves. As such, trees obtained in this fashion, are necessarily unit-norm. Figure \ref{fig:simulation} shows an example of six tree clusters in $\Sigma_5$.  $k$-means clusterings were evaluated over a range of $k$ values using the Davies-Bouldin (DB) index. The DB index correctly identifies the number of clusters. 
+%
+%\begin{figure}[t!]
+%    \centering
+%    \includegraphics[height=5in]{../figures/simulation.pdf}
+%    \caption{{\bf Model selection for clustering.} Well resolved groups of phylogenetic trees were generated at different numbers of leaves. Three groups of 3-leaved trees, four groups of 4-leaved trees, and six groups of 5-leaved trees were generated with branch lengths drawn from a Dirichlet distribution. We evaluate the quality of $k$-means clusterings over a range of $k$ values, using the elbow of the Davies-Bouldin index as a measure of optimal model complexity. (Top) A visualization of the six groups of 5-leaved trees to be clustered. (Bottom) DB-index shows a sharp inflection point at the correct values of $k$ in all three spaces.}
+%    \label{fig:simulation}
+%\end{figure}
+%
+%\subsection{Birth-Death Processes}
+%
+%To gain a better intuition for the behavior of longitudinal phylogenetic data in our moduli spaces, we turn to stochastic simulations of clonally evolving populations. The advantage of these simulations is that they provide  better understanding of biological interpretable behaviors in more realistic situations.
+%Here we simulate clonal evolution at varying degrees of selection strength and mutation rate.
+%The most prevalent genotypes at pre-determined sampling intervals were recorded and used to contruct phylogenetic trees.
+%We observe the distributions generated in the moduli space as a function of the simulation parameters. 
+%
+%We leverage the package OncoSimulR \cite{}, which implements an forward-time evolutionary simulation wherein mutations are designated either driver or passenger events.
+%This terminology simply refers to whether the impact of a mutation increases or decreases the birth rate of a genome.
+%The magnitudes of fitness effects for driver and passenger mutations are free parameters, as are the mutation rate, numbers of genomic positions at which driver or passenger events can occur.
+%Population bottlenecks are crudely implemented by seeding a second simulations with a single member drawn from a time slice of the first simulation.
+%Bulk sequencing of the population can be approximated by sampling only the most prevalent genotype at a given time slice.
 
-Describe the purpose and scope the simulations.
 
-\subsection{Model selection}
-
-We created three synthetic data sets upon which to demonstrate that plotting the DB-index for the k--Means implementation correctly discerns the optimal number of clusters present in the data.
-The figures that have already been generated used the BHV distance metric, and need to be updated using the projective distance.
-
-\begin{figure}[t!]
-    \centering
-    \includegraphics[height=3in]{../figures/synthetic_davies_bouldin.pdf}
-    \caption{Populations of trees are generated }
-    \label{fig:davies_bouldin}
-\end{figure}
-
-\subsection{Birth-Death Processes}
-
-Here we simulatws clonal evolution at varying degrees of selection strength and mutation rate.
-The most prevalent genotypes at pre-determined sampling intervals were recorded and used to contruct phylogenetic trees.
-We observe the distributions generated in the moduli space as a function of the simulation parameters.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\section{Assessing clinical utility of longitudinal genomic data in cancer}\label{sec:cancer}
+\section{Clinical utility of longitudinal genomic data in cancer}\label{sec:cancer}
 
 Clinical progression of cancer is believed to be intimately related to the accumulation of genomic alterations in tumor cells.
 Mutations can spur proliferation, either via activation of an oncogene or inactivation of a tumor suppressor.
@@ -956,7 +970,7 @@ Influenza vaccine failures can be associated with the emergence of new clones wi
 Here we study how the emergence of a novel subclone could be identified by the unusual/unexpected tree structures.
 For this purpose we study the recent history of influenza A H3N2 using 5,608 sequences of hemmagglutinin collected in the United States between 1993 and 2016 (Figure \ref{fig:HA_tree}).
 Genomic data was downloaded from the GISAID EpiFlu database (www.gisaid.org), and aligned with MUSCLE using default parameters.
-Vaccine effectiveness figures were drawn from 
+Vaccine effectiveness figures were drawn from the meta analysis of \cite{gupta2006quantifying}.
 
 \begin{figure}
     \centering
@@ -991,27 +1005,39 @@ The window ending in the 2003-2004 season shows a clear reemergence of strains i
     \label{fig:flu_quint}
 \end{figure}
 
-We sought to test the hypothesis that elevated antigenic diversity in circulating influenza predicts poor vaccine performance in the subsequent season.
+We sought to test the hypothesis that elevated HA genetic diversity in circulating influenza predicts poor vaccine performance in the subsequent season.
 This amounts to staggering the seasons sampled for distributions of trees from the season of the vaccine effectiveness label, to yield an honest prediction task.
 Distribution features that may intuitively predict future vaccine performance include the variance and the number of clusters in the point cloud.
 Given our limited number of temporal windows, too rich a feature space may predispose to overfitting the vaccine efficacy.
-In Figure \ref{fig:flu_VE} we illustrate the predictions of the variance of a lagging length-3 window on vaccine effectiveness. 
+In Figure \ref{fig:flu_VE} we illustrate the predictions of the variance of a lagging length-3 window on vaccine effectiveness.
+Our notation is such that a window labeled year $y$ would include the flu season of $(y-1, y)$ and preceding years.
+The vaccine effectiveness figures represent season $(y, y+1).$
+It is clear, both from the left and right panels, that lower variance in a temporal window predicts increased future vaccine effectiveness, with a Spearman correlation of -0.52 and p-value of 0.02. The lone outlier season came in 1997-1998. \cite{gupta2006quantifying}, when the vaccine efficacy was lower than expected. In this season the dominant circulating strain was A/Sydney/5/97 while the vaccine strain was A/Wuhan/359/95. 
+The analysis can be carried out with length-4 or length-5 windows to yield a similar result. (See supplementary material)
+
+
+The correlation between variance of tree distributions and vaccine efficacy allows to estimate the influenza vaccine efficacy for future seasons based on genomic data. In particular, for the 2016-2017 season, the variance in tree space was 12.77, corresponding to an approximate efficacy of 36\%. 
+
+
+
 
 \begin{figure}
     \centering
     \includegraphics[width=\linewidth]{../figures/influenza_VE.png}
-    \caption{{\bf Diversity in recent circulating HA predicts vaccine failure.} Negative correlation observed between vaccine efficacy in season $t$ and the variance in trees generated from seasons $(t-1, t-2, t-3)$.}
+    \caption{{\bf Diversity in recent circulating HA predicts vaccine failure.} Negative correlation observed between vaccine efficacy in season $(t, t+1)$ and the variance in trees generated from seasons $(t-1,t), (t-2. t-1), (t-3,t-2)$.}
     \label{fig:flu_VE}
 \end{figure} 
 
 \subsection{Clonal heterogeneity from single cell tumor genomics}
 
 The recent development of single cell transcriptomics and genomics is providing an opportunity to study the role of clonal heterogeneity in tumors~\cite{navin2011tumour, eirew2014dynamics, patel2014single} and to identify small, previously uncharacterized cell populations~\cite{grun2015single}.
-Single cell data provides the opportunity to sample complex populations by studying the dynamics of different cell subpopulations.
-However, these data create new challenges associated with a large number of cells necessitating comprehensive sampling of the process.
+The single cell approach to studying complex populations brings with it new challenges associated with the large number of sampled genomes.
+Another rapidly maturing technology in the modeling of tumor population dynamics is that of patient-derived xenografts.
+Patient-derived xenografts (PDX) are generated by transplanting tumor tissue into immunodeficient mice, and are serially passaged as each host animal expires.
+This facilitates an understanding of tumor adaptation and clonal dynamics.
 
-Patient-derived xenografts, generated by transplanting tumor tissue into immunodeficient mice, have also emerged as reliable models for studying tumor evolutionary dynamics and heterogeneity.
-Here, we use breast cancer single-nucleus deep-sequence data obtained from three engrafting passages~\cite{eirew2014dynamics}, compromising 55 segregating sites.
+We take advantage of recently published PDX data from breast cancer patients, where single-nucleus deep-sequencing was performed across a lineage of host animals. \cite{eirew2014dynamics}
+The data are comprised of a sample from the primary tumor, as well as three subsequent mouse passages, and the sequencing data revealed 55 informative sites of substitution.
 These sites include variants that Eirew \textit{et al.} associated with eight distinct clonal clusters using bulk DNA.
 
 \begin{figure}
@@ -1023,10 +1049,13 @@ These sites include variants that Eirew \textit{et al.} associated with eight di
 
 Single-cell data from the primary tumor is not available, however we generate eight cluster-representative sequences and using 27, 36, and 27 single nuclei from the first, second, and fourth passage, we sub-sample 3,000 trees from all possibilities and project the data into $\mathbb{P}\Sigma_4 $.
 First, we include trees relating the germ-line sequence, a randomly selected cluster-representative sequence form the primary tumor, and randomly selected single-nucleus sequences from the initial two xenograft passages.
-Then, in a second analysis, we include trees relating a randomly selected cluster-representative sequence form the primary tumor and randomly selected single-nucleus sequences from three consecutive xenograft passages.
+Then, in a second analysis, we include trees relating a randomly selected cluster-representative sequence from the primary tumor and randomly selected single-nucleus sequences from three consecutive xenograft passages.
 Our results (Fig \ref{fig:xenograft}) show consistent linear evolution from primary tumor through the first two xenograft passages, however we observe significant heterogeneity of tumor clones upon the fourth mouse passage.
-The first time window (purple) is completely contained within the topology corresponding the linear evolution, unlike the second (gold) which is centered on the origin and extends into all three possible topologies.
-The point cloud for the second time window displays a higher standard deviation than the first (10.49 vs. 8.69), and its centroid is essentially a star. 
+The first time window (purple) is completely contained within the topology corresponding to linear evolution, unlike the second (gold) which is centered on the origin and extends into all three possible topologies.
+The point cloud for the second time window displays a higher standard deviation than the first (10.49 vs. 8.69), and its centroid is essentially a star tree.
+The high degree of genotypic heterogeneity giving rise to the second time window distribution is suggestive of a clonal replacement event between the time points of Xenograft 2 (X2) and Xenograft 4 (X4).
+Many of the prevalent alterations before X4 disappear during the final passage, and many new mutations rise to dominance.
+This raises interesting questions about the long-term fidelity of PDX vehicles to the genetics of their ancestral primary tumors, which theoretically they serve to mimic.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1034,11 +1063,10 @@ The point cloud for the second time window displays a higher standard deviation 
 \section{Conclusions}\label{sec:conclusions}
 
 Phylogenetic trees remain one of the most useful representations of evolutionary processes.
-As the number of leaves grows, hese trees could be very complex with thousands of branches complicating visualization and unsupervised learning approaches.
+As the number of leaves grows, these trees could be very complex with thousands of branches complicating visualization and unsupervised learning approaches.
 Other times, trees representing different but related processes need to be compared.
 We show that these two kinds of problems can be understood within a simple framework, where each tree is represented by a point in what we refer to as evolutionary moduli spaces.
 We show how to reduce complex trees to a large collections of small trees amenable to statistical and machine learning approaches.
-We the illustrated the use of these techniques to study the evolution of diverse cancers, influenza and to study single cells from tumor models.
 
 There are many open questions related to evolutionary moduli spaces.
 One question is how to define useful probability distributions, such as those of the exponential family, on $\Sigma_m$.
@@ -1047,6 +1075,9 @@ Any attempt at soft assignment of patients to an underlying probabilistic cluste
 Defining distributions on $\Sigma_m$ would open a more direct communication between evolutionary moduli spaces and the field of generative modeling.
 One potentially fruitful approach for approximating probability densities such as the normal distribution is to simulate diffusive processes in $\Sigma_m$, taking advantage of the relationship between random walks and their limiting distributions.
 
+We have applied the evolutionary moduli spaces framework to study the evolution of tumors under therapy, single cell genomic data, and influenza evolution. In particular, we have observed that the distributions of sample trees from genomic data can inform influenza vaccine efficacy in future seasons. The next step will be to find more expressive summarizations of distributions for framing prediction tasks. As sampling populations of viruses and cells become more extensive, we anticipate many problem statements amenable to the moduli framework.
+
+Software can be obtained at https://github.com/RabadanLab.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
