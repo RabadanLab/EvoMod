@@ -975,10 +975,18 @@ Genomic data was downloaded from the GISAID EpiFlu database (www.gisaid.org), an
 Vaccine effectiveness figures were drawn from the meta analysis of \cite{gupta2006quantifying}.
 
 \begin{figure}
+    \begin{subfigure}{\linewidth}
     \centering
-    \includegraphics[height=4in]{../figures/influenza_overall_tree.png}
-    \caption{{\bf H3N2 Hemagglutinin (HA) isolates 1993--2016.} Identifying statistical patterns in large phylogenies is often difficult. This phylogenetic tree contains 1,089 sequences, collected in New York state, spanning 24 influenza seasons. This structure is suitable for statistical analysis via lower dimensional tree projections.}
-     \label{fig:HA_tree}
+    \includegraphics[width=0.8\linewidth]{../figures/influenza_HA_tree.pdf}
+    \end{subfigure}
+    
+    \begin{subfigure}{\linewidth}
+    \centering
+    \includegraphics[width=\linewidth]{../figures/influenza_seasonal_sampling.pdf}
+    \end{subfigure}
+
+    \caption{{\bf H3N2 Hemagglutinin (HA) isolates 1993--2016.} Identifying statistical patterns in large phylogenies is often difficult. (Top) Overall phylogenetic tree inferred from 1,089 sequences, collected in New York state, spanning 24 influenza seasons. (Bottom) There was inter-season variability in the number of H3N2 isolates collected, and we generate sequences of lower dimensional trees by randomly selecting a single HA per season within a temporal window. This procedure decomposes the overall phylogeny into distributions of smaller trees.}
+    \label{fig:flu_HA_sampling}
 \end{figure}
 
 A different but related phenomenon that can lead to significant antigenic changes is reassortment.
@@ -998,7 +1006,7 @@ The majority subsampled trees show linear evolution of HA from one season to ano
 Certain windows yield well resolved clusters of trees, while others display a highly dispersed point cloud.
 Either scenario might be indiciative of elevated diversity in the HA segment or clonal replacement event underway.
 The window ending in the 2003-2004 season shows a clear reemergence of strains in 2003-2004 that were genetically similar to those circulating in the 1999-2000 season. \cite{holmes2005whole}
-%Make sure that these results corroborate previously published whole-genome and segment-specific phylogenetic analyses!!~\cite{holmes2005whole}
+%Make sure that these results corroborate previously published whole-genome and segment-specific phylogenetic analyses.~\cite{holmes2005whole}
 
 \begin{figure}
     \centering
@@ -1017,11 +1025,7 @@ The vaccine effectiveness figures represent season $(y, y+1).$
 It is clear, both from the left and right panels, that lower variance in a temporal window predicts increased future vaccine effectiveness, with a Spearman correlation of -0.52 and p-value of 0.02. The lone outlier season came in 1997-1998. \cite{gupta2006quantifying}, when the vaccine efficacy was lower than expected. In this season the dominant circulating strain was A/Sydney/5/97 while the vaccine strain was A/Wuhan/359/95. 
 The analysis can be carried out with length-4 or length-5 windows to yield a similar result. (See supplementary material)
 
-
 The correlation between variance of tree distributions and vaccine efficacy allows to estimate the influenza vaccine efficacy for future seasons based on genomic data. In particular, for the 2016-2017 season, the variance in tree space was 12.77, corresponding to an approximate efficacy of 36\%. 
-
-
-
 
 \begin{figure}
     \centering
