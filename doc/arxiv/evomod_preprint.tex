@@ -56,8 +56,8 @@ Building upon the description of the geometric properties of space of trees by B
 We then introduce {\em tree dimensionality reduction}, a structured approach to reducing complex phylogenetic trees to a set of projections.
 We explain the theoretical properties of this procedure and describe how performing statistical analysis in these projections one can visualize different evolutionary behaviors.
 
-Using synthetic datasets, we validate statistical inference methods such as supervised and unsupervised learning, model selection, and estimating bootstrap confidence intervals.
-Then, we show the use of these geometric techniques in a series of biological examples, including the evolution of cancers and the spread of infectious diseases.
+%Using synthetic datasets, we validate statistical inference methods such as supervised and unsupervised learning, model selection, and estimating bootstrap confidence intervals.
+We show the use of these geometric techniques in a series of biological examples, including the evolution of cancers and the spread of infectious diseases.
 We study first the disruption of evolutionary trajectories by therapy in chronic lymphocytic leukemias, and the strong association between geometric information and the grade of relapse in low-grade gliomas.
 Then, we discuss the use of these geometric techniques in single-cell genomic data to systematically identify clonal replacement events in cancer.
 
@@ -132,7 +132,7 @@ In Section~\ref{sec:phylospace}, we rapidly review some of the fundamental notio
 Motivated by several biological applications, we will introduce a projective version of these spaces and study some of their geometric properties.
 In Section~\ref{sec:ML}, we give an overview of the application of standard machine learning and statistical inference techniques in these spaces.
 In Section~\ref{sec:treedimred}, we will also introduce the concept of tree dimensionality reduction as a means to visualize and study densely populated trees.
-In Section~\ref{sec:simulated}, we evaluate our methodology using synthetic data, and In the last two chapters, we will discuss two sets of biologically relevant examples.
+%In Section~\ref{sec:simulated}, we evaluate our methodology using synthetic data, and In the last two chapters, we will discuss two sets of biologically relevant examples.
 In Section~\ref{sec:cancer}, we report the predictive power of evolutionary moduli spaces using cancer genomic data, and in Section~\ref{sec:xeno_flu}, we study complex trees whose lower dimensional projections readily represent and capture interesting biological phenomena such as clonal replacement events.
 
 
@@ -978,7 +978,7 @@ The design of influenza vaccine is based on samples of previous years under the 
 This is a very strong assumption, as relatively small genetic changes in the genome of the virus can cause drastic antigenic changes.
 Influenza vaccine failures can be associated with the emergence of new clones with novel antigenic properties that have replaced recent circulating strains.
 Here we study how the emergence of a novel subclone could be identified by the unusual/unexpected tree structures.
-For this purpose we study the recent history of influenza A H3N2 using 5,608 sequences of hemmagglutinin collected in the United States between 1993 and 2016 (Figure \ref{fig:HA_tree}).
+For this purpose we study the recent history of influenza A H3N2 using 5,608 sequences of hemmagglutinin collected in the United States between 1993 and 2016 (Figure \ref{fig:flu_HA_sampling}).
 Genomic data was downloaded from the GISAID EpiFlu database (www.gisaid.org), and aligned with MUSCLE using default parameters.
 Vaccine effectiveness figures were drawn from the meta analysis of \cite{gupta2006quantifying}.
 
