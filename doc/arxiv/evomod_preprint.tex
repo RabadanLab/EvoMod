@@ -32,12 +32,12 @@
 
 \title{Machine learning and dimensionality reduction in tree spaces}
 
-\author{Sakellarios Zairis$^{1}$, Hossein Khiabanian$^{1,*}$, Andrew J. Blumberg$^{2}$, and Raul Rabadan$^{1}$\\
+\author{Sakellarios Zairis$^{1}$, Hossein Khiabanian$^{1,\dagger}$, Andrew J. Blumberg$^{2}$, and Raul Rabadan$^{1}$\\
 \\
 $^1$ Department of Systems Biology, Columbia University\\
 % $^2$ Center for Topology of Cancer Evolution and Heterogeneity, Columbia University\\
 $^2$ Department of Mathematics, UT Austin\\
-$^*$ Present address: Rutgers Cancer Institute, Rutgers University\\}
+$^\dagger$ Present address: Rutgers Cancer Institute, Rutgers University\\}
 \maketitle
 
 
@@ -62,7 +62,8 @@ We study first the disruption of evolutionary trajectories by therapy in chronic
 Then, we discuss the use of these geometric techniques in single-cell genomic data to systematically identify clonal replacement events in cancer.
 
 Finally, we decompose 24 years of longitudinally collected H3N2 hemagglutinin sequences into distributions of smaller trees spanning between three and five seasons.
-A negative correlation is observed between the influenza vaccine efficacy during a season and the variance of the set trees constructed constructed using the preceding seasons' sequence data. This provides an estimate of influenza vaccine efficacy using genomic data. 
+A negative correlation is observed between the influenza vaccine efficacy during a season and the variance of the set trees constructed constructed using the preceding seasons' sequence data.
+This provides an estimate of influenza vaccine efficacy using genomic data. 
 The evolutionary moduli space approach provides an insightful geometric framework to visualize and extract statistical patterns from large collections of genomic data across diverse evolutionary problems.
 
 \end{abstract}
@@ -854,12 +855,14 @@ The stability results above easily imply stability results for the associated ba
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\section{Clinical utility of longitudinal genomic data in cancer}\label{sec:cancer}
+\section{Clinical utility of longitudinal tumor genomics}\label{sec:cancer}
 
-Clinical progression of cancer is believed to be intimately related to the accumulation of genomic alterations in tumor cells.
+Progression of cancer is believed to be intimately related to the accumulation of genomic alterations in tumor cells.
 Mutations can spur proliferation, either via activation of an oncogene or inactivation of a tumor suppressor.
-A first step towards personalizing cancer therapy is to monitor the mutational status of patients, a process greatly facilitated by recent advances in sequencing technology.
-Certain aspects of cancer biology confound the straight-forward attempt at genomic characterization of a tumor, including clonal heterogeneity and branching evolution.
+A first step towards personalizing cancer therapy is to monitor the mutational status of patients along the therapeutic course.
+Genomic snapshots before and after administration of cytotoxic therapy can reveal the extent of population remodeling.
+A further goal is to establish \textit{in vivo} mouse models of every patient's tumor, as a means of rapidly exploring drug susceptibility and resistance.
+Such models can be created by direct implantation of primary tumor tissue into immunodeficient mice and are termed patient-derived xenografts (PDX). 
 
 The spatial and temporal heterogeneity of tumors can be addressed by reconstructing the evolutionary history of tumors from different samples.
 For each location and time point, one can define (partially or totally) the genotype of the dominant clone.
@@ -869,46 +872,46 @@ This formulation allows the use of the mathematical machinery described in this 
 To illustrate the use we have chosen a medically relevant problem, how therapy affects the evolution of cancer.
 Using public data from chronic lymphocytic leukemia and relaped glioma, we highlight clinical correlates to the spatial distribution of patients in the moduli space.
 
-\subsection{Disruption of linear evolution by therapy in chronic leukemias}
+% \subsection{Disruption of linear evolution by therapy in chronic leukemias}
 
-Chronic lymphocytic leukemia (CLL) is the most common leukemia in adults, primarily affecting the elderly population (median age at diagnosis is 70).~\cite{smith2011incidence}
-CLL is a proliferative disorder of B-lymphoctyes characterized by a steady accumulation of clonal, non-functional B-cells.
-Treatment strategies vary greatly given the heterogeneity in disease course, ranging from watchful waiting, to localized radiation, to systemic chemotherapy.
-The fact that CLL is a relatively indolent malignancy makes it an excellent model for studying clonal evolution under different therapeutic strategies.~\cite{wang2015tumor}  
-A recent genomic study~\cite{landau2013evolution} performed WES on 160 CLL cases covering the spectrum of clinical courses the disease can take.
-This data established a space of recurrent alterations, which was then used to genotype 18 patients for whom two time points were available.
-Of these 18 patients, 10 of 12 treated with chemotherapy underwent clonal evolution compared to only 1 of 6 receiving no treatment according to the authors of the study.
-We combine the 18 patients of \cite{landau2013evolution} with those of a similar study~\cite{schuh2012monitoring} wherein 3 CLL patients received chemotherapy and were sequenced at multiple time points.
-The multiple time points for the 3 patients studied in \cite{schuh2012monitoring} are decomposed into all combinatorial triplets.
-Therefore, there are a total of 18 phylogenetic trees inferred from \cite{landau2013evolution} and 12 phylogenetic trees inferred from \cite{schuh2012monitoring}.
-In Figure \ref{fig:chemoCLL}, we map this data to $\mathbb{P}\Sigma_3$ and color based on treatment status.
+% Chronic lymphocytic leukemia (CLL) is the most common leukemia in adults, primarily affecting the elderly population (median age at diagnosis is 70).~\cite{smith2011incidence}
+% CLL is a proliferative disorder of B-lymphoctyes characterized by a steady accumulation of clonal, non-functional B-cells.
+% Treatment strategies vary greatly given the heterogeneity in disease course, ranging from watchful waiting, to localized radiation, to systemic chemotherapy.
+% The fact that CLL is a relatively indolent malignancy makes it an excellent model for studying clonal evolution under different therapeutic strategies.~\cite{wang2015tumor}  
+% A recent genomic study~\cite{landau2013evolution} performed WES on 160 CLL cases covering the spectrum of clinical courses the disease can take.
+% This data established a space of recurrent alterations, which was then used to genotype 18 patients for whom two time points were available.
+% Of these 18 patients, 10 of 12 treated with chemotherapy underwent clonal evolution compared to only 1 of 6 receiving no treatment according to the authors of the study.
+% We combine the 18 patients of \cite{landau2013evolution} with those of a similar study~\cite{schuh2012monitoring} wherein 3 CLL patients received chemotherapy and were sequenced at multiple time points.
+% The multiple time points for the 3 patients studied in \cite{schuh2012monitoring} are decomposed into all combinatorial triplets.
+% Therefore, there are a total of 18 phylogenetic trees inferred from \cite{landau2013evolution} and 12 phylogenetic trees inferred from \cite{schuh2012monitoring}.
+% In Figure \ref{fig:chemoCLL}, we map this data to $\mathbb{P}\Sigma_3$ and color based on treatment status.
 
-\begin{figure}
-    \begin{subfigure}{0.5\linewidth}
-    \centering
-    \includegraphics[height=2.2in]{../figures/CLL_triplet.png}
-    \end{subfigure}
-    ~
-    \begin{subfigure}{0.5\linewidth}
-    \centering
-    \includegraphics[height=2.2in]{../figures/CLL_histogram.pdf}
-    \end{subfigure}
+% \begin{figure}
+%     \begin{subfigure}{0.5\linewidth}
+%     \centering
+%     \includegraphics[height=2.2in]{../figures/CLL_triplet.png}
+%     \end{subfigure}
+%     ~
+%     \begin{subfigure}{0.5\linewidth}
+%     \centering
+%     \includegraphics[height=2.2in]{../figures/CLL_histogram.pdf}
+%     \end{subfigure}
 
-    \caption{{\bf Different evolutionary patterns observed in CLL.} (Left) In patients that did not receive chemotherapy the  tumor genome did not change. Tumors from these patients, represented in green, shared most mutations along different time points. However, under therapy (shown in red) mutations before therapy were not present after treatment, and new mutations were acquired. (Right) The proportion of mutations shared between time points is significantly lower among patients treated with chemotherapy ($p = 0.049$, log-rank test).}
-    \label{fig:chemoCLL}
-\end{figure}
+%     \caption{{\bf Different evolutionary patterns observed in CLL.} (Left) In patients that did not receive chemotherapy the  tumor genome did not change. Tumors from these patients, represented in green, shared most mutations along different time points. However, under therapy (shown in red) mutations before therapy were not present after treatment, and new mutations were acquired. (Right) The proportion of mutations shared between time points is significantly lower among patients treated with chemotherapy ($p = 0.049$, log-rank test).}
+%     \label{fig:chemoCLL}
+% \end{figure}
 
-From a clinical standpoint, a central question is whether treatment promotes evolution of the cancer and whether there is strong evidence for avoiding cytotoxic therapy in patient management.
-Quite clearly the distribution of 6 untreated patients resembles a pattern (in green) forms a tight cluster, indicating that tumors from patients who did not received therapy are stable genetically, sharing most of the mutations.
-However, in red are represented the histories of tumors of 15 patients under therapy, presenting some mutations at different times that are not shared across different samples.
-The ratio between the number of mutations that are exclusive in the early branch versus the ones that are share with other phases is represented in right hand side of figure \ref{fig:chemoCLL}.
-A number close to zero indicates a genetically stable tumor.
-To assess if the clonal histories how different are the clonal histories of tumors from untreated vs treated patients, we studied the distance between the centroids of the two populations.
-The 95\% CI for the distance between the centroids of the treated / untreated groups is (0.15, 0.36), under 1000-fold bootstrap resampling.
-The analogous intervals for untreated / untreated and treated / treated are (0.01, 0.14) and (0.02, 0.16) respectively.
-This analysis shows that the centroids of these clinically distinct sets of patients are well-resolved, supporting the idea that untreated tumors are more stable than treated ones, where district mutations can appear along the evolution of the tumor.
+% From a clinical standpoint, a central question is whether treatment promotes evolution of the cancer and whether there is strong evidence for avoiding cytotoxic therapy in patient management.
+% Quite clearly the distribution of 6 untreated patients resembles a pattern (in green) forms a tight cluster, indicating that tumors from patients who did not received therapy are stable genetically, sharing most of the mutations.
+% However, in red are represented the histories of tumors of 15 patients under therapy, presenting some mutations at different times that are not shared across different samples.
+% The ratio between the number of mutations that are exclusive in the early branch versus the ones that are share with other phases is represented in right hand side of figure \ref{fig:chemoCLL}.
+% A number close to zero indicates a genetically stable tumor.
+% To assess if the clonal histories how different are the clonal histories of tumors from untreated vs treated patients, we studied the distance between the centroids of the two populations.
+% The 95\% CI for the distance between the centroids of the treated / untreated groups is (0.15, 0.36), under 1000-fold bootstrap resampling.
+% The analogous intervals for untreated / untreated and treated / treated are (0.01, 0.14) and (0.02, 0.16) respectively.
+% This analysis shows that the centroids of these clinically distinct sets of patients are well-resolved, supporting the idea that untreated tumors are more stable than treated ones, where district mutations can appear along the evolution of the tumor.
 
-\subsection{The geometry of a tree is associated with grade at relapse in gliomas}
+\subsection{Tree geometry associated with grade at relapse in gliomas}
 
 Next, we will study low grade gliomas (LGG), a set of tumors of the central nervous system most often involving astrocytes or oligodendrocytes.
 They are distinguised from high grade gliomas (III, IV), such as glioblastoma multiforme, by the absence of anaplasia and have a more favorable prognosis.
@@ -942,25 +945,47 @@ The tesselation of the space associated to a 1-nearest neighbor classifier is kn
 
 This is a nice example that show that in the simple case of three leaves trees, evolutionary tumor histories are different under different therapeutic regimes, and that they do associate with prognosis (as measured by grade at relapse).
 
+\subsection{Clonal dynamics in patient derived xenografts}
+
+The recent development of single cell transcriptomics and genomics is providing an opportunity to study the role of clonal heterogeneity in tumors~\cite{navin2011tumour, eirew2014dynamics, patel2014single} and to identify small, previously uncharacterized cell populations~\cite{grun2015single}.
+The single cell approach to studying complex populations brings with it new challenges associated with the large number of sampled genomes.
+Another rapidly maturing technology in the modeling of tumor population dynamics is that of patient-derived xenografts.
+Patient-derived xenografts (PDX) are generated by transplanting tumor tissue into immunodeficient mice, and are serially passaged as each host animal expires.
+This facilitates an understanding of tumor adaptation and clonal dynamics.
+
+We take advantage of recently published PDX data from breast cancer patients, where single-nucleus deep-sequencing was performed across a lineage of host animals. \cite{eirew2014dynamics}
+The data are comprised of a sample from the primary tumor, as well as three subsequent mouse passages, and the sequencing data revealed 55 informative sites of substitution.
+These sites include variants that Eirew \textit{et al.} associated with eight distinct clonal clusters using bulk DNA.
+
+\begin{figure}
+    \centering
+    \includegraphics[height=4in]{../figures/xenograft_single_cell.png}
+    \caption{{\bf Emerging clonal heterogeneity in patient-derived xenograft.} Single cell analysis of tumor evolution in a breast cancer derived xenograft model. Single-nucleus deep-sequence data obtained from passage 1, 2, and 4. Single-cell data from primary tumor is not available, however Eirew \textit{et al.} identified eight distinct clusters. These data were used to generate two $\mathbb{P}\Sigma_4 $ spaces.}
+    \label{fig:xenograft}
+\end{figure} 
+
+Single-cell data from the primary tumor is not available, however we generate eight cluster-representative sequences and using 27, 36, and 27 single nuclei from the first, second, and fourth passage, we sub-sample 3,000 trees from all possibilities and project the data into $\mathbb{P}\Sigma_4 $.
+First, we include trees relating the germ-line sequence, a randomly selected cluster-representative sequence form the primary tumor, and randomly selected single-nucleus sequences from the initial two xenograft passages.
+Then, in a second analysis, we include trees relating a randomly selected cluster-representative sequence from the primary tumor and randomly selected single-nucleus sequences from three consecutive xenograft passages.
+Our results (Fig \ref{fig:xenograft}) show consistent linear evolution from primary tumor through the first two xenograft passages, however we observe significant heterogeneity of tumor clones upon the fourth mouse passage.
+The first time window (purple) is completely contained within the topology corresponding to linear evolution, unlike the second (gold) which is centered on the origin and extends into all three possible topologies.
+The point cloud for the second time window displays a higher standard deviation than the first (10.49 vs. 8.69), and its centroid is essentially a star tree.
+The high degree of genotypic heterogeneity giving rise to the second time window distribution is suggestive of a clonal replacement event between the time points of Xenograft 2 (X2) and Xenograft 4 (X4).
+Many of the prevalent alterations before X4 disappear during the final passage, and many new mutations rise to dominance.
+This raises interesting questions about the long-term fidelity of PDX vehicles to the genetics of their ancestral primary tumors, which theoretically they serve to mimic.
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\section{Phylogenetic dimensionality reduction}\label{sec:xeno_flu}
+\section{Detecting new dominant strains in seasonal influenza}\label{sec:flu}
 
-Phylogenetic trees are often too complex to visualize and analyze as they can contain thousands of branches.
-However, lower dimensional representations (such as tree dimensionality reduction procedures) are able to visualize capture important phenomena.
-The approach we present here is based on sub-sampling of a larger structure and preforming statistical analysis in lower dimensional projections.
-The main idea is that by subsampling leaves of a large tree we can have a distribution of smaller trees that can capture properties of the more complex structure.
-This procedure has two advantages in relation to larger trees: on the one hand one can easily visualize, extract, perform statistical analysis, and interpret different types of evolutionary relationships.
-On the other hand, it avoids the problem of scalability of phylogenetic algorithms with the number of leaves.
-In this section we will show two different applications of this procedure to identify interesting changes in tree shapes.
-In particular, we will be looking for clonal replacements, when a clone, not directly descending from the dominant clone at the previous phase, shows dominant presence in a later phase.
-The reason for this clonal replacement phenomena could be manifold, from stochastic fluctuations in small populations to selection processes (loss of fitness of the dominant clone, or rapid adaptation of a novel unrelated clone).
-Here, we will show the application of the tree reduction techniques to two distinct datasets.
-We first study the evolution of influenza A virus in humans and show the presence of clonal replacement events that could lead to vaccine failure.
-Then, we investigate clonal evolution in patient-derived xenografts by studying the genomes of large number of single-cells at different passages.
+Large phylogenetic trees are often too complex to interpret, while lower dimensional representations enable facile visualization and can capture important phenomena in the data.
+The approach we present here is based on sub-sampling of a larger structure and performing statistical analysis in lower dimensional projections.
+By decomposing a large tree into distributions of smaller trees we derive two principal advantages.
+First, one can easily visualize, interpret, and statistically quanitfy different types of evolutionary relationships.
+Second, one avoids the problem of scalability of phylogenetic algorithms with the number of leaves.
+In this section we will be looking for dynamics in the circulating hemagglutinin sequences of seasonal H3N2 influenza, specifically by performing our tree dimensionality reduction procedure.
 
-\subsection{Detecting new dominant strains in seasonal influenza}
 
 Influenza A is an RNA virus that infects every year approximately 5--10\% in adults and 20--30\% in children (W.H.O. http://www.who.int/biologicals/vaccines/influenza/en) leading to more than half a million flu associated deaths.
 Vaccination against the virus remains a major way of preventing morbidity.
@@ -970,8 +995,8 @@ The design of influenza vaccine is based on samples of previous years under the 
 This is a very strong assumption, as relatively small genetic changes in the genome of the virus can cause drastic antigenic changes.
 Influenza vaccine failures can be associated with the emergence of new clones with novel antigenic properties that have replaced recent circulating strains.
 Here we study how the emergence of a novel subclone could be identified by the unusual/unexpected tree structures.
-For this purpose we study the recent history of influenza A H3N2 using 5,608 sequences of hemmagglutinin collected in the United States between 1993 and 2016 (Figure \ref{fig:HA_tree}).
-Genomic data was downloaded from the GISAID EpiFlu database (www.gisaid.org), and aligned with MUSCLE using default parameters.
+For this purpose we study the recent history of influenza A H3N2 using 1,089 sequences of hemmagglutinin collected in the United States between 1993 and 2016 (Figure \ref{fig:HA_tree}).
+Genomic data was downloaded from the GISAID EpiFlu database (www.gisaid.org), and aligned with MUSCLE using default parameters.~\cite{edgar2004muscle}
 Vaccine effectiveness figures were drawn from the meta analysis of \cite{gupta2006quantifying}.
 
 \begin{figure}
@@ -1006,7 +1031,6 @@ The majority subsampled trees show linear evolution of HA from one season to ano
 Certain windows yield well resolved clusters of trees, while others display a highly dispersed point cloud.
 Either scenario might be indiciative of elevated diversity in the HA segment or clonal replacement event underway.
 The window ending in the 2003-2004 season shows a clear reemergence of strains in 2003-2004 that were genetically similar to those circulating in the 1999-2000 season. \cite{holmes2005whole}
-%Make sure that these results corroborate previously published whole-genome and segment-specific phylogenetic analyses.~\cite{holmes2005whole}
 
 \begin{figure}
     \centering
@@ -1034,34 +1058,6 @@ The correlation between variance of tree distributions and vaccine efficacy allo
     \label{fig:flu_VE}
 \end{figure} 
 
-\subsection{Clonal heterogeneity from single cell tumor genomics}
-
-The recent development of single cell transcriptomics and genomics is providing an opportunity to study the role of clonal heterogeneity in tumors~\cite{navin2011tumour, eirew2014dynamics, patel2014single} and to identify small, previously uncharacterized cell populations~\cite{grun2015single}.
-The single cell approach to studying complex populations brings with it new challenges associated with the large number of sampled genomes.
-Another rapidly maturing technology in the modeling of tumor population dynamics is that of patient-derived xenografts.
-Patient-derived xenografts (PDX) are generated by transplanting tumor tissue into immunodeficient mice, and are serially passaged as each host animal expires.
-This facilitates an understanding of tumor adaptation and clonal dynamics.
-
-We take advantage of recently published PDX data from breast cancer patients, where single-nucleus deep-sequencing was performed across a lineage of host animals. \cite{eirew2014dynamics}
-The data are comprised of a sample from the primary tumor, as well as three subsequent mouse passages, and the sequencing data revealed 55 informative sites of substitution.
-These sites include variants that Eirew \textit{et al.} associated with eight distinct clonal clusters using bulk DNA.
-
-\begin{figure}
-    \centering
-    \includegraphics[height=4in]{../figures/xenograft_single_cell.png}
-    \caption{{\bf Emerging clonal heterogeneity in patient-derived xenograft.} Single cell analysis of tumor evolution in a breast cancer derived xenograft model. Single-nucleus deep-sequence data obtained from passage 1, 2, and 4. Single-cell data from primary tumor is not available, however Eirew \textit{et al.} identified eight distinct clusters. These data were used to generate two $\mathbb{P}\Sigma_4 $ spaces.}
-    \label{fig:xenograft}
-\end{figure} 
-
-Single-cell data from the primary tumor is not available, however we generate eight cluster-representative sequences and using 27, 36, and 27 single nuclei from the first, second, and fourth passage, we sub-sample 3,000 trees from all possibilities and project the data into $\mathbb{P}\Sigma_4 $.
-First, we include trees relating the germ-line sequence, a randomly selected cluster-representative sequence form the primary tumor, and randomly selected single-nucleus sequences from the initial two xenograft passages.
-Then, in a second analysis, we include trees relating a randomly selected cluster-representative sequence from the primary tumor and randomly selected single-nucleus sequences from three consecutive xenograft passages.
-Our results (Fig \ref{fig:xenograft}) show consistent linear evolution from primary tumor through the first two xenograft passages, however we observe significant heterogeneity of tumor clones upon the fourth mouse passage.
-The first time window (purple) is completely contained within the topology corresponding to linear evolution, unlike the second (gold) which is centered on the origin and extends into all three possible topologies.
-The point cloud for the second time window displays a higher standard deviation than the first (10.49 vs. 8.69), and its centroid is essentially a star tree.
-The high degree of genotypic heterogeneity giving rise to the second time window distribution is suggestive of a clonal replacement event between the time points of Xenograft 2 (X2) and Xenograft 4 (X4).
-Many of the prevalent alterations before X4 disappear during the final passage, and many new mutations rise to dominance.
-This raises interesting questions about the long-term fidelity of PDX vehicles to the genetics of their ancestral primary tumors, which theoretically they serve to mimic.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1084,6 +1080,7 @@ One potentially fruitful approach for approximating probability densities such a
 We have applied the evolutionary moduli spaces framework to study the evolution of tumors under therapy, single cell genomic data, and influenza evolution. In particular, we have observed that the distributions of sample trees from genomic data can inform influenza vaccine efficacy in future seasons. The next step will be to find more expressive summarizations of distributions for framing prediction tasks. As sampling populations of viruses and cells become more extensive, we anticipate many problem statements amenable to the moduli framework.
 
 Software can be obtained at https://github.com/RabadanLab.
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
