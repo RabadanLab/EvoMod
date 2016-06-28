@@ -572,6 +572,7 @@ An edge $e$ created by vertex deletion is assigned weight $w_1 + w_2$, where the
 (It is easy to check that the order of vertex deletion does not change the resulting tree.)
 \end{definition}
 
+A representative example of $\Psi_S$ is shown in figure~\ref{fig:dimred}.
 Ignoring the weights, $\Psi_S$ has a very simple description in terms of an operation on the regular $n$-gon corresponding to a tree $T \in \Sigma_n$.
 Specifically, $\Psi_S$ deletes the external edges corresponding to leaves not in $S$, identifying chords that are connected by a deleted edge.
 Note that an extra collapse is required when all of the leaves on the right side of the root are removed.
@@ -580,8 +581,15 @@ This procedure is depicted in a step-wise fashion in Figure \ref{fig:dimred_def2
 
 \begin{figure}
     \centering
+    \includegraphics[width=6in]{../figures/tree-dim-red-fig.pdf}
+    \caption{{\bf Tree dimensionality reduction.} The leaves that are not highlighted in the starting phylogeny are pruned and their external edges removed; internal vertices of degree $2$ are collapsed and edge weights on either side are summed.}
+    \label{fig:dimred}
+\end{figure} 
+
+\begin{figure}
+    \centering
     \includegraphics[width=6in]{../figures/dimred_def2.pdf}
-    \caption{{\bf Correspondence between tree retraction and edge removal in a polygon.} The leaves that are not highlighted in the starting phylogeny are pruned and their external edges removed, during the tree projection operation. This can equivalently be described via step-wise removal of edges in a triangulated polygon, identifying chords incident upon a shared edge that is removed.}
+    \caption{{\bf Correspondence between tree retraction and edge removal in a polygon.} Tree pruning can equivalently be described via step-wise removal of edges in a triangulated polygon, identifying chords incident upon a shared edge that is removed.}
     \label{fig:dimred_def2}
 \end{figure} 
 
