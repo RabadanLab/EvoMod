@@ -57,12 +57,12 @@ We then introduce {\em tree dimensionality reduction}, a structured approach to 
 We explain the theoretical properties of this procedure and study different evolutionary behaviors by performing statistical analysis in these projections.
 
 %Using synthetic datasets, we validate statistical inference methods such as supervised and unsupervised learning, model selection, and estimating bootstrap confidence intervals.
-A series of three biologically motivated examples are presented, spanning cancer and infectious disease.
-The first examines a link between geometric information and the histologic grade in relapsed gliomas, where longer relapse branches were specific to high grade glioma.
-The second concerns genetic stability of xenograft models of cancer, where heterogeneity at the single cell level increased with later mouse passages.
+A series of four biologically motivated examples are presented, spanning cancer and infectious disease.
+The first establishes that chemotherapy can disrupt the evolution of common leukemias. The second examines a link between geometric information and the histologic grade in relapsed gliomas, where longer relapse branches were specific to high grade glioma.
+The third concerns genetic stability of xenograft models of cancer, where heterogeneity at the single cell level increased with later mouse passages.
 Finally, we decompose 24 years of longitudinally collected H3N2 hemagglutinin sequences into distributions of smaller trees spanning between three and five seasons.
-A negative correlation is observed between the influenza vaccine efficacy during a season and the variance of the set trees constructed constructed using the preceding seasons' sequence data.
-This provides an estimate of influenza vaccine efficacy using genomic data. 
+A negative correlation is observed between the influenza vaccine effectiveness during a season and the variance of the set trees constructed constructed using the preceding seasons' sequence data.
+This provides an estimate of influenza vaccine effectiveness using genomic data. 
 The evolutionary moduli space approach provides an insightful geometric framework to visualize and extract statistical patterns from large collections of genomic data across diverse evolutionary problems.
 
 \end{abstract}
@@ -880,11 +880,46 @@ Mutations can spur proliferation, either via activation of an oncogene or inacti
 A first step towards personalizing cancer therapy is to monitor the mutational status of patients along the therapeutic course.
 Genomic snapshots before and after administration of cytotoxic therapy can reveal the extent of population remodeling.
 A further goal is to establish \textit{in vivo} mouse models of every patient's tumor, as a means of rapidly exploring drug susceptibility and resistance.
-Such models can be created by direct implantation of primary tumor tissue into immunodeficient mice and are termed patient-derived xenografts (PDX). 
+Such models can be created by direct implantation of primary tumor tissue into immunodeficient mice and are termed patient-derived xenografts (PDX). This formulation allows the use of the mathematical machinery described in this manuscript in a systematic fashion. We begin with the medically relevant problem of how therapy affects the evolution of common leukemias. Then, using public data from relapsed glioma, we highlight clinical correlates to the spatial distribution of patients in the moduli space. Then we study single cell data from breast cancer derived xenografts to observe the departure of the tumor genetics from the primary lesion.  
 
-This formulation allows the use of the mathematical machinery described in this manuscript in a systematic fashion.
-To illustrate the use we have chosen a medically relevant problem, how therapy affects the evolution of cancer.
-Using public data from chronic lymphocytic leukemia and relapsed glioma, we highlight clinical correlates to the spatial distribution of patients in the moduli space.
+\subsection{Evolution of chronic lymphocytic leukemia under therapy}
+
+Chronic lymphocytic leukemia (CLL) is the most common leukemia in adults, primarily affecting the elderly population (median age at diagnosis is 70).~\cite{smith2011incidence}
+CLL is a proliferative disorder of B-lymphoctyes characterized by a steady accumulation of clonal, non-functional B-cells.
+Treatment strategies vary greatly given the heterogeneity in disease course, ranging from watchful waiting, to localized radiation, to systemic chemotherapy.
+The fact that CLL is a relatively indolent malignancy makes it an excellent model for studying clonal evolution under different therapeutic strategies.~\cite{wang2015tumor}  
+A recent genomic study~\cite{landau2013evolution} performed WES on 160 CLL cases covering the spectrum of clinical courses the disease can take.
+This data established a space of recurrent alterations, which was then used to genotype 18 patients for whom two time points were available.
+Of these 18 patients, 10 of 12 treated with chemotherapy underwent clonal evolution compared to only 1 of 6 receiving no treatment according to the authors of the study.
+We combine the 18 patients of \cite{landau2013evolution} with those of a similar study~\cite{schuh2012monitoring} wherein 3 CLL patients received chemotherapy and were sequenced at multiple time points.
+The multiple time points for the 3 patients studied in \cite{schuh2012monitoring} are decomposed into all combinatorial triplets.
+Therefore, there are a total of 18 phylogenetic trees inferred from \cite{landau2013evolution} and 12 phylogenetic trees inferred from \cite{schuh2012monitoring}.
+In Figure \ref{fig:chemoCLL}, we map this data to $\mathbb{P}\Sigma_3$ and color based on treatment status.
+
+\begin{figure}
+    \begin{subfigure}{0.5\linewidth}
+    \centering
+    \includegraphics[height=2.2in]{../figures/CLL_triplet.png}
+    \end{subfigure}
+    ~
+    \begin{subfigure}{0.5\linewidth}
+    \centering
+    \includegraphics[height=2.2in]{../figures/CLL_histogram.pdf}
+    \end{subfigure}
+
+    \caption{{\bf Different evolutionary patterns observed in CLL.} (Left) In patients that did not receive chemotherapy the tumor genome did not change. Tumors from these patients, represented in green, shared most mutations along different time points. However, under therapy (shown in red) mutations before therapy were not present after treatment, and new mutations were acquired. (Right) The proportion of mutations shared between time points is significantly lower among patients treated with chemotherapy ($p = 0.049$, log-rank test).}
+    \label{fig:chemoCLL}
+\end{figure}
+
+From a clinical standpoint, a central question is whether treatment promotes evolution of the cancer and whether there is strong evidence for avoiding cytotoxic therapy in patient management.
+Quite clearly the distribution of 6 untreated patients resembles a pattern (in green) forms a tight cluster, indicating that tumors from patients who did not received therapy are stable genetically, sharing most of the mutations.
+However, in red are represented the histories of tumors of 15 patients under therapy, presenting some mutations at different times that are not shared across different samples.
+The ratio between the number of mutations that are exclusive in the early branch versus the ones that are share with other phases is represented in right hand side of figure \ref{fig:chemoCLL}.
+A number close to zero indicates a genetically stable tumor.
+To assess if the clonal histories how different are the clonal histories of tumors from untreated vs treated patients, we studied the distance between the centroids of the two populations.
+The 95\% CI for the distance between the centroids of the treated / untreated groups is (0.15, 0.36), under 1000-fold bootstrap resampling.
+The analogous intervals for untreated / untreated and treated / treated are (0.01, 0.14) and (0.02, 0.16) respectively.
+This analysis shows that the centroids of these clinically distinct sets of patients are well-resolved, supporting the idea that untreated tumors are more stable than treated ones, where district mutations can appear along the evolution of the tumor.
 
 \subsection{Tree geometry associated with grade at relapse in gliomas}
 
@@ -973,24 +1008,24 @@ This raises interesting questions about the long-term fidelity of PDX vehicles t
 \section{Detecting new dominant strains in seasonal influenza}\label{sec:flu}
 
 Large phylogenetic trees are often too complex to interpret, while lower dimensional representations enable facile visualization and can capture important phenomena in the data.
-The approach we present here is based on subsampling of a larger structure and performing statistical analysis in lower dimensional projections.
+The approach we present here is based on subsampling a larger structure and performing statistical analysis in lower dimensional projections.
 By decomposing a large tree into distributions of smaller trees we derive two principal advantages.
-First, one can easily visualize, interpret, and statistically quanitfy different types of evolutionary relationships.
+First, one can easily visualize, interpret, and statistically quanitify different types of evolutionary relationships.
 Second, one avoids the problem of scalability of phylogenetic algorithms with the number of leaves.
-In this section we will be looking for dynamics in the circulating hemagglutinin sequences of seasonal H3N2 influenza, specifically by performing our tree dimensionality reduction procedure.
+In this section, we will be looking for dynamics in the circulating hemagglutinin sequences of seasonal H3N2 influenza, specifically by performing our tree dimensionality reduction procedure.
 
-Influenza A is an RNA virus that infects every year approximately 5--10\% in adults and 20--30\% in children (W.H.O. http://www.who.int/biologicals/vaccines/influenza/en) leading to more than half a million flu associated deaths.
+Influenza A is an RNA virus that annually infects approximately 5--10\% in adults and 20--30\% in children (W.H.O. http://www.who.int/biologicals/vaccines/influenza/en) leading to more than half a million flu associated deaths.
 Vaccination against the virus remains a major way of preventing morbidity.
-The virus genome however evolves rapidly changing the antigenic presentation of proteins that are in the envelop of the virus, mostly haemagglutinin (HA).
-These continuous antigenic changes, often referred as antigenic drift, can lead to failures in vaccine efficacy.
+The virus genome however evolves rapidly changing the antigenic presentation of proteins that are in the envelope of the virus, mostly hemagglutinin (HA).
+These continuous antigenic changes, often referred as antigenic drift, can lead to failures in vaccine effectiveness.
 The design of the influenza vaccine is based on collected isolates of previous years, leaning heavily on the results of hemagglutinin inhibition (HI) assays to detect drift variants.
 The great majority of H3N2 isolates are only analyzed antigenically via HI assay, with approximately 10\% of viruses undergoing genetic sequencing of the HA segment.~\cite{russell2008influenza}
 
-This is a very strong assumption, as relatively small genetic changes in the genome of the virus can cause drastic antigenic changes.
+Relatively small genetic changes in the genome of the virus can cause drastic antigenic changes.
 Influenza vaccine failures can be associated with the emergence of new clones with novel antigenic properties that have replaced recent circulating strains.
-Here we study how the emergence of a novel subclone could be identified by the unusual/unexpected tree structures.
-For this purpose we study the recent history of influenza A H3N2 using 1,089 sequences of hemmagglutinin collected in the United States between 1993 and 2016 (Figure \ref{fig:flu_HA_sampling}).
-Genomic data was downloaded from the GISAID EpiFlu database (www.gisaid.org), and aligned with MUSCLE using default parameters.~\cite{edgar2004muscle}
+We analyze how the emergence of a novel subclone could be identified by unusual/unexpected tree structures.
+We study the recent history of influenza A H3N2 using 1,089 sequences of hemagglutinin collected in the United States between 1993 and 2016 (Figure \ref{fig:flu_HA_sampling}).
+Genomic data was downloaded from the GISAID EpiFlu effectivenessdatabase (www.gisaid.org), and aligned with MUSCLE~\cite{edgar2004muscle} using default parameters.
 Vaccine effectiveness figures were drawn from the meta analysis of \cite{gupta2006quantifying}.
 
 \begin{figure}
@@ -1008,7 +1043,7 @@ Vaccine effectiveness figures were drawn from the meta analysis of \cite{gupta20
     \label{fig:flu_HA_sampling}
 \end{figure}
 
-A different but related phenomenon that can lead to significant antigenic changes is reassortment.
+A different phenomenon that can lead to significant antigenic changes is reassortment.
 The influenza virus genome consists of eight single-stranded RNA segments, two of which code the antigenic surface glycoproteins, hemagglutinin (HA) and neuraminidase (NA).
 When two different viruses co-infect the same host, they can generate  progeny containing segments from both parental strains.
 Changes in the constellation of segments could introduce dramatic genetic and antigenic changes.
@@ -1018,14 +1053,14 @@ In 1968, the reassortment of then-circulating H2N2 with avian strains created H3
 Reassortment of seasonal strains can also contribute to vaccine failure as low frequency hemagglutinin segments could combine with highly transmissible strains.
 In particular, reassortment of two H3N2 clades during the 2002-2003 season resulted in a major epidemic and higher incidents of vaccine failure in the succeeding season.~\cite{centers2004preliminary}
 
-Using 1,089 full length sequences of hemmagglutinin collected in New York state between 1993 and 2016, we relate HA sequences from one season to those from the preceeding ones.
+Using 1,089 full length sequences of hemagglutinin collected in New York state between 1993 and 2016, we relate HA sequences from one season to those from the preceding ones.
 We randomly select sets of HAs such that a single isolate is drawn from each of three, four, or five consecutive seasons to form a temporal window.
 Neighbor-joining with a Hamming metric is used to generate unrooted trees from the temporally ordered tuples of HA isolates.
-The case of length five windows is illustrated in \ref{fig:flu_quint}, where we superimpose each temporal slice onto the same moduli space.
-The vast majority of subsampled trees show linear evolution of HA from one season to another, indicating genetic drift as the virus's dominant evolutionary process.
+The case of length five windows is illustrated in Figure \ref{fig:flu_quint}, where we superimpose each temporal slice onto the same moduli space.
+If the current viruses are more similar to viruses circulating in the immediately preceding season, one should expect an unrooted tree topology relating $(1,2),3,(4,5)$ branches. Deviations from this topology indicate unexpected genetic relationships. Figure \ref{fig:flu_quint} confirms that the vast majority of points land along the topologies most compatible with linear evolution of HA.
 Certain windows yield well resolved clusters of trees, while others are dispersed point clouds.
-Either scenario might be indiciative of elevated diversity in the HA segment or clonal replacement event underway.
-The window ending in the 2003-2004 season shows a clear reemergence of strains in 2003-2004 that were genetically similar to those circulating in the 1999-2000 season. \cite{holmes2005whole}
+Either scenario might be indicative of elevated diversity in the HA segment or a clonal replacement event underway.
+The window ending in the 2003-2004 season shows a clear reemergence of strains in 2003-2004 that were genetically similar to those circulating in the 1999-2000 season.~\cite{holmes2005whole}
 
 \begin{figure}
     \centering
@@ -1037,19 +1072,19 @@ The window ending in the 2003-2004 season shows a clear reemergence of strains i
 We sought to test the hypothesis that elevated HA genetic diversity in circulating influenza predicts poor vaccine performance in the subsequent season.
 This amounts to staggering the seasons sampled for distributions of trees from the season of the vaccine effectiveness label, to yield an honest prediction task.
 Distribution features that may intuitively predict future vaccine performance include the variance and the number of clusters in the point cloud.
-Given our limited number of temporal windows, too rich a feature space may predispose to overfitting the vaccine efficacy.
+Given our limited number of temporal windows, too rich a feature space may predispose to overfitting the vaccine effectiveness.
 In Figure \ref{fig:flu_VE} we illustrate the predictions of the variance of a lagging length-3 window on vaccine effectiveness.
 Our notation is such that a window labeled year $y$ would include the flu season of $(y-1, y)$ and preceding years.
 The vaccine effectiveness figures represent season $(y, y+1).$
-It is clear, both from the left and right panels, that lower variance in a temporal window predicts increased future vaccine effectiveness, with a Spearman correlation of -0.52 and p-value of 0.02. The lone outlier season came in 1997-1998. \cite{gupta2006quantifying}, when the vaccine efficacy was lower than expected. In this season the dominant circulating strain was A/Sydney/5/97 while the vaccine strain was A/Wuhan/359/95. 
+It is clear, both from the left and right panels, that lower variance in a temporal window predicts increased future vaccine effectiveness, with a Spearman correlation of -0.47 and p-value of 0.04. The lone outlier season came in 1997-1998 \cite{gupta2006quantifying}, when the vaccine effectiveness was lower than expected. In this season the dominant circulating strain was A/Sydney/5/97 while the vaccine strain was A/Wuhan/359/95. 
 The analysis can be carried out with length-4 or length-5 windows to yield a similar result. (See supplementary material)
 
-The correlation between variance of tree distributions and vaccine efficacy allows to estimate the influenza vaccine efficacy for future seasons based on genomic data. In particular, for the 2016-2017 season, the variance in tree space was 12.77, corresponding to an approximate efficacy of 36\%. 
+The correlation between variance of tree distributions and vaccine effectiveness allows to estimate the influenza vaccine effectiveness for future seasons based on genomic data. In particular, for the 2016-2017 season, the variance in tree space was 12.77, corresponding to an approximate effectiveness of 36\%. 
 
 \begin{figure}
     \centering
     \includegraphics[width=\linewidth]{../figures/influenza_VE.png}
-    \caption{{\bf Diversity in recent circulating HA predicts vaccine failure.} Negative correlation observed between vaccine efficacy in season $(t, t+1)$ and the variance in trees generated from seasons $(t-1,t), (t-2. t-1), (t-3,t-2)$.}
+    \caption{{\bf Diversity in recent circulating HA predicts vaccine failure.} Negative correlation observed between vaccine effectiveness in season $(t, t+1)$ and the variance in trees generated from seasons $(t-1,t), (t-2. t-1), (t-3,t-2)$.}
     \label{fig:flu_VE}
 \end{figure} 
 
@@ -1062,12 +1097,14 @@ Phylogenetic trees remain one of the most useful representations of evolutionary
 As the number of leaves grows, these trees could be very complex with thousands of branches complicating visualization and unsupervised learning approaches.
 Other times, trees representing different but related processes need to be compared.
 We show that these two kinds of problems can be understood within a simple framework, where each tree is represented by a point in what we refer to as evolutionary moduli spaces.
-We show how to reduce complex trees to a large collections of small trees amenable to statistical approaches.
+We show how to reduce complex trees to a collection of small trees amenable to statistical approaches.
 
 We have applied the evolutionary moduli spaces framework to study the evolution of tumors under therapy, single cell genomic data, and influenza evolution.
-In particular, we have observed that the distributions of sample trees from genomic data can inform influenza vaccine efficacy in future seasons.
+In particular, we have observed that the distributions of sample trees from genomic data can inform influenza vaccine effectiveness in future seasons.
 The next step will be to find more expressive summarizations of distributions for framing prediction tasks.
-As sampling populations of viruses and cells become more extensive, we anticipate many problem statements amenable to the moduli framework.
+As sampling populations of viruses and cells become more extensive, we anticipate many genomic based problem statements amenable to the moduli framework.
+
+\par
 
 Code associated with this work can be obtained at https://github.com/RabadanLab.
 
@@ -1087,45 +1124,6 @@ This work is supported by a TL1 personalized medicine fellowship (5TL1TR000082),
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\section{Supplementary Analysis}
 
-%\subsection{Evolution of chronic lymphocytic leukemia under therapy}
-%
-%Chronic lymphocytic leukemia (CLL) is the most common leukemia in adults, primarily affecting the elderly population (median age at diagnosis is 70).~\cite{smith2011incidence}
-%CLL is a proliferative disorder of B-lymphoctyes characterized by a steady accumulation of clonal, non-functional B-cells.
-%Treatment strategies vary greatly given the heterogeneity in disease course, ranging from watchful waiting, to localized radiation, to systemic chemotherapy.
-%The fact that CLL is a relatively indolent malignancy makes it an excellent model for studying clonal evolution under different therapeutic strategies.~\cite{wang2015tumor}  
-%A recent genomic study~\cite{landau2013evolution} performed WES on 160 CLL cases covering the spectrum of clinical courses the disease can take.
-%This data established a space of recurrent alterations, which was then used to genotype 18 patients for whom two time points were available.
-%Of these 18 patients, 10 of 12 treated with chemotherapy underwent clonal evolution compared to only 1 of 6 receiving no treatment according to the authors of the study.
-%We combine the 18 patients of \cite{landau2013evolution} with those of a similar study~\cite{schuh2012monitoring} wherein 3 CLL patients received chemotherapy and were sequenced at multiple time points.
-%The multiple time points for the 3 patients studied in \cite{schuh2012monitoring} are decomposed into all combinatorial triplets.
-%Therefore, there are a total of 18 phylogenetic trees inferred from \cite{landau2013evolution} and 12 phylogenetic trees inferred from \cite{schuh2012monitoring}.
-%In Figure \ref{fig:chemoCLL}, we map this data to $\mathbb{P}\Sigma_3$ and color based on treatment status.
-%
-%\begin{figure}
-%    \begin{subfigure}{0.5\linewidth}
-%    \centering
-%    \includegraphics[height=2.2in]{../figures/CLL_triplet.png}
-%    \end{subfigure}
-%    ~
-%    \begin{subfigure}{0.5\linewidth}
-%    \centering
-%    \includegraphics[height=2.2in]{../figures/CLL_histogram.pdf}
-%    \end{subfigure}
-%
-%    \caption{{\bf Different evolutionary patterns observed in CLL.} (Left) In patients that did not receive chemotherapy the tumor genome did not change. Tumors from these patients, represented in green, shared most mutations along different time points. However, under therapy (shown in red) mutations before therapy were not present after treatment, and new mutations were acquired. (Right) The proportion of mutations shared between time points is significantly lower among patients treated with chemotherapy ($p = 0.049$, log-rank test).}
-%    \label{fig:chemoCLL}
-%\end{figure}
-%
-%From a clinical standpoint, a central question is whether treatment promotes evolution of the cancer and whether there is strong evidence for avoiding cytotoxic therapy in patient management.
-%Quite clearly the distribution of 6 untreated patients resembles a pattern (in green) forms a tight cluster, indicating that tumors from patients who did not received therapy are stable genetically, sharing most of the mutations.
-%However, in red are represented the histories of tumors of 15 patients under therapy, presenting some mutations at different times that are not shared across different samples.
-%The ratio between the number of mutations that are exclusive in the early branch versus the ones that are share with other phases is represented in right hand side of figure \ref{fig:chemoCLL}.
-%A number close to zero indicates a genetically stable tumor.
-%To assess if the clonal histories how different are the clonal histories of tumors from untreated vs treated patients, we studied the distance between the centroids of the two populations.
-%The 95\% CI for the distance between the centroids of the treated / untreated groups is (0.15, 0.36), under 1000-fold bootstrap resampling.
-%The analogous intervals for untreated / untreated and treated / treated are (0.01, 0.14) and (0.02, 0.16) respectively.
-%This analysis shows that the centroids of these clinically distinct sets of patients are well-resolved, supporting the idea that untreated tumors are more stable than treated ones, where district mutations can appear along the evolution of the tumor.
 
 \end{document}
