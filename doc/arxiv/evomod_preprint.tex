@@ -54,13 +54,12 @@ In other circumstances one faces heavily populated phylogenetic trees, where it 
 Recently, an elegant geometric approach has been introduced that allows a systematic comparison of different evolutionary histories.
 Building upon the description of the geometric properties of space of trees by Billera-Holmes-Vogtman and Sturm, we review in detail the relevant mathematical and computational foundations for applying standard techniques from machine learning and statistical inference in these spaces, which we refer to as evolutionary moduli spaces.
 We then introduce {\em tree dimensionality reduction}, a structured approach to reducing complex phylogenetic trees to a set of projections.
-We explain the theoretical properties of this procedure and describe how performing statistical analysis in these projections one can visualize different evolutionary behaviors.
+We explain the theoretical properties of this procedure and study different evolutionary behaviors by performing statistical analysis in these projections.
 
 %Using synthetic datasets, we validate statistical inference methods such as supervised and unsupervised learning, model selection, and estimating bootstrap confidence intervals.
-We show the use of these geometric techniques in a series of biological examples, including the evolution of cancers and the spread of infectious diseases.
-We study first the disruption of evolutionary trajectories by therapy in chronic lymphocytic leukemias, and the strong association between geometric information and the grade of relapse in low-grade gliomas.
-Then, we discuss the use of these geometric techniques in single-cell genomic data to systematically identify clonal replacement events in cancer.
-
+A series of three biologically motivated examples are presented, spanning cancer and infectious disease.
+The first examines a link between geometric information and the histologic grade in relapsed gliomas, where longer relapse branches were specific to high grade glioma.
+The second concerns genetic stability of xenograft models of cancer, where heterogeneity at the single cell level increased with later mouse passages.
 Finally, we decompose 24 years of longitudinally collected H3N2 hemagglutinin sequences into distributions of smaller trees spanning between three and five seasons.
 A negative correlation is observed between the influenza vaccine efficacy during a season and the variance of the set trees constructed constructed using the preceding seasons' sequence data.
 This provides an estimate of influenza vaccine efficacy using genomic data. 
@@ -876,22 +875,23 @@ The stability results above easily imply stability results for the associated ba
 
 \section{Clinical utility of longitudinal tumor genomics}\label{sec:cancer}
 
-Progression of cancer is believed to be intimately related to the accumulation of genomic alterations in tumor cells.
+Progression of cancer is believed to be intimately related to the accumulation of genomic alterations in tumor cells \cite{nowell1976clonal}.
 Mutations can spur proliferation, either via activation of an oncogene or inactivation of a tumor suppressor.
 A first step towards personalizing cancer therapy is to monitor the mutational status of patients along the therapeutic course.
 Genomic snapshots before and after administration of cytotoxic therapy can reveal the extent of population remodeling.
 A further goal is to establish \textit{in vivo} mouse models of every patient's tumor, as a means of rapidly exploring drug susceptibility and resistance.
 Such models can be created by direct implantation of primary tumor tissue into immunodeficient mice and are termed patient-derived xenografts (PDX). 
 
+This formulation allows the use of the mathematical machinery described in this manuscript in a systematic fashion.
+To illustrate the use we have chosen a medically relevant problem, how therapy affects the evolution of cancer.
+Using public data from chronic lymphocytic leukemia and relapsed glioma, we highlight clinical correlates to the spatial distribution of patients in the moduli space.
+
+\subsection{Tree geometry associated with grade at relapse in gliomas}
+
 The spatial and temporal heterogeneity of tumors can be addressed by reconstructing the evolutionary history of tumors from different samples.
 For each location and time point, one can define (partially or totally) the genotype of the dominant clone.
 As the evolution proceeds in a clonal fashion, the relationships between dominant clones can be structured as a phylogenetic tree.
 Questions about the nature of the evolutionary process, mechanisms of resistance, stratification of patient tumor histories, or prognosis can be formulated as a comparison between sets of trees.
-This formulation allows the use of the mathematical machinery described in this manuscript in a systematic fashion.
-To illustrate the use we have chosen a medically relevant problem, how therapy affects the evolution of cancer.
-Using public data from chronic lymphocytic leukemia and relaped glioma, we highlight clinical correlates to the spatial distribution of patients in the moduli space.
-
-\subsection{Tree geometry associated with grade at relapse in gliomas}
 
 We first examine low grade gliomas (LGG), a set of tumors of the central nervous system most often involving astrocytes or oligodendrocytes.
 They are distinguised from high grade gliomas (III, IV), such as glioblastoma multiforme, by the absence of anaplasia and have a more favorable prognosis.
@@ -1089,43 +1089,43 @@ This work is supported by a TL1 personalized medicine fellowship (5TL1TR000082),
 
 \section{Supplementary Analysis}
 
-\subsection{Evolution of chronic lymphocytic leukemia under therapy}
-
-Chronic lymphocytic leukemia (CLL) is the most common leukemia in adults, primarily affecting the elderly population (median age at diagnosis is 70).~\cite{smith2011incidence}
-CLL is a proliferative disorder of B-lymphoctyes characterized by a steady accumulation of clonal, non-functional B-cells.
-Treatment strategies vary greatly given the heterogeneity in disease course, ranging from watchful waiting, to localized radiation, to systemic chemotherapy.
-The fact that CLL is a relatively indolent malignancy makes it an excellent model for studying clonal evolution under different therapeutic strategies.~\cite{wang2015tumor}  
-A recent genomic study~\cite{landau2013evolution} performed WES on 160 CLL cases covering the spectrum of clinical courses the disease can take.
-This data established a space of recurrent alterations, which was then used to genotype 18 patients for whom two time points were available.
-Of these 18 patients, 10 of 12 treated with chemotherapy underwent clonal evolution compared to only 1 of 6 receiving no treatment according to the authors of the study.
-We combine the 18 patients of \cite{landau2013evolution} with those of a similar study~\cite{schuh2012monitoring} wherein 3 CLL patients received chemotherapy and were sequenced at multiple time points.
-The multiple time points for the 3 patients studied in \cite{schuh2012monitoring} are decomposed into all combinatorial triplets.
-Therefore, there are a total of 18 phylogenetic trees inferred from \cite{landau2013evolution} and 12 phylogenetic trees inferred from \cite{schuh2012monitoring}.
-In Figure \ref{fig:chemoCLL}, we map this data to $\mathbb{P}\Sigma_3$ and color based on treatment status.
-
-\begin{figure}
-    \begin{subfigure}{0.5\linewidth}
-    \centering
-    \includegraphics[height=2.2in]{../figures/CLL_triplet.png}
-    \end{subfigure}
-    ~
-    \begin{subfigure}{0.5\linewidth}
-    \centering
-    \includegraphics[height=2.2in]{../figures/CLL_histogram.pdf}
-    \end{subfigure}
-
-    \caption{{\bf Different evolutionary patterns observed in CLL.} (Left) In patients that did not receive chemotherapy the tumor genome did not change. Tumors from these patients, represented in green, shared most mutations along different time points. However, under therapy (shown in red) mutations before therapy were not present after treatment, and new mutations were acquired. (Right) The proportion of mutations shared between time points is significantly lower among patients treated with chemotherapy ($p = 0.049$, log-rank test).}
-    \label{fig:chemoCLL}
-\end{figure}
-
-From a clinical standpoint, a central question is whether treatment promotes evolution of the cancer and whether there is strong evidence for avoiding cytotoxic therapy in patient management.
-Quite clearly the distribution of 6 untreated patients resembles a pattern (in green) forms a tight cluster, indicating that tumors from patients who did not received therapy are stable genetically, sharing most of the mutations.
-However, in red are represented the histories of tumors of 15 patients under therapy, presenting some mutations at different times that are not shared across different samples.
-The ratio between the number of mutations that are exclusive in the early branch versus the ones that are share with other phases is represented in right hand side of figure \ref{fig:chemoCLL}.
-A number close to zero indicates a genetically stable tumor.
-To assess if the clonal histories how different are the clonal histories of tumors from untreated vs treated patients, we studied the distance between the centroids of the two populations.
-The 95\% CI for the distance between the centroids of the treated / untreated groups is (0.15, 0.36), under 1000-fold bootstrap resampling.
-The analogous intervals for untreated / untreated and treated / treated are (0.01, 0.14) and (0.02, 0.16) respectively.
-This analysis shows that the centroids of these clinically distinct sets of patients are well-resolved, supporting the idea that untreated tumors are more stable than treated ones, where district mutations can appear along the evolution of the tumor.
+%\subsection{Evolution of chronic lymphocytic leukemia under therapy}
+%
+%Chronic lymphocytic leukemia (CLL) is the most common leukemia in adults, primarily affecting the elderly population (median age at diagnosis is 70).~\cite{smith2011incidence}
+%CLL is a proliferative disorder of B-lymphoctyes characterized by a steady accumulation of clonal, non-functional B-cells.
+%Treatment strategies vary greatly given the heterogeneity in disease course, ranging from watchful waiting, to localized radiation, to systemic chemotherapy.
+%The fact that CLL is a relatively indolent malignancy makes it an excellent model for studying clonal evolution under different therapeutic strategies.~\cite{wang2015tumor}  
+%A recent genomic study~\cite{landau2013evolution} performed WES on 160 CLL cases covering the spectrum of clinical courses the disease can take.
+%This data established a space of recurrent alterations, which was then used to genotype 18 patients for whom two time points were available.
+%Of these 18 patients, 10 of 12 treated with chemotherapy underwent clonal evolution compared to only 1 of 6 receiving no treatment according to the authors of the study.
+%We combine the 18 patients of \cite{landau2013evolution} with those of a similar study~\cite{schuh2012monitoring} wherein 3 CLL patients received chemotherapy and were sequenced at multiple time points.
+%The multiple time points for the 3 patients studied in \cite{schuh2012monitoring} are decomposed into all combinatorial triplets.
+%Therefore, there are a total of 18 phylogenetic trees inferred from \cite{landau2013evolution} and 12 phylogenetic trees inferred from \cite{schuh2012monitoring}.
+%In Figure \ref{fig:chemoCLL}, we map this data to $\mathbb{P}\Sigma_3$ and color based on treatment status.
+%
+%\begin{figure}
+%    \begin{subfigure}{0.5\linewidth}
+%    \centering
+%    \includegraphics[height=2.2in]{../figures/CLL_triplet.png}
+%    \end{subfigure}
+%    ~
+%    \begin{subfigure}{0.5\linewidth}
+%    \centering
+%    \includegraphics[height=2.2in]{../figures/CLL_histogram.pdf}
+%    \end{subfigure}
+%
+%    \caption{{\bf Different evolutionary patterns observed in CLL.} (Left) In patients that did not receive chemotherapy the tumor genome did not change. Tumors from these patients, represented in green, shared most mutations along different time points. However, under therapy (shown in red) mutations before therapy were not present after treatment, and new mutations were acquired. (Right) The proportion of mutations shared between time points is significantly lower among patients treated with chemotherapy ($p = 0.049$, log-rank test).}
+%    \label{fig:chemoCLL}
+%\end{figure}
+%
+%From a clinical standpoint, a central question is whether treatment promotes evolution of the cancer and whether there is strong evidence for avoiding cytotoxic therapy in patient management.
+%Quite clearly the distribution of 6 untreated patients resembles a pattern (in green) forms a tight cluster, indicating that tumors from patients who did not received therapy are stable genetically, sharing most of the mutations.
+%However, in red are represented the histories of tumors of 15 patients under therapy, presenting some mutations at different times that are not shared across different samples.
+%The ratio between the number of mutations that are exclusive in the early branch versus the ones that are share with other phases is represented in right hand side of figure \ref{fig:chemoCLL}.
+%A number close to zero indicates a genetically stable tumor.
+%To assess if the clonal histories how different are the clonal histories of tumors from untreated vs treated patients, we studied the distance between the centroids of the two populations.
+%The 95\% CI for the distance between the centroids of the treated / untreated groups is (0.15, 0.36), under 1000-fold bootstrap resampling.
+%The analogous intervals for untreated / untreated and treated / treated are (0.01, 0.14) and (0.02, 0.16) respectively.
+%This analysis shows that the centroids of these clinically distinct sets of patients are well-resolved, supporting the idea that untreated tumors are more stable than treated ones, where district mutations can appear along the evolution of the tumor.
 
 \end{document}
