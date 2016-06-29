@@ -134,7 +134,7 @@ Motivated by several biological applications, we will introduce a projective ver
 In Section~\ref{sec:ML}, we give an overview of the application of standard machine learning and statistical inference techniques in these spaces.
 In Section~\ref{sec:treedimred}, we will also introduce the concept of tree dimensionality reduction as a means to visualize and study densely populated trees.
 %In Section~\ref{sec:simulated}, we evaluate our methodology using synthetic data, and In the last two chapters, we will discuss two sets of biologically relevant examples.
-In Section~\ref{sec:cancer}, we report the predictive power of evolutionary moduli spaces using cancer genomic data, and in Section~\ref{sec:xeno_flu}, we study complex trees whose lower dimensional projections readily represent and capture interesting biological phenomena such as clonal replacement events.
+In Section~\ref{sec:cancer}, we report the predictive power of evolutionary moduli spaces using cancer genomic data, and in Section~\ref{sec:flu}, we study complex trees whose lower dimensional projections readily represent and capture interesting biological phenomena such as clonal replacement events.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -573,7 +573,7 @@ An edge $e$ created by vertex deletion is assigned weight $w_1 + w_2$, where the
 (It is easy to check that the order of vertex deletion does not change the resulting tree.)
 \end{definition}
 
-A representative example of $\Psi_S$ is shown in figure~\ref{fig:dimred}.
+A representative example of $\Psi_S$ is shown in figure~\ref{fig:dimred_tree-dim-red}.
 Ignoring the weights, $\Psi_S$ has a very simple description in terms of an operation on the regular $n$-gon corresponding to a tree $T \in \Sigma_n$.
 Specifically, $\Psi_S$ deletes the external edges corresponding to leaves not in $S$, identifying chords that are connected by a deleted edge.
 Note that an extra collapse is required when all of the leaves on the right side of the root are removed.
@@ -582,9 +582,9 @@ This procedure is depicted in a step-wise fashion in Figure \ref{fig:dimred_def2
 
 \begin{figure}
     \centering
-    \includegraphics[width=6in]{../figures/tree-dim-red-fig.pdf}
+    \includegraphics[width=6in]{../figures/dimred_tree-dim-red.pdf}
     \caption{{\bf Tree dimensionality reduction.} The leaves that are not highlighted in the starting phylogeny are pruned and their external edges removed; internal vertices of degree $2$ are collapsed and edge weights on either side are summed.}
-    \label{fig:dimred}
+    \label{fig:dimred_tree-dim-red}
 \end{figure} 
 
 \begin{figure}
@@ -871,8 +871,6 @@ The stability results above easily imply stability results for the associated ba
 %Population bottlenecks are crudely implemented by seeding a second simulations with a single member drawn from a time slice of the first simulation.
 %Bulk sequencing of the population can be approximated by sampling only the most prevalent genotype at a given time slice.
 
-
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -895,12 +893,12 @@ Using public data from chronic lymphocytic leukemia and relaped glioma, we highl
 
 \subsection{Tree geometry associated with grade at relapse in gliomas}
 
-Next, we will study low grade gliomas (LGG), a set of tumors of the central nervous system most often involving astrocytes or oligodendrocytes.
+We first examine low grade gliomas (LGG), a set of tumors of the central nervous system most often involving astrocytes or oligodendrocytes.
 They are distinguised from high grade gliomas (III, IV), such as glioblastoma multiforme, by the absence of anaplasia and have a more favorable prognosis.
 Surgery alone is not considered curative for LGG and patients are typically treated with adjuvant radiation therapy, chemotherapy, or both.
 If a patient relapses, the tumor may be observed to have a higher grade at that time.
 Johnson \textit{et al.} studied a cohort of 23 LGG patients who relapsed, many of whom were treated with the chemotherapeutic agent temozolamide (TMZ).~\cite{johnson2014mutational}
-WES was performed on tumor tissue at diagnosis and at relapse in an effort to characterize the evolution of recurrent glioma.
+Whole exome sequencing was performed on tumor tissue at diagnosis and at relapse in an effort to characterize the evolution of recurrent glioma.
 
 \begin{figure}
     \begin{subfigure}{0.5\linewidth}
@@ -975,18 +973,19 @@ This raises interesting questions about the long-term fidelity of PDX vehicles t
 \section{Detecting new dominant strains in seasonal influenza}\label{sec:flu}
 
 Large phylogenetic trees are often too complex to interpret, while lower dimensional representations enable facile visualization and can capture important phenomena in the data.
-The approach we present here is based on sub-sampling of a larger structure and performing statistical analysis in lower dimensional projections.
+The approach we present here is based on subsampling of a larger structure and performing statistical analysis in lower dimensional projections.
 By decomposing a large tree into distributions of smaller trees we derive two principal advantages.
 First, one can easily visualize, interpret, and statistically quanitfy different types of evolutionary relationships.
 Second, one avoids the problem of scalability of phylogenetic algorithms with the number of leaves.
 In this section we will be looking for dynamics in the circulating hemagglutinin sequences of seasonal H3N2 influenza, specifically by performing our tree dimensionality reduction procedure.
 
-
 Influenza A is an RNA virus that infects every year approximately 5--10\% in adults and 20--30\% in children (W.H.O. http://www.who.int/biologicals/vaccines/influenza/en) leading to more than half a million flu associated deaths.
 Vaccination against the virus remains a major way of preventing morbidity.
 The virus genome however evolves rapidly changing the antigenic presentation of proteins that are in the envelop of the virus, mostly haemagglutinin (HA).
-These continuous antigenic changes, sometimes referred as antigenic drift, could lead to failures in vaccine efficacy.
-The design of influenza vaccine is based on samples of previous years under the assumption that virus in the coming season will be antigenically similar to most recent circulating strains.
+These continuous antigenic changes, often referred as antigenic drift, can lead to failures in vaccine efficacy.
+The design of the influenza vaccine is based on collected isolates of previous years, leaning heavily on the results of hemagglutinin inhibition (HI) assays to detect drift variants.
+The great majority of H3N2 isolates are only analyzed antigenically via HI assay, with approximately 10\% of viruses undergoing genetic sequencing of the HA segment.~\cite{russell2008influenza}
+
 This is a very strong assumption, as relatively small genetic changes in the genome of the virus can cause drastic antigenic changes.
 Influenza vaccine failures can be associated with the emergence of new clones with novel antigenic properties that have replaced recent circulating strains.
 Here we study how the emergence of a novel subclone could be identified by the unusual/unexpected tree structures.
@@ -1020,10 +1019,11 @@ Reassortment of seasonal strains can also contribute to vaccine failure as low f
 In particular, reassortment of two H3N2 clades during the 2002-2003 season resulted in a major epidemic and higher incidents of vaccine failure in the succeeding season.~\cite{centers2004preliminary}
 
 Using 1,089 full length sequences of hemmagglutinin collected in New York state between 1993 and 2016, we relate HA sequences from one season to those from the preceeding ones.
-We randomly select three, four, or five consecutive seasons to form a temporal window, and use neighbor-joining on hamming distance to generate sets of unrooted trees.
-The case of length five winows is illustrated in \ref{fig:flu_quint}, where we superimpose each temporal slice onto the same moduli space.
-The majority subsampled trees show linear evolution of HA from one season to another, indicating genetic drift as the virus's dominant evolutionary process.
-Certain windows yield well resolved clusters of trees, while others display a highly dispersed point cloud.
+We randomly select sets of HAs such that a single isolate is drawn from each of three, four, or five consecutive seasons to form a temporal window.
+Neighbor-joining with a Hamming metric is used to generate unrooted trees from the temporally ordered tuples of HA isolates.
+The case of length five windows is illustrated in \ref{fig:flu_quint}, where we superimpose each temporal slice onto the same moduli space.
+The vast majority of subsampled trees show linear evolution of HA from one season to another, indicating genetic drift as the virus's dominant evolutionary process.
+Certain windows yield well resolved clusters of trees, while others are dispersed point clouds.
 Either scenario might be indiciative of elevated diversity in the HA segment or clonal replacement event underway.
 The window ending in the 2003-2004 season shows a clear reemergence of strains in 2003-2004 that were genetically similar to those circulating in the 1999-2000 season. \cite{holmes2005whole}
 
@@ -1053,7 +1053,6 @@ The correlation between variance of tree distributions and vaccine efficacy allo
     \label{fig:flu_VE}
 \end{figure} 
 
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -1063,16 +1062,12 @@ Phylogenetic trees remain one of the most useful representations of evolutionary
 As the number of leaves grows, these trees could be very complex with thousands of branches complicating visualization and unsupervised learning approaches.
 Other times, trees representing different but related processes need to be compared.
 We show that these two kinds of problems can be understood within a simple framework, where each tree is represented by a point in what we refer to as evolutionary moduli spaces.
-We show how to reduce complex trees to a large collections of small trees amenable to statistical and machine learning approaches.
+We show how to reduce complex trees to a large collections of small trees amenable to statistical approaches.
 
-There are many open questions related to evolutionary moduli spaces.
-One question is how to define useful probability distributions, such as those of the exponential family, on $\Sigma_m$.
-The k--means algorithm demonstrated earlier, for example, can be thought of as a limiting case of hard assignment in a mixture of $k$ Gaussian densities.
-Any attempt at soft assignment of patients to an underlying probabilistic clustering model would necessarily rely upon well defined notions of distributions in $\Sigma_m$.
-Defining distributions on $\Sigma_m$ would open a more direct communication between evolutionary moduli spaces and the field of generative modeling.
-One potentially fruitful approach for approximating probability densities such as the normal distribution is to simulate diffusive processes in $\Sigma_m$, taking advantage of the relationship between random walks and their limiting distributions.
-
-We have applied the evolutionary moduli spaces framework to study the evolution of tumors under therapy, single cell genomic data, and influenza evolution. In particular, we have observed that the distributions of sample trees from genomic data can inform influenza vaccine efficacy in future seasons. The next step will be to find more expressive summarizations of distributions for framing prediction tasks. As sampling populations of viruses and cells become more extensive, we anticipate many problem statements amenable to the moduli framework.
+We have applied the evolutionary moduli spaces framework to study the evolution of tumors under therapy, single cell genomic data, and influenza evolution.
+In particular, we have observed that the distributions of sample trees from genomic data can inform influenza vaccine efficacy in future seasons.
+The next step will be to find more expressive summarizations of distributions for framing prediction tasks.
+As sampling populations of viruses and cells become more extensive, we anticipate many problem statements amenable to the moduli framework.
 
 Software can be obtained at https://github.com/RabadanLab.
 
@@ -1092,7 +1087,9 @@ This work is supported by a TL1 personalized medicine fellowship (5TL1TR000082),
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\subsection{Supplementary: evolution of chronic lymphocytic leukemia under therapy}
+\section{Supplementary Analysis}
+
+\subsection{Evolution of chronic lymphocytic leukemia under therapy}
 
 Chronic lymphocytic leukemia (CLL) is the most common leukemia in adults, primarily affecting the elderly population (median age at diagnosis is 70).~\cite{smith2011incidence}
 CLL is a proliferative disorder of B-lymphoctyes characterized by a steady accumulation of clonal, non-functional B-cells.
@@ -1117,7 +1114,7 @@ In Figure \ref{fig:chemoCLL}, we map this data to $\mathbb{P}\Sigma_3$ and color
     \includegraphics[height=2.2in]{../figures/CLL_histogram.pdf}
     \end{subfigure}
 
-    \caption{{\bf Different evolutionary patterns observed in CLL.} (Left) In patients that did not receive chemotherapy the  tumor genome did not change. Tumors from these patients, represented in green, shared most mutations along different time points. However, under therapy (shown in red) mutations before therapy were not present after treatment, and new mutations were acquired. (Right) The proportion of mutations shared between time points is significantly lower among patients treated with chemotherapy ($p = 0.049$, log-rank test).}
+    \caption{{\bf Different evolutionary patterns observed in CLL.} (Left) In patients that did not receive chemotherapy the tumor genome did not change. Tumors from these patients, represented in green, shared most mutations along different time points. However, under therapy (shown in red) mutations before therapy were not present after treatment, and new mutations were acquired. (Right) The proportion of mutations shared between time points is significantly lower among patients treated with chemotherapy ($p = 0.049$, log-rank test).}
     \label{fig:chemoCLL}
 \end{figure}
 
