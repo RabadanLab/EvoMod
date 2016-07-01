@@ -30,7 +30,7 @@
 
 \begin{document}
 
-\title{Machine learning and dimensionality reduction in tree spaces}
+\title{Analyzing genomic data using tree spaces}
 
 \author{Sakellarios Zairis$^{1}$, Hossein Khiabanian$^{1,\dagger}$, Andrew J. Blumberg$^{2}$, and Raul Rabadan$^{1}$\\
 \\
@@ -46,24 +46,26 @@ $^\dagger$ Present address: Rutgers Cancer Institute, Rutgers University\\}
 
 \begin{abstract}
 
-Phylogenetic trees are arguably the most common representations of evolutionary processes, including the characterization of pathogen spread, the relation between different species and the evolution of cancers.
-Studying these evolutionary processes often involves the generation of densely populated phylogenetic trees, or the comparison between different trees.
-For instance, one could be interested in comparing the evolutionary trajectories of tumors in different patients to study the differential response to therapy.
-In other circumstances one faces heavily populated phylogenetic trees, where it is cumbersome to visualize and perform statistical inferences.
+Phylogenetic trees are arguably the most common representation of evolutionary processes; for example, they have been used to characterize pathogen spread, the relationship between different species, and the evolution of cancers.
+Comparison between different trees is a key part of the analysis of evolutionary phenomena in this framework.
+For instance, one might compare the evolutionary trajectories of tumors in different patients to study the differential response to therapy.
 
-Recently, an elegant geometric approach has been introduced that allows a systematic comparison of different evolutionary histories.
-Building upon the description of the geometric properties of space of trees by Billera-Holmes-Vogtman and Sturm, we review in detail the relevant mathematical and computational foundations for applying standard techniques from machine learning and statistical inference in these spaces, which we refer to as evolutionary moduli spaces.
-We then introduce {\em tree dimensionality reduction}, a structured approach to reducing complex phylogenetic trees to a set of projections.
-We explain the theoretical properties of this procedure and study different evolutionary behaviors by performing statistical analysis in these projections.
+Recently, an elegant approach has been introduced by Billera-Holmes-Vogtmann that allows a systematic comparison of different evolutionary histories using the metric geometry of tree spaces.
+We begin by reviewing in detail the relevant mathematical and computational foundations for applying standard techniques from machine learning and statistical inference in these spaces, which we refer to as evolutionary moduli spaces.
+
+For some problems one encounters heavily populated phylogenetic trees with many leaves; in these cases, it is very cumbersome to visualize and analyze the relevant evolutionary moduli spaces.
+To address this issue, we introduce {\em tree dimensionality reduction}, a structured approach to reducing large and complex phylogenetic trees to a distribution of smaller trees.
+We prove a stability theorem ensuring that small perturbations of the large trees are taken to small perturbations of the resulting distributions.
 
 %Using synthetic datasets, we validate statistical inference methods such as supervised and unsupervised learning, model selection, and estimating bootstrap confidence intervals.
-A series of four biologically motivated examples are presented, spanning cancer and infectious disease.
-The first establishes that chemotherapy can disrupt the evolution of common leukemias. The second examines a link between geometric information and the histologic grade in relapsed gliomas, where longer relapse branches were specific to high grade glioma.
+We then present a series of four biologically motivated applications to the analysis of genomic data, spanning cancer and infectious disease.
+The first quantifies how chemotherapy can disrupt the evolution of common leukemias. 
+The second examines a link between geometric information and the histologic grade in relapsed gliomas, where longer relapse branches were specific to high grade glioma.
 The third concerns genetic stability of xenograft models of cancer, where heterogeneity at the single cell level increased with later mouse passages.
-Finally, we decompose 24 years of longitudinally collected H3N2 hemagglutinin sequences into distributions of smaller trees spanning between three and five seasons.
-A negative correlation is observed between the influenza vaccine effectiveness during a season and the variance of the set trees constructed constructed using the preceding seasons' sequence data.
-This provides an estimate of influenza vaccine effectiveness using genomic data. 
-The evolutionary moduli space approach provides an insightful geometric framework to visualize and extract statistical patterns from large collections of genomic data across diverse evolutionary problems.
+The last studies genetic diversity in the flu virus.  
+We apply tree dimensionality reduction to project 24 years of longitudinally collected H3N2 hemagglutinin sequences into distributions of smaller trees spanning between three and five seasons.
+A negative correlation is observed between the influenza vaccine effectiveness during a season and the variance of the distributions produced using preceding seasons' sequence data.
+Thus, we obtain an estimate of influenza vaccine effectiveness using genomic data. 
 
 \end{abstract}
 \newpage
