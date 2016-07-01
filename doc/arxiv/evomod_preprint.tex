@@ -77,30 +77,53 @@ Thus, we obtain an estimate of influenza vaccine effectiveness using genomic dat
 \section{Introduction}
 
 The importance of phylogenetic tree structures in biological sciences cannot be overstated.
-In 1859, Charles Darwin proposed the tree as a metaphor for the process of species generation through branching of ancestral lineages~\cite{darwin1859origin}.
-Since, tree structures have been used pervasively in biology, where terminal branches have represented a diverse set of biological entities and taxonomic units: from individual or families of genes, to organisms, populations of related organisms, species, genera, or higher taxa.
-Recently, the widespread use of trees have been questioned on the grounds that some biological taxa are not the results of simple branching processes \cite{doolittle1999phylogenetic, chan2013topology}, as fairly distant branches could exchange genomic material.
+In 1859, Charles Darwin proposed the tree as a metaphor for the
+process of species generation through branching of ancestral
+lineages~\cite{darwin1859origin}.  Since then, tree structures have
+been used pervasively in biology, where terminal branches can
+represent a diverse set of biological entities and taxonomic units
+including individual or families of genes, organisms, populations of
+related organisms, species, genera, or higher taxa.
 
-A large set of evolutionary processes are, however, captured well by tree-like structures.
-In particular, clonal evolution events that start from asexual reproduction of a single organism (primordial clone), which mutates and differentiates into a large progeny (see figure \ref{fig:illustration_1}).~\cite{khiabanian2014viral}
-Examples of these processes include single gene phylogeny in non-recombinant viruses, bacteria that are not involved in horizontal gene transfer events, and metazoon development from a single germ cell.
-The recent developments in genomics have allowed the study of such events in exquisite detail, particularly at single cell/clone levels \cite{navin2011tumour, shalek2013single, eirew2014dynamics}.
+Although the widespread use of trees has been recently questioned on the grounds that some biological taxa are not the results of simple branching processes \cite{doolittle1999phylogenetic, chan2013topology}, a large set of evolutionary processes are well captured by tree-like structures.
+In particular, trees describe clonal evolution events that start from asexual reproduction of a single organism (the primordial clone), which mutates and differentiates into a large progeny (see figure \ref{fig:illustration_1})~\cite{khiabanian2014viral}.
+Examples of these processes include single gene phylogeny in
+non-recombinant viruses, evolution of bacteria that are not involved
+in horizontal gene transfer events, and metazoon development from a
+single germ cell.
+Recent developments in genomics allow the study of
+such events in exquisite detail, particularly at single cell/clone
+levels~\cite{navin2011tumour, shalek2013single, eirew2014dynamics}.
 
-An important example of clonal evolution can be observed in cancer where a single cell replicates and spreads beyond control.
-The answers to many clinical and biological questions involve investigating different phases of tumor's clonal evolution.
+An important example of clonal evolution can be observed in cancer where a single cell replicates and spreads uncontrollably.
+The answers to many clinical and biological questions involve investigating different phases of a tumor's clonal evolution.
 How do tumors originate?
 How do tumors spread?
-How a particular therapy may disrupt tumor evolution?
+How might a particular therapy disrupt tumor evolution?
 How does evolutionary information correlate with disease prognosis?
-How patients' tumors can be classified according to their evolutionary history?
-It is also necessary to assess the predictive value of genomic information, at a particular time, about subsequent events in tumor progression.
-If the evolution is believed to be highly linear, subsequent phases are expected to contain all the information at the current phase.
-On the other hand, if an ancestral clone gains resistance to therapy and dominates the long time evolution, very different shapes of trees compared to those from a linear process can be observed, where semi-extinct clones are replaced by fitter ones.
+How can patients' tumors be classified according to their evolutionary history?
+It is also essential to assess the value of genomic information measured at a particular time for predicting subsequent events in tumor progression.
+If the evolution of the tumor is believed to be highly linear, subsequent phases are expected to contain all the information present at the current phase.
+On the other hand, if an ancestral clone gains resistance to therapy and dominates the long-time evolution, very different shapes of trees compared to those from a linear process will be observed.
 
-Other sets of related problems arises when phylogenetic trees are so densely populated that hamper discerning distinct patterns that may emerge when only a few relevant leaves are considered.
-Relevance is, however, often unknown, and a way of pruning of complex trees into a simpler tree is essential to perform unbiased machine learning and statistical analysis.
-In other words, we would like to perform a ``tree dimensionality reduction'' procedure that preserves the tree structure.
-Such a methodology will be particularly applicable to study the evolution of a viral outbreak with thousands of isolates, or the genomic characterization of thousands of single cells.
+These and many other questions associated with clonal processes can be expressed in terms of comparing evolutionary histories.
+For instance, stratifying cancer patients according to their evolutionary history requires a way of comparing trees and associating summary statistics to clouds of trees. 
+In a recent paper~\cite{zairis2014moduli}, we proposed application of the metric geometry of the space of phylogenetic trees, constructed by Billera-Holmes-Vogtmann, to this problem. Here each history/patient is represented by a point in a space of trees.~\ref{fig:illustration_2}
+We referred to these tree spaces as ``evolutionary moduli spaces'', in which classifying histories translates into finding patterns within a point cloud.
+
+In this paper, we develop these applications in detail and introduce new machinery for dimensionality reduction.
+We begin by reviewing (in Section~\ref{sec:phylospace}) some of the fundamental notions regarding the geometry of evolutionary moduli spaces, following Billera-Holmes-Vogtman \cite{billera2001geometry}, Sturm \cite{sturm2003probability}, and our prior treatment~\cite{zairis2014moduli}.
+Motivated by several biological applications, we also introduce a projective version of these spaces and study some of their geometric properties.
+In Section~\ref{sec:ML}, we give an overview of the application of standard machine learning and statistical inference techniques in these spaces.  Applying these techniques, in Section~\ref{sec:cancer} we describe the interpretive power of evolutionary moduli spaces for studying cancer genomic data in three examples: evolution of chronic lymphocytic leukemia under therapy, grade at relapse in glioma, and clonal dynamics in patient-derived xenografts.  In each case, we find that representing the problem in terms of the evolutionary moduli spaces permits meaningful inference with clinical significance.
+
+The trees arising from clonal evolution in cancers tend to be quite small, since each leaf corresponds to a tissue sample from the tumor.
+However, when studying the evolution of a viral outbreak with thousands of isolates, or the genomic characterization of thousands of single cells, we expect very large trees.
+Visualization and analysis of large phylogenetic trees is problematic.
+In Section~\ref{sec:treedimred}, we introduce a procedure for ``tree dimensionality reduction'' as a means to visualize and study densely populated trees by projecting them onto distributions of smaller trees.
+We argue that the properties of these distributions capture salient information about the large trees.
+To support this contention, we provide both theoretical and experimental validation.
+We prove a ``stability'' theorem which bounds perturbation in the projected trees in terms of perturbation of the large tree; this implies in particular that the procedure is robust to certain kinds of noise.
+We also describe the use of tree dimensionality reduction to provide a novel genomic predictor for flu vaccine efficacy in Section~\ref{sec:flu}.
 
 \begin{figure}
     \begin{subfigure}{0.5\linewidth}
@@ -112,7 +135,7 @@ Such a methodology will be particularly applicable to study the evolution of a v
     \centering
     \includegraphics[height=3in]{../figures/illustration_longitudinal.pdf}
     \end{subfigure}
-    \caption{{\bf Clonal evolution of an asexually reproducing genome}. (a) Through acquisition of mutations, the primordial clone gives rise to a large heterogeneous population, whose evolutionary history can be accurately described by a tree. (b) Longitudinal sampling of a clonal population permits the construction of phylogenetic trees that approximate the underlying history. Subpopulations are represented in different colors; stochastic sampling of a particular genotype at each time point is illustrated in the color of the external branch in the tree; this tree is one of many that could be observed when sampling this population.}
+    \caption{{\bf Clonal evolution of an asexually reproducing genome}. (a) Through acquisition of mutations, the primordial clone gives rise to a large heterogeneous population, whose evolutionary history can be accurately described by a tree. (b) Longitudinal sampling of a clonal population permits the construction of phylogenetic trees that approximate the underlying history. Subpopulations are represented in different colors; stochastic sampling of a particular genotype at each time point is illustrated in the color of the external branch in the tree.  This tree is one of many that could be observed when sampling this population.}
      \label{fig:illustration_1}
 \end{figure}
 
@@ -120,22 +143,9 @@ Such a methodology will be particularly applicable to study the evolution of a v
 \begin{figure}
     \centering
     \includegraphics[height=3.5in]{../figures/illustration_BHV_5.png}
-    \caption{{\bf Moduli space of phylogenetic trees describing clonal evolution.} Collections of trees can be mapped onto a geometric space, forming a point cloud. Trees with the same topology will live in the same orthant, and crossing into an adjacent orthant corresponds to a tree rotation. Points closer to the vertex of the cone have relatively little internal branch length, while points near the base of the cone have little weight in the external branches.}
+    \caption{{\bf Moduli space of phylogenetic trees describing clonal evolution.} Collections of trees can be mapped into a geometric space, forming a point cloud. Trees with the same topology live in the same orthant, and crossing into an adjacent orthant corresponds to a tree rotation. Points closer to the vertex of the cone have relatively little internal branch length, while points near the base of the cone have little weight in the external branches.}
     \label{fig:illustration_2}
 \end{figure}
-
-These and many other questions associated with clonal processes can be expressed in terms of comparing evolutionary histories.
-For instance, stratifying cancer patients according to their evolutionary history requires a way of comparing trees and associating statistics to their distances.
-In a recent paper~\cite{zairis2014moduli}, we suggested a simple strategy to construct and study the properties of the space of all potential evolutionary histories, where each history/patient is represented by a point.~\ref{fig:illustration_2}
-We referred to these tree spaces as ``evolutionary moduli spaces'' in which classifying histories translates into finding patterns within a point cloud.
-
-In this manuscript, we present a set of techniques that allow machine learning, tree dimensionality reduction, and statistical inference in evolutionary moduli spaces.
-In Section~\ref{sec:phylospace}, we rapidly review some of the fundamental notions regarding the geometry of evolutionary moduli spaces, following Billera-Holmes-Vogtman \cite{billera2001geometry}, Sturm \cite{sturm2003probability}, and our prior work \cite{zairis2014moduli}.
-Motivated by several biological applications, we will introduce a projective version of these spaces and study some of their geometric properties.
-In Section~\ref{sec:ML}, we give an overview of the application of standard machine learning and statistical inference techniques in these spaces.
-In Section~\ref{sec:treedimred}, we will also introduce the concept of tree dimensionality reduction as a means to visualize and study densely populated trees.
-%In Section~\ref{sec:simulated}, we evaluate our methodology using synthetic data, and In the last two chapters, we will discuss two sets of biologically relevant examples.
-In Section~\ref{sec:cancer}, we report the predictive power of evolutionary moduli spaces using cancer genomic data, and in Section~\ref{sec:flu}, we study complex trees whose lower dimensional projections readily represent and capture interesting biological phenomena such as clonal replacement events.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
