@@ -829,16 +829,29 @@ One can ask the same question for other methods of producing
 phylogenetic trees; the situation is more complicated.
 \end{remark}
 
-\subsection{Stability of Tree dimensionality reduction}
+\subsection{Stability of tree dimensionality reduction}
 
-In order to validate these procedures, it is necessary to assess their stability under perturbation of the original data.
-For instance, we would like to know that small random perturbation of the original sample results in a distribution of subsamples that is ``close'' in some sense (e.g., small shifts in the centroid in $\Sigma_m$).
-Conversely, if two distributions of subsamples are suitably close, we would like to be able to conclude that the sampled trees are also close.
+In order to apply tree dimensionality reduction in the face of
+potentially noisy data, we would like to know that small random
+perturbation of the original sample results in a distribution of
+subsamples that is ``close'' in some sense (e.g., small shifts in the
+centroid in $\Sigma_m$).  Conversely, if two distributions of
+subsamples are suitably close, we would like to be able to conclude
+that the sampled trees are also close.
 
-We begin with a lemma describing the interaction of $\Psi_S$ and tree rotation.
-For a tree $T$, we say that a rotation $R$ on $T$ is completely contained in $\Psi_S(T)$ if $\Psi_S(T)$ contains the vertex of the rotation and all of the edges involved in the rotation.
-In terms of the convex $n$-gon corresponding to $T$, the rotation is completely contained in $\Psi_S(T)$ if and only if the quadrilateral corresponding to the rotation is present in the polygon corresponding to $\Psi_S(T)$.
-Denote by $\Psi_S(R)$ the induced rotation on $\Psi_S(T)$ if it is completely contained and the identity map otherwise.
+We begin with a lemma describing the interaction of $\Psi_S$ and tree
+rotation.  First, observe that $\Psi_S$ applied to a binary tree $T$
+produces either a binary tree or the trivial tree with a single edge;
+the degree of a vertex is never increased and degree $2$ vertices are
+collapsed.  For a binary tree $T$, we say that a rotation $R$ on $T$
+is completely contained in $\Psi_S(T)$ if $\Psi_S(T)$ contains the
+vertex of the rotation and all of the edges involved in the rotation.
+In terms of the convex $n$-gon corresponding to $T$, the rotation is
+completely contained in $\Psi_S(T)$ if and only if the quadrilateral
+corresponding to the rotation is present in the polygon corresponding
+to $\Psi_S(T)$.  Denote by $\Psi_S(R)$ the induced rotation on
+$\Psi_S(T)$ if it is completely contained and the identity map
+otherwise.
 
 \begin{lemma}\label{lem:rotprojcom}
 There is a canonical identification
@@ -853,18 +866,19 @@ Consider the polygon corresponding to $T$; if the rotation is not completely con
 On the other hand, if the rotation is completely contained, then the relevant quadrilateral is present in both $\Psi_S(T)$ and $T$, and so performing it before or after applying $\Psi_S$ does not change the result.
 \end{proof}
 
-The main technical fact we rely on is that for $S \subseteq \{1,\ldots,m\}$, the projection $\Psi_S$ preserves paths and the increase in length is bounded.
+The main technical fact controlling the behavior of $\Psi_S$ is that for $S \subseteq \{1,\ldots,m\}$, the projection $\Psi_S$ preserves paths and the increase in length is bounded.
 To understand the nature of the bound, we need to consider the impact of the addition of edge lengths that occurs when a degree 2 vertex is produced by the reduction process.
 In the simplest case, we are considering the map $\mathbb{R}^2 \to \mathbb{R}$ specified by $(x,y) \mapsto x+y$, and in general, we are looking at $\mathbb{R}^n \mapsto \mathbb{R}$ specified by $(x_1, x_2, \ldots, x_n) \mapsto \sum_{i=1}^n x_i$.
 Squaring both sides, it is clear that
 \[
-\partial_{\mathbb{R}^n}((x_i), (y_i))^2 \leq \partial_{\mathbb{R}}(\sum_{i=1}^n x_i, \sum_{i=1}^n y_i).
+\partial_{\mathbb{R}^n}((x_i), (y_i))^2 \leq \partial_{\mathbb{R}}(\sum_{i=1}^n x_i, \sum_{i=1}^n y_i)^2.
 \]
 On the other hand, since 
 \[
 \partial_{\mathbb{R}}(\sum_{i=1}^n x_i, \sum_{i=1}^n y_i) \leq n(\max_i |x_i - y_i|) \leq n \partial_{\mathbb{R}^n}((x_i), (y_i))^2,
 \]
-We find that the addition of edge lengths can result in an expansion bounded by the size of the sum.
+the addition of edge lengths can result in an expansion bounded by the
+size of the sum.
 
 \begin{remark}
 Another way to interpret the previous result is to observe that the addition map is an isometry for the Manhattan distance (when working in the positive orthant) but not for the Euclidean distance.
@@ -883,25 +897,43 @@ The length of the projected path in that orthant, by the discussion above, is bo
 Now suppose that $T$ and $T'$ are not in the same orthant and neither $T$ nor $T'$ is contained in a positive codimension subspace of $\aE_m$ (i.e., they are not on the boundary of any orthant).
 Further, we assume that $\gamma$ does not go through the origin.
 
-Then $\gamma$ can be expressed in terms of a finite list of tree rotations $(R_1, R_2, \ldots, R_k)$ and paths $(\gamma_1, \gamma_2, \ldots, \gamma_k)$ that describe the restriction of $\gamma$ to the orthant prior to the rotation $R_i$.
-Now, fix a subset $S \in \{1,\ldots,m\}$.
-The projection $\Psi_S(\gamma)$ yields a path $\gamma'$ from $\Psi_S(T)$ to $\Psi_S(T')$ in $\Sigma_{|S|}$ as follows.
-For each rotation $R_i$, either the rotation is completely contained within $\Psi_S(R_{i-1} R_{i-2} \ldots R_1 T)$ or at least one edge involved in the rotation is missing.
-We write $\Psi_S(R_i)$ for the rotation induced by the projection on $\Psi_S(R_{i-1} R_{i-2} \ldots R_1 T)$; if the rotation is not completely contained, we let $\Psi_S(R_i)$ be the identity map.
+Now, assume that $\gamma$ can be expressed in terms of a finite list
+of tree rotations $(R_1, R_2, \ldots, R_k)$ and paths $(\gamma_1,
+\gamma_2, \ldots, \gamma_k)$ that describe the restriction of $\gamma$
+to the orthant prior to the rotation $R_i$.  We can always arrange
+this by perturbing $\gamma$ by an infinitesimal amount; passing to
+limits, it will suffice to work in this case.
 
-Therefore, we obtain a sequence of rotations $\Psi_S(R_1), \Psi_S(R_2), \ldots, \Psi_S(R_k)$.
-By Lemma~\ref{lem:rotprojcom}, we conclude that this sequence specifies a path of tree rotations from $\Psi_S(T)$ to $\Psi_S(T')$.
-For the actual path in $\Sigma_{|S|}$, we simply observe that the projection of $\gamma_i$ to the restriction of the projected orthant specifies a path from $\Psi_S(R_{i-1} R_{i-2} \ldots R_1 T)$ to $\Psi_S(R_i R_{i-1} R_{i-2} \ldots R_1 T)$.
-This follows from the fact that the restriction of $\gamma_i$ specifies a path through the boundary of the orthant if and only if the corresponding rotation is completely contained.
-As above, the length of the projected path is bounded by $(\log_2 m) |\gamma_i|$.
-Summing, we find that the length of the projected path is bounded by $(\log_2 m) \sum_{i=1}^k |\gamma_i| = |\gamma'|$.
+Now, fix a subset $S \in \{1,\ldots,m\}$.  The projection
+$\Psi_S(\gamma)$ yields a path $\gamma'$ from $\Psi_S(T)$ to
+$\Psi_S(T')$ in $\Sigma_{|S|}$ as follows.  For each rotation $R_i$,
+either the rotation is completely contained within $\Psi_S(R_{i-1}
+R_{i-2} \ldots R_1 T)$ or at least one edge involved in the rotation
+is missing.  We write $\Psi_S(R_i)$ for the rotation induced by the
+projection on $\Psi_S(R_{i-1} R_{i-2} \ldots R_1 T)$; if the rotation
+is not completely contained, we let $\Psi_S(R_i)$ be the identity map.
 
-Finally, continuity implies the result for a path that starts or ends on a positive codimension subspace of $\aE_m$.
+Therefore, we obtain a sequence of rotations $\Psi_S(R_1),
+\Psi_S(R_2), \ldots, \Psi_S(R_k)$.  By Lemma~\ref{lem:rotprojcom}, we
+conclude that this sequence specifies a path of tree rotations from
+$\Psi_S(T)$ to $\Psi_S(T')$.  For the actual path in $\Sigma_{|S|}$,
+we simply observe that the projection of $\gamma_i$ to the restriction
+of the projected orthant specifies a path from $\Psi_S(R_{i-1} R_{i-2}
+\ldots R_1 T)$ to $\Psi_S(R_i R_{i-1} R_{i-2} \ldots R_1 T)$.  This
+follows from the fact that the restriction of $\gamma_i$ specifies a
+path through the boundary of the orthant if and only if the
+corresponding rotation is completely contained.  As above, the length
+of the projected path is bounded by $(\log_2 m) |\gamma_i|$.  Summing,
+we find that the length of the projected path is bounded by $(\log_2
+m) \sum_{i=1}^k |\gamma_i| = |\gamma'|$.
+
+There are a few other cases to handle.  Continuity implies the result for a path that starts or ends on a positive codimension subspace of $\aE_m$.
 For a path that goes through the origin and involves no rotations, the result follows from the same argument as in the case of a path entirely contained in a single orthant.
-More complicated paths that involve both rotations and movements through the origin can be handled by induction.
+Finally, more complicated paths that involve both rotations and
+movements through the origin satisfy the bound by induction.
 \end{proof}
 
-Using this, we can now easily prove the next two theorems that provide the theoretical support for the use of tree dimensionality reduction.
+Using Proposition~\ref{prop:projcont}, it is straighforward to deduce the next two theorems that provide the theoretical support for the use of tree dimensionality reduction.
 The following theorem is an immediate consequence of Proposition~\ref{prop:projcont}, choosing the path realizing the distance between $T$ and $T'$.
 
 \begin{theorem}\label{thm:stab}
@@ -953,14 +985,32 @@ d_{\aE_m}(T,T') \leq (\log_2 m) d_{M,L}(\Psi_C(T), \Psi_C(T')).
     \label{fig:dimred_calibration}
 \end{figure}
 
+\begin{remark}
 In practice, we may be interested in $d_M$ rather than $d_{M,L}$ when we do not expect to be given the labelling for the projection.
-However, it is clear that we cannot expect an analogue of Theorem~\ref{thm:converse}; if $T$ and $T'$ admit any kind of symmetry visible on subtrees, it is possible for $d_M$ to be substantially smaller than $d_{\aE_m}(T,T')$.
-We illustrate some computational results about the divergence between $d_M$ and $d_{\aE_m}(T,T')$ in Figure \ref{fig:dimred_calibration}.
-To demonstrate the stability of the tree projection operation, and to empirically test its approach of the distance bound, we constructed a panel of pairs of $m$-dimensional trees, $m > 10$.
-The distances between the pairs of trees were computed and compared against the distributions of distances induced by the $k$-dimensional projection operator, $\Psi_k$ with $k \in {3,4,5,6}$.
-The distances between elements of the projections can exceed the original inter-phylogeny distance ($\epsilon$), but rarely approach the bound of $(\log_2 m)\epsilon$.
-To further characterize the behavior of the distribution $d_{M,L}$ as a function of $k$, we compared the distributions of projected distances ranging from $k=3$ to $k=m-1$ for a fixed pair of $m$-dimensional phylogenies.
-It was noted that the median $d_{M,L}$ grows monotonically with $k,$ approaching the true $m$-dimensional $d_{BHV}(T, T')$, while the variance in $d_{M,L}$ appears to decrease monotonically with $k$.
+However, it is clear that we cannot expect an analogue of
+Theorem~\ref{thm:converse}; if $T$ and $T'$ admit any kind of symmetry
+visible on subtrees, it is possible for $d_M$ to be substantially
+smaller than $d_{\aE_m}(T,T')$.
+\end{remark}
+
+We conclude the discussion by describing some computational results on
+simulated data that illustrates the divergence between $d_M$ and
+$d_{\aE_m}(T,T')$; see Figure~\ref{fig:dimred_calibration}.  To
+demonstrate the stability of the tree projection operation, and to
+empirically test its approach of the distance bound, we constructed a
+panel of pairs of $m$-dimensional trees, $m > 10$.  The distances
+between the pairs of trees were computed and compared against the
+distributions of distances induced by the $k$-dimensional projection
+operator, $\Psi_k$ with $k \in {3,4,5,6}$.  The distances between
+elements of the projections can exceed the original inter-phylogeny
+distance ($\epsilon$), but rarely approach the bound of $(\log_2
+m)\epsilon$.  To further characterize the behavior of the distribution
+$d_{M,L}$ as a function of $k$, we compared the distributions of
+projected distances ranging from $k=3$ to $k=m-1$ for a fixed pair of
+$m$-dimensional phylogenies.  We see that the median $d_{M,L}$ grows
+monotonically with $k,$ approaching the true $m$-dimensional
+$d_{BHV}(T, T')$, while the variance in $d_{M,L}$ appears to decrease
+monotonically with $k$.
 
 \subsection{Using tree dimensionality reduction for inference and machine learning}
 
@@ -968,11 +1018,14 @@ Broadly speaking, the various tree dimensionality reduction operators transform 
 This has several advantages.
 First, when working with $\mathbb{P}\Sigma_m$, the resulting clouds live in $\Sigma_k$, and as discussed above analysis in the non-projectivized space is much simpler.
 Second, when projecting to $\Sigma_3$ or $\Sigma_4$, both visualization and analysis is easier (particularly in $\Sigma_3$, since that has a Euclidean metric).
-
 For example, in order to perform supervised classification on a labelled set of trees $X$, we can simultaneously solve classification problems in $\Psi'_k(X)$ and use majority voting in order to assign labels to new trees.
-Another possibility is to perform hierarchical clustering on the clouds in $\Psi'_k(X)$, resulting in another tree, and use the distance in tree space as a test statistic to discriminate between clouds.
-
-We discuss some examples of this kind of analysis below.
+Another possibility is to perform hierarchical clustering on the
+clouds in $\Psi'_k(X)$, resulting in another tree, and use the
+distance in tree space as a test statistic to discriminate between
+clouds.
+In Section~\ref{sec:flu} below we describe an application that
+involves producing a predictor for flu vaccine efficacy using the
+variance of the distribution produced by $\Psi$.
 
 \begin{remark}
 Another interesting direction of research is to consider the use of
