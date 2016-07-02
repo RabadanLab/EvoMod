@@ -57,7 +57,6 @@ For some problems one encounters heavily populated phylogenetic trees with many 
 To address this issue, we introduce {\em tree dimensionality reduction}, a structured approach to reducing large and complex phylogenetic trees to a distribution of smaller trees.
 We prove a stability theorem ensuring that small perturbations of the large trees are taken to small perturbations of the resulting distributions.
 
-%Using synthetic datasets, we validate statistical inference methods such as supervised and unsupervised learning, model selection, and estimating bootstrap confidence intervals.
 We then present a series of four biologically motivated applications to the analysis of genomic data, spanning cancer and infectious disease.
 The first quantifies how chemotherapy can disrupt the evolution of common leukemias. 
 The second examines a link between geometric information and the histologic grade in relapsed gliomas, where longer relapse branches were specific to high grade glioma.
@@ -114,7 +113,7 @@ We referred to these tree spaces as ``evolutionary moduli spaces'', in which cla
 In this paper, we develop these applications in detail and introduce new machinery for dimensionality reduction.
 We begin by reviewing (in Section~\ref{sec:phylospace}) some of the fundamental notions regarding the geometry of evolutionary moduli spaces, following Billera-Holmes-Vogtman \cite{billera2001geometry}, Sturm \cite{sturm2003probability}, and our prior treatment~\cite{zairis2014moduli}.
 Motivated by several biological applications, we also introduce a projective version of these spaces and study some of their geometric properties.
-In Section~\ref{sec:ML}, we give an overview of the application of standard machine learning and statistical inference techniques in these spaces.  Applying these techniques, in Section~\ref{sec:cancer} we describe the interpretive power of evolutionary moduli spaces for studying cancer genomic data in three examples: evolution of chronic lymphocytic leukemia under therapy, grade at relapse in glioma, and clonal dynamics in patient-derived xenografts.  In each case, we find that representing the problem in terms of the evolutionary moduli spaces permits meaningful inference with clinical significance.
+In Section~\ref{sec:ML}, we give an overview of the application of standard machine learning and statistical inference techniques in these spaces.  Applying these techniques, in Section~\ref{sec:cancer} we describe the interpretive power of evolutionary moduli spaces for studying cancer genomic data in three examples: evolution of chronic lymphocytic leukemia under therapy (Section~\ref{sec:CLL}), grade at relapse in glioma (Section~\ref{sec:glioma}), and clonal dynamics in patient-derived xenografts (Section~\ref{sec:xeno}).  In each case, we find that representing the problem in terms of the evolutionary moduli spaces permits meaningful inference with clinical significance.
 
 The trees arising from clonal evolution in cancers tend to be quite small, since each leaf corresponds to a tissue sample from the tumor.
 However, when studying the evolution of a viral outbreak with thousands of isolates, or the genomic characterization of thousands of single cells, we expect very large trees.
@@ -122,8 +121,8 @@ Visualization and analysis of large phylogenetic trees is problematic.
 In Section~\ref{sec:treedimred}, we introduce a procedure for ``tree dimensionality reduction'' as a means to visualize and study densely populated trees by projecting them onto distributions of smaller trees.
 We argue that the properties of these distributions capture salient information about the large trees.
 To support this contention, we provide both theoretical and experimental validation.
-We prove a ``stability'' theorem which bounds perturbation in the projected trees in terms of perturbation of the large tree; this implies in particular that the procedure is robust to certain kinds of noise.
-We also describe the use of tree dimensionality reduction to provide a novel genomic predictor for flu vaccine efficacy in Section~\ref{sec:flu}.
+We prove a ``stability'' theorem (Theorem~\ref{thm:stab}) which bounds perturbation in the projected trees in terms of perturbation of the large tree; this implies in particular that the procedure is robust to certain kinds of noise.
+We also describe the use of tree dimensionality reduction to produce a novel genomic predictor for flu vaccine efficacy in Section~\ref{sec:flu}.
 
 \begin{figure}
     \begin{subfigure}{0.5\linewidth}
@@ -143,7 +142,7 @@ We also describe the use of tree dimensionality reduction to provide a novel gen
 \begin{figure}
     \centering
     \includegraphics[height=3.5in]{../figures/illustration_BHV_5.png}
-    \caption{{\bf Moduli space of phylogenetic trees describing clonal evolution.} Collections of trees can be mapped into a geometric space, forming a point cloud. Trees with the same topology live in the same orthant, and crossing into an adjacent orthant corresponds to a tree rotation. Points closer to the vertex of the cone have relatively little internal branch length, while points near the base of the cone have little weight in the external branches.}
+    \caption{{\bf Moduli space of phylogenetic trees describing clonal evolution.} Collections of trees are points in a metric space, forming a point cloud.  Trees with the same topology live in the same orthant, and crossing into an adjacent orthant corresponds to a tree rotation.  Points closer to the vertex of the cone have relatively little internal branch length, while points near the base of the cone have little weight in the external branches.}
     \label{fig:illustration_2}
 \end{figure}
 
@@ -153,12 +152,12 @@ We also describe the use of tree dimensionality reduction to provide a novel gen
 
 \section{Spaces of phylogenetic trees}\label{sec:phylospace}
 
-The foundation of our framework for analysis is the {\em metric geometry} of the space of phylogenetic trees.
-The purpose of this section is to describe in detail the spaces of phylogenetic trees and their geometric structure.
-We begin with a rapid review of the geometry of metric spaces.
-We then review the definition and properties of the Billera-Holmes-Vogtmann metric space of phylogenetic trees and its metric geometry.
-Finally, we describe the structure of the projective tree space that is our main focus.
-In particular, we explain how to compute the induced metric.
+The foundation of our framework for analysis is the {\em metric geometry} of the space of phylogenetic trees~\cite{billera2001geometry}.
+The purpose of this section is to review in detail the spaces of phylogenetic trees that we work with and their geometric structure.
+We begin with a rapid review of the geometry of geodesic metric spaces and the theory of cubical complexes.
+We then review the definition and properties of the Billera-Holmes-Vogtmann metric space of phylogenetic trees and its metric geometry, following the the excellent original treatment.
+Next, we explain the connection between binary trees and triangulations of convex polygons, which turns out to be useful in our analysis of tree dimensionality reduction.
+Finally, we discuss the properties of projective versions of tree spaces which are relevant for some of the biological applications.
 
 \subsection{A rapid review of metric geometry}
 
@@ -267,6 +266,23 @@ The space $\Sigma_m$ is a Polish space.
 As explained in ~\cite[\S4.2]{billera2001geometry}, efficiently computing the metric on $\Sigma_m$ is a nontrivial problem.
 We will rely on the fact that there exists a polynomial-time algorithm based on successive approximation of geodesic paths~\cite{owen2011fast}.
 
+\subsection{Binary trees and triangulations of convex polygons}
+
+Two trees $T_1$ and $T_2$ are in adjacent orthants of $\Sigma_m$ when they are related by a rotation, which we described above as the transformation on a tree performed by collapsing a specified edge to one of its incident vertices and then expanding out an edge from that vertex.
+In order to study the geometry of tree space, it is often useful to have an alternate description of the rotation operation.
+We now explain the connection between binary trees and triangulations of convex polygons; in the setting of polygons, the rotation operation has a simple geometric description.
+This model was used in the computation of the diameter in rotation distance of tree space described above, and will be applied below when we study tree dimensionality reduction~\ref{sec:treedimred}.
+
+Given a triangulation of a convex polygon with $n$ vertices, the dual graph is formed by taking a vertex for each triangle and an edge connecting vertices in adjacent triangles.
+It is clear that the dual graph forms a binary tree.
+On the other hand, given a rooted binary tree with $n$ leaves, we can recursively produce a triangulation of the regular $n+1$-gon as follows.
+We label the edges of the polygon by the leaves in counterclockwise order.
+We then add the triangle formed by the edge corresponding to the root of the tree and the vertex $k+3$, where $k$ denotes the number of leaves on the left side of the root.
+The process is then recursively carried out on the two polygons formed by this triangle.
+
+A rotation of a tree in this context is now specified by choosing a quadrilateral formed by two adjacent triangles and ``flipping the diagonal''; i.e., deleting the diagonal chord and replacing it with the diagonal through the two vertices the original diagonal did not use.
+(It is straightforward to check that this corresponds to the rotation operation on binary trees.)
+
 \subsection{The projective evolutionary moduli space}
 
 We are primarily interested in classifying and comparing distinct evolutionary behaviors by understanding the relative lengths of edges: rescaling edge lengths should not change the relationship between the branches.
@@ -372,23 +388,6 @@ Unfortunately, computing the rotation distance is not known to have a polynomial
 
 Returning to the case of $\mathbb{P}\Sigma_m$, the join with the standard simplex adds further complication; paths that realize the distance may involve motion in the cone coordinate as well as in the ``rotation'' direction.
 In practice, we can determine if two points are connected by a unique geodesic by repeated use of Djikstra's algorithm in $G$; after finding the shortest path, we can successively form graphs $G'$ by removing edges and then using Djikstra's algorithm on $G'$.
-
-\subsection{Binary trees and triangulations of convex polygons}
-
-Two trees $T_1$ and $T_2$ are in adjacent orthants of $\Sigma_m$ when they are related by a rotation, which we described above as the transformation on a tree performed by collapsing a specified edge to one of its incident vertices and then expanding out an edge from that vertex.
-In order to study the geometry of tree space, it is often useful to have an alternate description of the rotation operation.
-We now explain the connection between binary trees and triangulations of convex polygons; in the setting of polygons, the rotation operation has a simple geometric description.
-This model was used in the computation of the diameter in rotation distance of tree space described above, and will be applied below when we study tree dimensionality reduction~\ref{sec:treedimred}.
-
-Given a triangulation of a convex polygon with $n$ vertices, the dual graph is formed by taking a vertex for each triangle and an edge connecting vertices in adjacent triangles.
-It is clear that the dual graph forms a binary tree.
-On the other hand, given a rooted binary tree with $n$ leaves, we can recursively produce a triangulation of the regular $n+1$-gon as follows.
-We label the edges of the polygon by the leaves in counterclockwise order.
-We then add the triangle formed by the edge corresponding to the root of the tree and the vertex $k+3$, where $k$ denotes the number of leaves on the left side of the root.
-The process is then recursively carried out on the two polygons formed by this triangle.
-
-A rotation of a tree in this context is now specified by choosing a quadrilateral formed by two adjacent triangles and ``flipping the diagonal''; i.e., deleting the diagonal chord and replacing it with the diagonal through the two vertices the original diagonal did not use.
-(It is straightforward to check that this corresponds to the rotation operation on binary trees.)
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -770,7 +769,7 @@ More complicated paths that involve both rotations and movements through the ori
 Using this, we can now easily prove the next two theorems that provide the theoretical support for the use of tree dimensionality reduction.
 The following theorem is an immediate consequence of Proposition~\ref{prop:projcont}, choosing the path realizing the distance between $T$ and $T'$.
 
-\begin{theorem}
+\begin{theorem}\label{thm:stab}
 For $T,T' \in \aE_m$ such that $d_{\aE_m}(T,T') \leq \epsilon$, then for any $S \in \{1,\ldots,m\}$,
 \[
 d_{\Sigma_{|S|}}(\Psi_S(T), \Psi_S(T')) \leq (\log_2 m)\epsilon.
@@ -840,50 +839,14 @@ Another possibility is to perform hierarchical clustering on the clouds in $\Psi
 
 We discuss some examples of this kind of analysis below.
 
-%%%% ANDREW COMMENT
-%{\bf Expand these remarks once the flu analysis efforts converge.}
-
-\iffalse
-
-\subsection{Barcodes for tree dimensionality reduction}
-
-Another strategy for handling embedding $\mathbb{P}\Sigma_m$ and $\Sigma_m$ is an analytically tractable metric space involves the use of {\em barcodes} and some of the techniques associated to topological data analysis.
-A barcode is a multiset of pairs $(a,b)$ with $0 \leq a \leq b \leq \infty$.
-
-
-Another interesting direction of research is to consider the use of topological data analysis summaries (i.e., hierarchical clustering dendrograms or barcodes) for the clouds of projected points.
-The stability results above easily imply stability results for the associated barcodes of the projections.
-\fi
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-%\section{Simulated data}\label{sec:simulated}
-%
-%To assess how different sets of trees can be distinguished in the moduli space, we created synthetic data sets.  For generating each cluster of trees,  a single topology was randomly chosen and branch lengths were drawn from a Dirichlet distribution of $2l-3$ number of parameters, where $l$ is the number of leaves. As such, trees obtained in this fashion, are necessarily unit-norm. Figure \ref{fig:simulation} shows an example of six tree clusters in $\Sigma_5$.  $k$-means clusterings were evaluated over a range of $k$ values using the Davies-Bouldin (DB) index. The DB index correctly identifies the number of clusters. 
-%
-%\begin{figure}[t!]
-%    \centering
-%    \includegraphics[height=5in]{../figures/simulation.pdf}
-%    \caption{{\bf Model selection for clustering.} Well resolved groups of phylogenetic trees were generated at different numbers of leaves. Three groups of 3-leaved trees, four groups of 4-leaved trees, and six groups of 5-leaved trees were generated with branch lengths drawn from a Dirichlet distribution. We evaluate the quality of $k$-means clusterings over a range of $k$ values, using the elbow of the Davies-Bouldin index as a measure of optimal model complexity. (Top) A visualization of the six groups of 5-leaved trees to be clustered. (Bottom) DB-index shows a sharp inflection point at the correct values of $k$ in all three spaces.}
-%    \label{fig:simulation}
-%\end{figure}
-%
-%\subsection{Birth-Death Processes}
-%
-%To gain a better intuition for the behavior of longitudinal phylogenetic data in our moduli spaces, we turn to stochastic simulations of clonally evolving populations. The advantage of these simulations is that they provide  better understanding of biological interpretable behaviors in more realistic situations.
-%Here we simulate clonal evolution at varying degrees of selection strength and mutation rate.
-%The most prevalent genotypes at pre-determined sampling intervals were recorded and used to contruct phylogenetic trees.
-%We observe the distributions generated in the moduli space as a function of the simulation parameters. 
-%
-%We leverage the package OncoSimulR \cite{}, which implements an forward-time evolutionary simulation wherein mutations are designated either driver or passenger events.
-%This terminology simply refers to whether the impact of a mutation increases or decreases the birth rate of a genome.
-%The magnitudes of fitness effects for driver and passenger mutations are free parameters, as are the mutation rate, numbers of genomic positions at which driver or passenger events can occur.
-%Population bottlenecks are crudely implemented by seeding a second simulations with a single member drawn from a time slice of the first simulation.
-%Bulk sequencing of the population can be approximated by sampling only the most prevalent genotype at a given time slice.
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{remark}
+Another interesting direction of research is to consider the use of
+topological data analysis summaries (i.e., hierarchical clustering
+dendrograms or barcodes) for the clouds of projected points.  The
+stability results above easily imply stability results for the
+associated barcodes of the projections.  We intend to return to this
+subject in a subsequent paper.
+\end{remark}
 
 \section{Clinical utility of longitudinal tumor genomics}\label{sec:cancer}
 
@@ -894,7 +857,7 @@ Genomic snapshots before and after administration of cytotoxic therapy can revea
 A further goal is to establish \textit{in vivo} mouse models of every patient's tumor, as a means of rapidly exploring drug susceptibility and resistance.
 Such models can be created by direct implantation of primary tumor tissue into immunodeficient mice and are termed patient-derived xenografts (PDX). This formulation allows the use of the mathematical machinery described in this manuscript in a systematic fashion. We begin with the medically relevant problem of how therapy affects the evolution of common leukemias. Then, using public data from relapsed glioma, we highlight clinical correlates to the spatial distribution of patients in the moduli space. Then we study single cell data from breast cancer derived xenografts to observe the departure of the tumor genetics from the primary lesion.  
 
-\subsection{Evolution of chronic lymphocytic leukemia under therapy}
+\subsection{Evolution of chronic lymphocytic leukemia under therapy}\label{sec:CLL}
 
 Chronic lymphocytic leukemia (CLL) is the most common leukemia in adults, primarily affecting the elderly population (median age at diagnosis is 70).~\cite{smith2011incidence}
 CLL is a proliferative disorder of B-lymphoctyes characterized by a steady accumulation of clonal, non-functional B-cells.
@@ -933,7 +896,7 @@ The 95\% CI for the distance between the centroids of the treated / untreated gr
 The analogous intervals for untreated / untreated and treated / treated are (0.01, 0.14) and (0.02, 0.16) respectively.
 This analysis shows that the centroids of these clinically distinct sets of patients are well-resolved, supporting the idea that untreated tumors are more stable than treated ones, where district mutations can appear along the evolution of the tumor.
 
-\subsection{Tree geometry associated with grade at relapse in gliomas}
+\subsection{Tree geometry associated with grade at relapse in gliomas}\label{sec:glioma}
 
 The spatial and temporal heterogeneity of tumors can be addressed by reconstructing the evolutionary history of tumors from different samples.
 For each location and time point, one can define (partially or totally) the genotype of the dominant clone.
@@ -972,7 +935,7 @@ The tesselation of the space associated to a 1-nearest neighbor classifier is kn
 
 This is a nice example that show that in the simple case of three leaves trees, evolutionary tumor histories are different under different therapeutic regimes, and that they do associate with prognosis (as measured by grade at relapse).
 
-\subsection{Clonal dynamics in patient derived xenografts}
+\subsection{Clonal dynamics in patient derived xenografts}\label{sec:xeno}
 
 The recent development of single cell transcriptomics and genomics is providing an opportunity to study the role of clonal heterogeneity in tumors~\cite{navin2011tumour, eirew2014dynamics, patel2014single} and to identify small, previously uncharacterized cell populations~\cite{grun2015single}.
 The single cell approach to studying complex populations brings with it new challenges associated with the large number of sampled genomes.
