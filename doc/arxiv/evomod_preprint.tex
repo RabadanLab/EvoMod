@@ -161,15 +161,27 @@ Finally, we discuss the properties of projective versions of tree spaces which a
 
 \subsection{A rapid review of metric geometry}
 
-A metric space $(X,d)$ is a set $X$ equipped with a distance function $d \colon X \times X \to \mathbb{R}^{\geq 0}$ satisfying the properties that $d(x,y) = d(y,x)$, $d(x,y) = 0$ if and only if $x = y$, and $d(x,z) \leq d(x,y) + d(y,z)$ for all $x,y,z \in X$.
-Although metric spaces often arise in contexts in which there is not an evident notion of geometry, it turns out that under very mild hypotheses a metric space $(X,d)$ can be endowed with structures analogous to those arising on Riemannian manifolds.
-A metric space $(X,d)$ is a geodesic metric space if any two points $x$ and $y$ can be joined by a path with length precisely $d(x,y)$.
-A key insight of Alexandrov observed that is that a good notion of {\em curvature} makes sense in any geodesic metric space~\cite{alexandrov1957uber}.
+In this subsection we quickly explain the foundations of metric
+geometry.  See~\cite{bridson99, burago01} for comprehensive textbooks
+on the subject.  A metric space $(X,d)$ is a set $X$ equipped with a
+distance function $d \colon X \times X \to \mathbb{R}^{\geq 0}$ having
+the properties that $d(x,y) = d(y,x)$, $d(x,y) = 0$ if and only if $x
+= y$, and $d(x,z) \leq d(x,y) + d(y,z)$ for all $x,y,z \in X$ (the
+triangle inequality).  Although metric spaces often arise in contexts
+in which there is not an evident notion of geometric structure, it
+turns out that under very mild hypotheses a metric space $(X,d)$ can
+be endowed with structures analogous to those arising on Riemannian
+manifolds.  A metric space is a length space if the distance $d(x,y)$
+is realized as the infimum of the lengths of paths joining $x$ and
+$y$.  A length space $(X,d)$ is a geodesic metric space if any two
+points $x$ and $y$ can be joined by a path with length precisely
+$d(x,y)$.  A key insight of Alexandrov is that {\em curvature} makes
+sense in any geodesic metric space~\cite{alexandrov1957uber}.
 
 The idea is that the curvature of a space can be detected by considering the behavior of the area of triangles, and triangles can be defined in any geodesic metric spaces.
 Specifically, given points $p, q, r$, we have the triangle $T = [p,q,r]$ with edges the paths that realize the distances $d(p,q)$, $d(p,r)$, and $d(q,r)$.
 The connection between curvature and area of triangles comes from the observation that given side lengths $(\ell_1, \ell_2, \ell_3) \subset \mathbb{R}^3$, a triangle with these side lengths on the surface of the Earth is ``fatter'' than the corresponding triangle on a Euclidean plane.
-To be precise, we consider the distance from a vertex of the triangle to a point $p$ on the opposite side --- in a fat triangle, this distance will be larger than in the the corresponding Euclidean triangle. (Thin triangles are defined analogously.)
+To be precise, we consider the distance from a vertex of the triangle to a point $p$ on the opposite side --- in a fat triangle, this distance will be larger than in the the corresponding Euclidean triangle (and smaller in a thin triangle).
 
 Given a triangle $T=[p,q,r]$ in $(X,d)$, we can find a corresponding triangle $\tilde{T}$ in Euclidean space with the same edge lengths.
 Given a point $z$ on the edge $[p,q]$, a comparison point in $\tilde{T}$ is a point $\tilde{z}$ on the corresponding edge $[\tilde{p}, \tilde{q}]$ such that $d(\tilde{z}, \tilde{p}) = d(p,z)$.
@@ -178,47 +190,60 @@ If every triangle in $M$ satisfies the $\CAT(0)$ inequality then we say that $M$
 
 More generally, let $M_{\kappa}$ denote the unique two-dimensional Riemannian manifold with curvature $\kappa$.
 The diameter of $M_{\kappa}$ will be denoted $D_{\kappa}$.
-Then we say that a $D_{\kappa}$-geodesic metric space $M$ is $\CAT(\kappa)$ if every triangle in $M$ with perimeter $\leq 2D_{\kappa}$ satisfies the inequality above for the corresponding comparison triangle in $M_{\kappa}$.
+Then we say that a geodesic metric space $M$ is $\CAT(\kappa)$ if every triangle in $M$ with perimeter $\leq 2D_{\kappa}$ satisfies the inequality above for the corresponding comparison triangle in $M_{\kappa}$.
 If $\kappa' \leq \kappa$, any $CAT(\kappa')$ space is also $\CAT(\kappa)$.
-A $n$-dimensional Riemannian manifold $M$ that is sufficiently smooth has sectional curvature $\leq \kappa$ if and only if $M$ is $\CAT(\kappa)$.
+A $n$-dimensional Riemannian manifold $M$ that is sufficiently smooth has sectional curvature $\leq \kappa$ if and only if $M$ (regarded as a metric space) is $\CAT(\kappa)$.
 For example, Euclidean spaces are $\CAT(0)$, spheres are $\CAT(1)$, and hyperbolic spaces are $\CAT(-1)$.
 
 As described, $\CAT(\kappa)$ is a global condition; we will say that a metric space $(X,d)$ is locally $\CAT(\kappa)$ if for every $x$ there exists a radius $r_x$ such that $B_{r_x}(x) \subseteq X$ is $\CAT(\kappa)$.
-For example, the flat torus is locally $\CAT(0)$ but not globally $\CAT(0)$.
+For example, the flat torus (obtained by identifying opposite edges in a rectangle) is locally $\CAT(0)$ but not globally $\CAT(0)$.
 The Cartan-Hadamard theorem implies that a simply-connected metric space that is locally $\CAT(0)$ is also globally $\CAT(0)$.
 
 A remarkably productive observation of Gromov is that many geometric properties of Riemannian manifolds are shared by $CAT(\kappa)$ spaces.
 In particular, $\CAT(\kappa)$ spaces with $\kappa \leq 0$ (referred to as {\em non-positively curved metric spaces}) admit unique geodesics joining each pair of points $x$ and $y$, balls $B_{\epsilon}(x)$ are convex and contractible for all $x$ and $\epsilon \geq 0$, and midpoints of geodesics are well-behaved.
-As a consequence, there exist well-defined notions of mean and variance of a set of points, and more generally one can attempt to perform statistical inference, as we explain below.
+As a consequence, there exist well-defined notions of mean and variance of a set of points, and more generally one can develop some of the foundations of classical statistics, as we review below in Section~\ref{sec:ML}.
 
 \subsection{Cubical complexes and their links}
 
-In this section, we review the theory of cubical complexes, which provide a rich source of examples of $\CAT(0)$ metric spaces.
-It is in general very difficult to determine for an arbitrary metric space whether it is $\CAT(\kappa)$ for any given $\kappa$.
-Even for finite simplicial complexes, this problem does not have a general solution.
-The important of cubical complexes comes from an effective criterion for determining if they are non-positively curved.
+In this subsection, we review the theory of cubical complexes, which
+provide a rich source of examples of $\CAT(0)$ metric spaces.  (Again, see~\cite{burago01} or~\cite{bridson99} for textbook treatments).  It is
+in general very difficult to determine for an arbitrary metric space
+whether it is $\CAT(\kappa)$ for any given $\kappa$.  Even for finite
+polyhedra where the metric is induced from the Euclidean metric on
+each face, this problem does not have a general solution.  The
+important of cubical complexes in this context comes from an effective
+criterion for determining if they are non-positively curved (i.e., $\CAT(0)$).
 
-Let $I^n$ denote the $n$-dimensional unit cube $[0,1] \times \ldots \times [0,1]$, regarded as inheriting a metric structure from the standard metric on $\mathbb{R}^n$.
+Let $I^n \subseteq \mathbb{R}^n$ denote the $n$-dimensional unit cube $[0,1] \times \ldots \times [0,1]$, regarded as inheriting a metric structure from the standard metric on $\mathbb{R}^n$.
 A codimension $k$ face of the cube $I^n$ is determined by fixing $k$ coordinates to be in the set $\{0,1\}$.
-A cubical complex is a metric space obtained by glueing together cubes via the data of isometries of faces, subject to the condition that two cubes are connected by at most a single face identification and no cube is glued to itself.
+A cubical complex is a metric space obtained by gluing together cubes via the data of isometries of faces, subject to the condition that two cubes are connected by at most a single face identification and no cube is glued to itself.
 The metric structure is the length metric induced from the Euclidean metric on the cubes, i.e., the distance between $x$ and $y$ is the infimum of the lengths over all paths from $x$ to $y$ that can be expressed as the union of finitely many segments each contained within a cube.
-When the cubical complex $C$ is finite or locally finite, results of Bridson and Moussong imply that $C$ is a complete geodesic metric space.
+When the cubical complex $C$ is finite or locally finite, results of Bridson~\cite{bridson91} and Moussong~\cite{moussong} imply that $C$ is a complete geodesic metric space.
 
 Gromov gave a criterion for a cubical complex to be $\CAT(0)$ that is often possible to check in practice.
 In order to explain this criterion, we need to review the notion of the link of a vertex in a cubical complex.
 
 Fix a vertex $v$ in a cubical complex $C$ and a cube $C_i \cong I^m \subseteq C$ such that $v$ is a vertex of $C_i$.
-For fixed $\epsilon > 0$, the all-right spherical simplex associated to $(C_i,v)$ is the subset $S(C_i,v) = \{z \in C_i \, | \, d(z,v) = \epsilon\}$.
+For fixed $\epsilon > 0$, the all-right spherical simplex associated to $(C_i,v)$ is the subset 
+\[
+S(C_i,v) = \{z \in C_i \, | \, d(z,v) = \epsilon\}.
+\]
 The set $S(C_i,v)$ has a metric induced by the Euclidean angle metric.
 The faces of $S(C_i,v)$ are defined as the intersections of $S(C_i,v)$ with faces of $C_i$; equivalently, these are the all-right spherical simplexes associated to faces of $C_i$.
 The collection of all-right spherical simplices for all pairs $(C_i, v)$ forms a polyhedral complex with metric given by the length metric induced from the angle metrics; this is referred to as a spherical complex.
 Forgetting the metric structure, the all-right spherical simplices also form an abstract simplicial complex. (Recall that an abstract simplicial complex is simply a set of subsets of a set $V$ that is closed under passage to subsets.)
 
-The link of a vertex $v$ in a cubical complex $C$ is the spherical complex obtained as the subset $L(v) = \{z \in C \, | \, d(z,v) = \epsilon\}$, for fixed $0 < \epsilon < 1$.
+The link of a vertex $v$ in a cubical complex $C$ is the spherical
+complex obtained as the subset  
+\[
+L(v) = \{z \in C \, | \, d(z,v) = \epsilon\},
+\]
+for fixed $0 < \epsilon < 1$.
 Gromov's criterion now states that the cubical complex $C$ is locally $\CAT(0)$ if and only if the link is $\CAT(1)$ or the abstract simplicial complex underlying the link is flag.
 (Recall that a flag complex is a simplicial complex in which a $k$-simplex is in the complex if and only its $1$-dimensional faces are in the complex.)
 
-As an easy application of Gromov's criterion, we conclude the section by showing that the cartesian product of locally $\CAT(0)$ cubical complexes is itself a locally $\CAT(0)$ cubical complex.
+As an easy application of Gromov's criterion, we conclude the section
+by showing the standard result that the cartesian product of locally $\CAT(0)$ cubical complexes is itself a locally $\CAT(0)$ cubical complex.
 Let $X$ and $Y$ be cubical complexes that are $\CAT(0)$.
 Since $I^n \times I^m \cong I^{n+m}$, it is clear that $X \times Y$ has the structure of a cubical complex.
 The set of vertices of $X \times Y$ is given by the product of the sets of vertices of $X$ and $Y$ respectively.
@@ -228,79 +253,176 @@ Finally, since the join of flag complexes is easily seen to be a flag complex, G
 
 \subsection{The Billera-Holmes-Vogtmann spaces of phylogenetic trees}
 
-A phylogenetic tree with $m$ leaves is a weighted, connected graph with no circuits, having $m$ distinguished vertices of degree $1$ labeled $\{1, \ldots, m\}$ (referred to as {\em leaves}), and all other vertices of degree $\geq 3$.
-We refer to edges that terminate in leaves as {\em external} edges and the remaining edges are {\em internal}.
+A phylogenetic tree with $m$ leaves is a weighted, connected graph
+with no cycles, having $m$ distinguished vertices (referred to as {\em
+  leaves}) of degree $1$ and labeled $\{1, \ldots, m\}$.  All the
+other vertices are of degree $\geq 3$.  We refer to edges that
+terminate in leaves as {\em external} edges and the remaining edges
+are {\em internal}.
 
-The space $\BHV_m$ of isometry classes of rooted phylogenetic trees with $m$-labelled leaves where the nonzero weights are on the internal branches was introduced and studied by Billera, Holmes, and Vogtmann.
-The space $\BHV_n$ is constructed by gluing together $(2n-3)!!$ positive orthants $\mathbb{R}^n_{\geq 0}$; each orthant corresponds to a particular tree topology, with the coordinates specifying the lengths of the edges.
-Allowing potentially nonzero weights for the $m$ external leaves corresponds to taking the cartesian product with an $m$-dimensional orthant.
-We will focus on the space 
+The space $\BHV_m$ of isometry classes of rooted phylogenetic trees
+with $m$-labelled leaves where the nonzero weights are on the internal
+branches was introduced and studied by Billera, Holmes, and
+Vogtmann~\cite{billera2001geometry}.  The space $\BHV_m$ is
+constructed by gluing together $(2m-3)!!$ positive orthants
+$\mathbb{R}^m_{\geq 0}$; each orthant corresponds to a particular tree
+topology, with the coordinates specifying the lengths of the edges.  A
+point in the interior of an orthant represents a binary tree; if any
+of the coordinates are $0$, the tree is obtained from a binary tree by
+collapsing some of the edges.  We glue orthants together such that a
+(non-binary) tree is on the boundary between two orthants when it can
+be obtained by collapsing edges from either tree geometry.  Put
+another way, two tree topologies are adjacent when they are connected
+by a {\em rotation}, i.e., one topology can be generated from the
+other by collapsing an edge to length $0$ and then expanding out
+another edge from the incident vertex.
+
+The metric on $\BHV_{m}$ is induced from the standard Euclidean
+distance on each of the orthants.  For two trees $t_1$ and $t_2$ which
+are both in a given orthant, the distance $d_{\BHV_{m}}(t_1,t_2)$ is
+defined to be the Euclidean distance between the points specified by
+the weights on the edges.  For two trees which are in different
+quadrants, there exist (many) paths connecting them which consist of a
+finite number of straight lines in each quadrant.  The length of such
+a path is the sum of the lengths of these lines, and the distance
+$d_{\BHV_{m}}(t_1,t_2)$ is then the minimum length over all such
+paths.  For many points, the shortest path goes through the ``cone
+point'', the star tree in which all internal edges are zero.
+
+Allowing potentially nonzero weights for the $m$ external leaves
+corresponds to taking the cartesian product with an $m$-dimensional
+orthant.  We will focus on the space
 \[\Sigma_m = \BHV_{m-1} \times (\mathbb{R}^{\geq 0})^{m},\]
-which we refer as the evolutionary moduli space.
-(The $m-1$ index arises from the fact that we consider unrooted trees.)
+which we refer as the evolutionary moduli space.  (The $m-1$ index
+arises from the fact that we consider unrooted trees.)  There is a
+metric on $\Sigma_m$ induced from the metric on $\BHV_{m-1}$.
+Specifically, for a tree $t$, let $t(i)$ denote the length of the
+external edge associated to the vertex $i$.
+Then \[d_{\Sigma_m}(t_1,t_2) =
+\sqrt{d_{\BHV_{m-1}}(\bar{t}_1,\bar{t}_2) + \sum_{i=1}^m (t_1(i) -
+  t_2(i))^2},\] where $\bar{t}_i$ denotes the tree in $\BHV_{m-1}$
+obtained by forgetting the lengths of the external edges (e.g.,
+see~\cite{owen2011fast}).
+As explained in ~\cite[\S4.2]{billera2001geometry}, efficiently
+computing the metric on $\Sigma_m$ is a nontrivial problem, although
+there exists a polynomial-time algorithm~\cite{owen2011fast}.
 
-The main result of Billera, Holmes, and Vogtmann is that the length metric on $\BHV_n$ endows this space with a (global) $\CAT(0)$ structure.
-The metric on $\BHV_{m-1}$ is induced from the standard Euclidean distance on each of the orthants, as follows.
-For two trees $t_1$ and $t_2$ which are both in a given orthant, the distance $d_{\BHV_{m-1}}(t_1,t_2)$ is defined to be the Euclidean distance between the points specified by the weights.
-For two trees which are in different quadrants, there exist (many) paths connecting them which consist of a finite number of straight lines in each quadrant.
-The length of such a path is the sum of the lengths of these lines, and the distance $d_{\BHV_{m-1}}(t_1,t_2)$ is then the minimum length over all such paths.
-There is an analogous metric on $\Sigma_m$, which can be regarded as induced from the metric on $\BHV_{m-1}$.
-Specifically, for a tree $t$, let $t(i)$ denote the length of the external edge associated to the vertex $i$.
-Then \[d_{\Sigma_m}(t_1,t_2) = \sqrt{d_{\BHV_{m-1}}(\bar{t}_1,\bar{t}_2) + \sum_{i=1}^m (t_1(i) - t_2(i))^2},\] where $\bar{t}_i$ denotes the tree in $\BHV_{m-1}$ obtained by forgetting the lengths of the external edges (e.g., see~\cite{owen2011fast}).
-
-By subdividing each orthant into cubes in the evident fashion, $\Sigma_m$ is naturally a cubical complex where the metric we have described is the one induced from the Euclidean metric on the cubes.
-Now a straightforward combinatorial analysis of the link of $\Sigma_m$ implies the following theorem via Gromov's criterion.
-
-\begin{theorem}[{\cite[4.1]{billera2001geometry}}]
-The space $\Sigma_m$ is a $\CAT(0)$ space.
-\end{theorem}
-
-In addition, $\Sigma_m$ is clearly a complete metric space.
-Furthermore, it is separable, which means that it contains a countable dense subset; any tree can be approximated by a sequence of trees in the same orthant that have rational edge lengths.
-A complete and separable metric space is called a Polish space; on such metric spaces, the usual probabilistic machinery behaves as expected.
-
-\begin{theorem}
-The space $\Sigma_m$ is a Polish space.
-\end{theorem}
-
-As explained in ~\cite[\S4.2]{billera2001geometry}, efficiently computing the metric on $\Sigma_m$ is a nontrivial problem.
-We will rely on the fact that there exists a polynomial-time algorithm based on successive approximation of geodesic paths~\cite{owen2011fast}.
+The main result of Billera, Holmes, and Vogtmann is that the length
+metric on $\BHV_n$ endows this space with a (global) $\CAT(0)$
+structure.  By subdividing each orthant into cubes in the evident
+fashion, $\Sigma_m$ is naturally a cubical complex where the metric we
+have described is the one induced from the Euclidean metric on the
+cubes; a straightforward combinatorial analysis of the link of
+$\Sigma_m$ implies the result via Gromov's criterion.
+In addition, $\Sigma_m$ is clearly a complete and separable metric
+space; any tree can be approximated by a sequence of trees in the same
+orthant that have rational edge lengths.
 
 \subsection{Binary trees and triangulations of convex polygons}
 
 Two trees $T_1$ and $T_2$ are in adjacent orthants of $\Sigma_m$ when they are related by a rotation, which we described above as the transformation on a tree performed by collapsing a specified edge to one of its incident vertices and then expanding out an edge from that vertex.
 In order to study the geometry of tree space, it is often useful to have an alternate description of the rotation operation.
-We now explain the connection between binary trees and triangulations of convex polygons; in the setting of polygons, the rotation operation has a simple geometric description.
-This model was used in the computation of the diameter in rotation distance of tree space described above, and will be applied below when we study tree dimensionality reduction~\ref{sec:treedimred}.
+We now explain the connection between binary trees and triangulations
+of convex polygons; in the setting of polygons, the rotation operation
+has a simple geometric description (e.g., see~\cite{sleator1988rotation}).
+This model was used in the computation of the diameter in rotation
+distance of tree space described in Section~\ref{sec:inj}, and will be
+applied when we study tree dimensionality reduction in
+Section~\ref{sec:treedimred}.
 
 Given a triangulation of a convex polygon with $n$ vertices, the dual graph is formed by taking a vertex for each triangle and an edge connecting vertices in adjacent triangles.
 It is clear that the dual graph forms a binary tree.
 On the other hand, given a rooted binary tree with $n$ leaves, we can recursively produce a triangulation of the regular $n+1$-gon as follows.
 We label the edges of the polygon by the leaves in counterclockwise order.
 We then add the triangle formed by the edge corresponding to the root of the tree and the vertex $k+3$, where $k$ denotes the number of leaves on the left side of the root.
-The process is then recursively carried out on the two polygons formed by this triangle.
+The process is then recursively carried out on the two polygons formed
+by this triangle.  One checks that these two procedures yield a
+bijection between rooted binary trees and triangulations.
 
-A rotation of a tree in this context is now specified by choosing a quadrilateral formed by two adjacent triangles and ``flipping the diagonal''; i.e., deleting the diagonal chord and replacing it with the diagonal through the two vertices the original diagonal did not use.
-(It is straightforward to check that this corresponds to the rotation operation on binary trees.)
+A rotation of a tree in this context is now described in the polygon
+model by choosing a quadrilateral formed by two adjacent triangles and
+``flipping the diagonal''; i.e., deleting the diagonal chord and
+replacing it with the diagonal through the two vertices the original
+diagonal did not use.
 
 \subsection{The projective evolutionary moduli space}
 
-We are primarily interested in classifying and comparing distinct evolutionary behaviors by understanding the relative lengths of edges: rescaling edge lengths should not change the relationship between the branches.
-This leads us to consider the quotient space of $\Sigma_m$ by the equivalence relation that for each orthant, the tree $\{t_i\}$ is equivalent to the rescaled tree $\{\lambda t_i\}$.
-That is, we define $\mathbb{P} \Sigma_m$ to be the subspace of $\Sigma_m$ consisting of the points $\{t_i\}$ in each orthant for which the constraint $\sum_{i} t_i = 1$ holds.
+In evolutionary applications, we are often interested in classifying
+and comparing distinct behaviors by understanding the relative lengths
+of edges: rescaling edge lengths should not change the relationship
+between the branches \cite{zairis2014moduli}.  Motivated by this consideration, we define
+$\mathbb{P} \Sigma_m$ to be the subspace of $\Sigma_m$ consisting of
+the points $\{t_i\}$ in each orthant for which the constraint
+$\sum_{i} t_i = 1$ holds.
 
-The space of trees with internal edges of fixed length was studied by Boardman and is denoted by $\tau_{m-1}$.
-The space of $m$ external branches whose lengths sum to $1$ is the standard $m-1$ dimensional simplex $\Delta_{m-1}$ in $\mathbb{R}^m$.
-In terms of these spaces, the requirement that the length of internal branches plus the external branches sum to $1$ implies that
-\[\mathbb{P}\Sigma_m = \tau_{m-1} \star \Delta_{m-1}.\] 
-Alternatively, we can describe $\mathbb{P}\Sigma_m$ as the link on the origin in $\Sigma_m$.
+We denote the space of trees with internal edges of fixed length by
+$\tau_{m-1}$.  The space of $m$ external branches whose lengths sum to
+$1$ is the standard $m-1$ dimensional simplex $\Delta_{m-1}$ in
+$\mathbb{R}^m$.  In terms of these spaces, the requirement that the
+length of internal branches plus the external branches sum to $1$
+implies that
+\[\mathbb{P}\Sigma_m = \tau_{m-1} \star \Delta_{m-1},\]
+where here $\star$ denotes the join of two spaces.  We can also
+describe $\mathbb{P}\Sigma_m$ as the link on the origin in $\Sigma_m$.
 
-There are various possible natural metrics to consider on $\mathbb{P} \Sigma_m$.
-The simplest way to endow $\mathbb{P} \Sigma_m$ with a metric is to use the subspace metric.
-The subspace metric is also very natural from the perspective of our applications.
-However, from the perspective of metric geometry, the characterization of $\mathbb{P} \Sigma_m$ as the link of the origin endows it with the structure of an all-right spherical complex.
-Gromov's theorem then implies that with this metric, $\mathbb{P} \Sigma_m$ is a $\CAT(1)$ space.
-Furthermore, it is clear that with either of these metrics, $\mathbb{P} \Sigma_m$ is a Polish space.
+There are various possible natural metrics to consider on $\mathbb{P}
+\Sigma_m$.  The simplest way to endow $\mathbb{P} \Sigma_m$ with a
+metric is to use the metric specified by paths in $\Sigma_m$
+constrained to lie entirely within $\mathbb{P} \Sigma_m$.  From the
+perspective of metric geometry, the characterization of $\mathbb{P}
+\Sigma_m$ as the link of the origin endows it with a ``spherical''
+metric, and Gromov's criteria imply that with this metric, $\mathbb{P}
+\Sigma_m$ is a $\CAT(1)$ space.  It is clear that with either of these
+metrics, $\mathbb{P} \Sigma_m$ is complete and separable.
+
+To compute the metric on $\mathbb{P}\Sigma_m$, we use $\epsilon$-nets
+and a local-to-global construction.  Recall that a set of points $S$
+in a metric space $(X,\partial)$ is an $\epsilon$-net if for every $z
+\in X$, there exists $q \in S$ such that $\partial(z,x) < \epsilon$.
+For a compact metric space equipped with a probability measure such
+that all non-empty balls in the metric space have nonzero measure, we
+can produce an $\epsilon$-net by sampling.  More precisely, it is
+straightforward to show that given a finite collection of measurable
+sets $\{A_1, A_2, \ldots, A_k\}$ and a probability measure $\mu$ on
+$\cup_i A_i$ such that $\mu(A_i) \geq \alpha > 0$, then given at least
+\[
+\frac{1}{\alpha}\left(\log k + \log(\frac{1}{\delta})\right)
+\]
+samples, with probability $1-\delta$ there is at least one sample in
+every $A_i$~\cite[5.1]{niyogi2008finding}.
+
+Next, suppose that we have a metric space $(X,\partial)$ where there
+exists a constant $\kappa$ such that if $\partial(x,y) < \kappa$, it
+is easy to compute $\partial(x,y)$.  An algorithm for approximating
+$\partial$ on all of $X$ is then to take a dense sample $S \subset X$,
+form the graph $G$ with vertices the points of $S$ and edges between
+$x$ and $y$ when $\partial(x,y) < \kappa$, and define the distance
+between $x$ and $y$ in $X$ to be the graph metric on $G$ between the
+nearest points to $x$ and $y$ in $S$.  This distance can be
+efficiently computed using Djikstra's algorithm.
+
+When $S$ is an $\epsilon$-net for sufficiently small $\epsilon$ relative to $\kappa$, we can describe the quality of the resulting approximation to $\partial$~\cite[Thm. 2]{bernstein2000graph}.
+In particular, if $\epsilon < \frac{\kappa}{4}$, then 
+\[
+\partial(x,y) \leq \partial_G(x,y) \leq (1 + 4\frac{\delta}{\epsilon}) \partial(x,y).
+\]
+
+Putting this all together, to approximate the metric on
+$\mathbb{P}\Sigma_m$ we take the union of $\epsilon$-nets on all of
+the simplices (including the faces) and form a $\kappa$-approximation
+$\partial_G$ as above.  In practice, the required density of samples
+is determined by looking at when the approximation converges (i.e.,
+when the change in distances drops below a specified precision bound).
+We sample densely on each simplex representing a tree topology on $m$
+leaves, and explicitly include certain key singular points of the
+projective space.  Reconstructing the epsilon net and leveraging
+Dijkstra's algorithm for shortest graph distances we can compute an
+affinity matrix on the discretized projective space.  Figure
+\ref{fig:epsilon_net} contains two visualizations of the projective
+space, using the radial basis function (RBF) kernel for calculating
+the affinities.
+{\bf I don't understand what we precisely mean by an affinity matrix
+  and how the RBF kernels comes into this; can we be more precise?}
 
 \begin{figure}
     \begin{subfigure}{0.5\linewidth}
@@ -317,40 +439,15 @@ Furthermore, it is clear that with either of these metrics, $\mathbb{P} \Sigma_m
      \label{fig:epsilon_net}
 \end{figure}
 
-Since neither metric on $\mathbb{P} \Sigma_m$ makes it into a $\CAT(0)$ space, the problem of efficiently computing the metric becomes more acute.
-We approach this problem by using $\epsilon$-nets and a local-to-global construction.
-Recall that a set of points $S$ in a metric space $(X,\partial)$ is an $\epsilon$-net if for every $z \in X$, there exists $q \in S$ such that $\partial(z,x) < \epsilon$.
-For a compact metric space equipped with a probability measure such that all non-empty balls in the metric space have nonzero measure, we can produce an $\epsilon$-net by sampling.
-More precisely, it is straightforward to show that given a finite collection of measurable sets $\{A_1, A_2, \ldots, A_k\}$ and a probability measure $\mu$ on $\cup_i A_i$ such that $\mu(A_i) \geq \alpha > 0$, then given at least 
-\[
-\frac{1}{\alpha}\left(\log k + \log(\frac{1}{\delta})\right)
-\]
-samples, with probability $1-\delta$ there is at least one sample in every $A_i$~\cite[5.1]{niyogi2008finding}.
-
-Next, suppose that we have a metric space $(X,\partial)$ where there exists a constant $\kappa$ such that if $\partial(x,y) < \kappa$, it is easy to compute $\partial(x,y)$.
-An algorithm for approximating $\partial$ on all of $X$ is then to take a dense sample $S \subset X$, form the graph $G$ with vertices the points of $S$ and edges between $x$ and $y$ when $\partial(x,y) < \kappa$, and define the distance between $x$ and $y$ in $X$ to be the graph metric on $G$ between the nearest points to $x$ and $y$ in $S$.
-This distance can be efficiently computed using Djikstra's algorithm.
-
-When $S$ is an $\epsilon$-net for sufficiently small $\epsilon$ relative to $\kappa$, we can describe the quality of the resulting approximation to $\partial$~\cite[Thm. 2]{bernstein2000graph}.
-In particular, if $\epsilon < \frac{\kappa}{4}$, then 
-\[
-\partial(x,y) \leq \partial_G(x,y) \leq (1 + 4\frac{\delta}{\epsilon}) \partial(x,y).
-\]
-
-Putting this all together, to approximate the metric on $\mathbb{P}\Sigma_m$ we take the union of $\epsilon$-nets on all of the simplices (including the faces) and form a $\kappa$-approximation $\partial_G$ as above.
-In practice, the required density of samples is determined by looking at when the approximation converges (i.e., when the change in distances drops below a specified precision bound).
-We sample densely on each simplex representing a tree topology on $m$ leaves, and explicitly include certain key singular points of the projective space.
-Reconstructing the epsilon net and leveraging Dijkstra's algorithm for shortest graph distances we can compute an affinity matrix on the discretized projective space.
-Figure \ref{fig:epsilon_net} contains two visualizations of the projective space, using the radial basis function (RBF) kernel for calculating the affinities.
-
-\subsection{The injectivity radius in $\mathbb{P}\Sigma_m$}
+\subsection{The injectivity radius in $\mathbb{P}\Sigma_m$}\label{sec:inj}
 
 Since $\Sigma_m$ is a $\CAT(0)$ space, any two points are connected by a unique geodesic.
 In contrast, $\mathbb{P}\Sigma_m$ does not have this property in either of the metrics discussed above.
 In the spherical metric, $\mathbb{P}\Sigma_m$ is a $\CAT(1)$ space; as a consequence, there is a finite injectivity radius, which is the maximum distance between points $p,q \in \aP_n$ such that the distance between $p$ and $q$ is realized by a unique geodesic.
-The subspace metric (which is a ``flattening'' of the spherical metric) also fails to have unique realizations for the distances between all points.
+The induced length metric (which is a ``flattening'' of the spherical metric) also fails to have unique realizations for the distances between all points.
 
-We now explain where the non-unique geodesics in $\mathbb{P}\Sigma_m$ come from.
+We now explain where the non-unique geodesics in $\mathbb{P}\Sigma_m$
+come from.  (See also~\cite[3.3]{billera2001geometry} for a related discussion.)
 For simplicity, we will focus on the link in $\BHV_m$, which we will denote by $\aP_m$, and temporarily ignore the join with the simplex coming from the external edge lengths.
 Observe that adjacent top-dimensional simplices in $\aP_m$ differ by a {\em rotation} of tree topologies, where a rotation collapses an internal edge and then expands out from the resulting node.
 Next, recall that the homotopy type of $\aP_n$ is a wedge of $(n-1)!$ spheres of dimension $(n-3)$~\cite{robinson1996tree} (and see also~\cite[Thm. 6]{devadoss2014polyhedral}).
@@ -381,13 +478,19 @@ For smaller values, we have the following table (taken from~\cite[\S2.3]{sleator
 \end{table}
 
 \begin{warning}
-The results given in~\cite{pournin2014diameter} and~\cite{sleator1988rotation} differ slightly from the formula above and from each other due to divergent choices of indexing convention about precisely what $n$ means.
+The results given in~\cite{pournin2014diameter}
+and~\cite{sleator1988rotation} differ slightly from the formula above
+and from each other due to divergent choices of indexing convention.
 \end{warning}
 
-Unfortunately, computing the rotation distance is not known to have a polynomial-time solution, but there are efficient approximation algorithms (all of which have an error bound around $2$) that operate in linear time~\cite{cleary2010linear}.
-
-Returning to the case of $\mathbb{P}\Sigma_m$, the join with the standard simplex adds further complication; paths that realize the distance may involve motion in the cone coordinate as well as in the ``rotation'' direction.
-In practice, we can determine if two points are connected by a unique geodesic by repeated use of Djikstra's algorithm in $G$; after finding the shortest path, we can successively form graphs $G'$ by removing edges and then using Djikstra's algorithm on $G'$.
+Unfortunately, computing the rotation distance is not known to have a
+polynomial-time solution, but there are efficient approximation
+algorithms (all of which have an error bound around $2$) that operate
+in linear time~\cite{cleary2010linear}.  Moreover, the join with the
+standard simplex adds further complication when working with
+$\mathbb{P}\Sigma_m$; paths that realize the distance may involve
+motion in the cone coordinate as well as in the ``rotation''
+direction.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
