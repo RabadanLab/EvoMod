@@ -497,49 +497,70 @@ direction.
 
 \section{Machine learning and statistical inference in $\Sigma_m$ and $\mathbb{P}\Sigma_m$}\label{sec:ML}
 
-The motivation for characterizing the metric geometry of $\Sigma_m$ and $\mathbb{P}\Sigma_m$ comes from the problems of describing and comparing collections of trees generated from experimental data.
+Our motivation for using the metric geometry of $\Sigma_m$ and $\mathbb{P}\Sigma_m$ comes from the problems of describing and comparing collections of trees generated from experimental data.
 Regarding such collections as samples from distributions on the evolutionary moduli spaces, we are interested in basic statistical inference --- estimating parameters describing these distributions and determining if two samples came from the same or different distributions.
 More generally, we would like to understand the kinds of distributions that can arise in evolutionary moduli spaces.
 We are also interested in clustering and classification (i.e., unsupervised and supervised learning) problems in this context.
 Given a set of unlabeled samples, we want to infer clusters of points that have similar clinical outcomes.
-Given a set of labeled samples, we want to produce classifiers that can assign labels to new points in order to predict clinical outcomes.
+Given a set of labeled samples, we want to produce classifiers that
+can assign labels to new points in order to predict clinical outcomes.
+In this section, we will review available tools for these kinds of problems.
 
 \subsection{Statistics for distributions in $\Sigma_m$ and $\mathbb{P}\Sigma_m$}
 
-In contrast to classical statistics on $\mathbb{R}^n$, we do not know many sensible analytically-defined distributions on the evolutionary moduli spaces.
-Billera-Vogtmann-Holmes briefly introduce a family of Mallows distribution on $\Sigma_m$ with density function
-\[
-x(t) = \kappa e^{\alpha d_{\Sigma_m}(t_1, t)}
-\] 
-for fixed $t_1 \in \Sigma_m$, and an analogous family can be defined on $\mathbb{P}\Sigma_m$.
-Sampling from these distributions is somewhat subtle; the natural approach is to use a Markov chain Monte Carlo (MCMC) algorithm, but convergence for such chains is not well-understood and can have pathological behavior near the origin (due to the explosion in the number of trees within an $\epsilon$ ball).
-
-%%%%% ANDREW COMMENT
-%{\bf Say something here about rotation walk.}
-
-A much more tractable source of distributions on $\Sigma_m$ and $\mathbb{P}\Sigma_m$ arise from resampling from a given set of empirical data points.
-However, as we discuss below, since the central limit theorem in nonpositively curved metric spaces can be quite complicated, once again our understanding of the behavior of resampling estimators is incomplete.
-
 In order to study probability distributions in evolutionary moduli spaces, it is necessary to have reasonable notions of moments of the distribution, expectation of random variables, and analogues of the law of large numbers.
-Since $\Sigma_m$ is a $\CAT(0)$ space, points are connected by unique geodesics and there is a sensible notion of a centroid of a collection of points.
-Indications of the use of these properties for statistical inference in $\Sigma_m$ were given in~\cite{billera2001geometry}, and subsequently Holmes has written extensively on this topic~\cite{holmes2003bootstrapping, holmes2003bootstrapping, holmes2005statistical} (and see also~\cite{feragen2013tree}).
-More generally, an account of probability measures on general $\CAT(0)$ spaces has been given by Sturm~\cite{sturm2003probability}.
-The approach taken there specifies the sample mean and variance of a set of points in $\Sigma_m$ in terms of a generalization of a centroid: we define the Fr\'echet mean and variance in $\Sigma_m$.
+Since $\Sigma_m$ is a $\CAT(0)$ space, points are connected by unique
+geodesics and there is a sensible notion of a centroid of a collection
+of points.
+Discussion of statistical inference in $\Sigma_m$ was initiated
+in~\cite{billera2001geometry}, and subsequently Holmes has written
+extensively on this topic~\cite{holmes2003bootstrapping,
+  holmes2003bootstrapping, holmes2005statistical} (and see
+also~\cite{feragen2013tree}).  More generally, Sturm explains how to
+study probability measures on general $\CAT(0)$
+spaces~\cite{sturm2003probability}.  He shows that there are
+reasonable notions of moments of distribution, expectation of random
+variables, and analogues of the law of large numbers on $\CAT(0)$
+spaces.
 
 \begin{definition}
 Given a fixed set of $n$ trees $\{T_0, \ldots T_{n-1}\} \subseteq \Sigma_m$, the Fr\'echet mean $T$ is the unique tree that minimizes the quantity \[E = \sum_{i = 0}^{n-1} d_{\Sigma_m}(T_i, T)^2.\] 
 The variance of $T$ is the ratio $\frac{E}{n}$.
 \end{definition}
 
-Sturm's work provides an iterative procedure for computing the mean and variance of a set of points in $\Sigma_m$, and by exploiting the local geometric structure of $\Sigma_m$, Miller, Owen, and Provan produce somewhat more efficient algorithms for computing the mean~\cite{miller2012polyhedral}.
-Furthermore, Sturm proves versions of Jensen's inequality and the law of large numbers in this context.
-Barden, Le, and Owen study central limit theorems for Fr\'echet means in $\Sigma_m$~\cite{barden2013mean}; as they explain, the situation exhibits non-classical behavior and the limiting distributions depend on the codimension of the simplex in which the mean lies.
-Finally, there has been some work on principal components analysis (PCA) in $\Sigma_m$; the resulting algorithms are computationally involved and fail to capture much of the variance~\cite{Nye2011PCA}.
+Sturm provides an iterative procedure for computing the mean and variance of a set of points in $\Sigma_m$, and by exploiting the local geometric structure of $\Sigma_m$, Miller, Owen, and Provan produce somewhat more efficient algorithms for computing the mean~\cite{miller2012polyhedral}.
+Furthermore, Sturm proves versions of Jensen's inequality and the law
+of large numbers in this context.  The situation for the central
+limit theorem is less satisfactory.  Barden, Le, and Owen study
+central limit theorems for Fr\'echet means in
+$\Sigma_m$~\cite{barden2013mean}; as they explain, the situation
+exhibits non-classical behavior and the limiting distributions depend
+on the codimension of the simplex in which the mean lies.  Finally,
+there has been some work on principal components analysis (PCA) in
+$\Sigma_m$~\cite{Nye2011PCA}.
 
-The situation for $\mathbb{P}\Sigma_m$ is substantially more complicated.
-The failure of the existence of unique geodesics between points means that the Fr'echet mean is not unique and so the associated variance can be discontinuous in small perturbations of the points.
-Only when the diameter of the set of sample points is smaller than the injectivity radius do we expect consistent behavior from these moments.
-When working in $\mathbb{P}\Sigma_m$, we have found it useful to consider the alternate summary tree produced by hierarchical clustering; while in no sense an ``average tree'', the resulting tree does capture information about the metric structure of a finite set of points.
+However, in contrast to classical statistics on $\mathbb{R}^n$, we do
+not know many sensible analytically-defined distributions on the
+evolutionary moduli spaces.  Billera-Vogtmann-Holmes briefly introduce
+a family of Mallows distribution on $\Sigma_m$ with density function
+\[
+x(t) = \kappa e^{\alpha d_{\Sigma_m}(t_1, t)}
+\] 
+for fixed $t_1 \in \Sigma_m$, and an analogous family can be defined
+on $\mathbb{P}\Sigma_m$.  Sampling from these distributions is not
+easy; in general, the behavior of distributions on $\Sigma_m$ and
+sampling algorithms is somewhat perverse due to the pathological
+behavior near the origin due to the exponential growth in the mass of
+an $\epsilon$ ball.  A much more tractable source of distributions on
+$\Sigma_m$ and $\mathbb{P}\Sigma_m$ arise from resampling from a given
+set of empirical data points.
+
+Unfortunately, the situation for $\mathbb{P}\Sigma_m$ is substantially
+more complicated.  Since this is not a $\CAT(0)$ space, the centroid
+of a set of points is not unique and the associated variance can be
+discontinuous in small perturbations of the points.  Only when the
+diameter of the set of sample points is sufficiently small do we
+expect reasonable behavior from these moments.
 
 \subsection{Distributions in $\Sigma_m$ and $\mathbb{P}\Sigma_m$ via distributions in $\mathbb{R}^n$}
 
@@ -570,14 +591,13 @@ One expects that as $k$ increases (provided the landmarks are ``generic''), the 
 
 In both cases, choice of the parameter $k$ depends on some sense of the intrinsic dimension of the support of the distribution as well as the number of points available (in the case of finite samples).
 Unfortunately, the required $k$ may well be quite large.
-%%%%% ANDREW COMMENT
-%{{\bf Explain example of wedge of circles.}
-In our work, we use cross-validation techniques to determine suitable $k$, as discussed below.
 
 Finally, there is a substantial body of work on low-distortion embeddings of finite metric spaces into $\ell^p$ spaces, in particular Euclidean spaces.
 Recall that the distortion of a non-contractive (distance expanding) embedding of metric spaces $f \colon (X, \partial_X) \to (Y, \partial_Y)$ is given by $\sup_{x_1 \neq x_2} \frac{\partial_Y (f(x_1), f(x_2))}{\partial_X (x_1, x_2)}$.
 Notably, Abraham, Bartal, and Neiman show that one can construct a probabilistic embedding of an $n$-point finite metric space into an $O(\log n)$ dimensional space with distortion $O(\log n)$.
-Pushing forward distributions on $\Sigma_m$ and $\mathbb{P}\Sigma_m$ provide another way of reducing statistical questions to Euclidean space.
+Pushing forward distributions on $\Sigma_m$ and $\mathbb{P}\Sigma_m$
+provide another way of reducing statistical questions to Euclidean
+space.
 
 \subsection{Distinguishing samples from different underlying distributions}
 
@@ -623,7 +643,8 @@ The advantage of $k$-medoids over $k$-means is that the problem of finding a cen
 Another natural family of clustering algorithms comes from spectral clustering techniques.
 Recall that spectral clustering can be applied to finite subsets of any metric space; one constructs an embedding into Euclidean space using the graph Laplacian associated to a graph encoding the local metric structure of the set of points and then performs $k$-means clustering.
 As such, spectral clustering can be applied both to $\Sigma_m$ and $\mathbb{P}\Sigma_m$.
-As illustrated in Figure \ref{fig:embedding}, we 
+As illustrated in Figure \ref{fig:embedding}, there is substantial
+distortion under such embeddings for low dimensions.
 
 \begin{figure}
     \centering
@@ -639,20 +660,12 @@ Specifically, a temporal sequence of tumor samples will be linked with a categor
 We would then like to predict patient outcomes or expect response to treatment using a discriminative supervised learning algorithm operating in $\Sigma_m$ or $\mathbb{P}\Sigma_m$.
 Analogous to our use of $k$--medoids clustering for unsupervised grouping, the most basic algorithm for supervised learning is a $k$--nearest neighbor ($k$--NN) predictor.
 In this algorithm the predicted label for a given point is generated by taking a majority or weighted vote over the labels of the $k$ nearest trees.
-The optimal value of $k$ then specifies an order--$k$ Voronoi tesselation of the space that provides a description of the sizes of the predictive neighborhoods surrounding each element of the data set.
-
-Another possibility is exploit embeddings of the data set into $\mathbb{R}^d$.
-There are some subtleties to using such embeddings, however.
-Notably, since neither $\Sigma_m$ or $\mathbb{P}\Sigma_m$ are Euclidean spaces (as they are evidently not flat), we do not expect a low-distortion global embedding.
-Therefore, we have to use embeddings generated by finite samples.
-Specifically, we embed both the labeled training points and the new data into $\mathbb{R}^n$, build classifiers on the training data, and then predict the labels for the new data.
-This requires generating a new embedding and re-training for each new input to classify, and it is not clear that this procedure is stable under perturbation of the data.
-Furthermore, since it is not possible in general to lift classification boundaries in $\mathbb{R}^d$ back to $\Sigma_m$ or $\mathbb{P}\Sigma_m$, qualitative scientific inference about the learned features is difficult.
-
-Finally, it is possible to embed $\Sigma_m$ and $\mathbb{P}\Sigma_m$ isometrically into certain Banach spaces; in fact, for any metric space, we can consider an embedding into the space of linear functionals specified by the taking each point to the functional $\partial(x,-) - \partial(x_0,-)$, where $x_0$ is an arbitrary point.
-Since the Banach space of linear functionals is an $\mathbb{R}$-vector space, one can carry out the support vector classification algorithm directly~\cite{hein2003}.
-Once again, it is not straightforward to produce classification boundaries in the original space.
-
+The optimal value of $k$ then specifies an order--$k$ Voronoi
+tesselation of the space that provides a description of the sizes of
+the predictive neighborhoods surrounding each element of the data
+set.  We use this classification algorithm to study clinical
+correlates of trees determined by tumor samples from glioma patients;
+see figure~\ref{fig:gliomaTMZ}.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
