@@ -614,15 +614,8 @@ between the means.
 In order to understand the variability due to sampling, we can use bootstrap resampling (or more general $k$ out of $n$ resampling without replacement) to generate confidence intervals for the value of $\theta_i$.
 (Asymptotic consistency for the bootstrap follows from the fact that the VC dimension of the collections of balls in $\Sigma_m$ and $\mathbb{P}\Sigma_m$ is bounded, via the usual criteria~\cite{Gine1984, Gine1986, Gine1990}.) 
 
-%%%%% ANDREW COMMENT
-%{Examples of this are presented below.
-%{\bf Forward pointer here.}
-
 In contrast, when working in $\mathbb{P}\Sigma_m$, we have no choice to consider tests induced by the projections into $\mathbb{R}^n$ discussed above.
 Here, we can compare collections $\aC_i$ and $\aC_j$ by using any of the many standard non-parametric comparison techniques for real distributions, for example $\chi^2$ tests or two-sample Kolmogorov-Smirnov tests.
-
-%%%%% ANDREW COMMENT
-%{Again, we present examples of this below. {\bf Forward pointer here.}
 
 One pervasive problem in clinical applications is that often the number of samples is quite small, and so we are often far from the asymptotic regime for statistical tests.
 Standard small-sample corrections can be applied.
@@ -841,20 +834,20 @@ that the sampled trees are also close.
 
 We begin with a lemma describing the interaction of $\Psi_S$ and tree
 rotation.  First, observe that $\Psi_S$ applied to a binary tree $T$
-produces either a binary tree or the trivial tree with a single edge;
-the degree of a vertex is never increased and degree $2$ vertices are
-collapsed.  For a binary tree $T$, we say that a rotation $R$ on $T$
-is completely contained in $\Psi_S(T)$ if $\Psi_S(T)$ contains the
-vertex of the rotation and all of the edges involved in the rotation.
-In terms of the convex $n$-gon corresponding to $T$, the rotation is
-completely contained in $\Psi_S(T)$ if and only if the quadrilateral
-corresponding to the rotation is present in the polygon corresponding
-to $\Psi_S(T)$.  Denote by $\Psi_S(R)$ the induced rotation on
-$\Psi_S(T)$ if it is completely contained and the identity map
-otherwise.
+produces a binary tree as long as $|S| > 1$; the degree of a vertex is
+never increased and degree $2$ vertices are collapsed.  For a binary
+tree $T$, we say that a rotation $R$ on $T$ is completely contained in
+$\Psi_S(T)$ if $\Psi_S(T)$ contains the vertex of the rotation and all
+of the edges involved in the rotation.  In terms of the convex $n$-gon
+corresponding to $T$, the rotation is completely contained in
+$\Psi_S(T)$ if and only if the quadrilateral corresponding to the
+rotation is present in the polygon corresponding to $\Psi_S(T)$.
+Denote by $\Psi_S(R)$ the induced rotation on $\Psi_S(T)$ if it is
+completely contained and the identity map otherwise.
 
 \begin{lemma}\label{lem:rotprojcom}
-There is a canonical identification
+Let $T$ be a binary tree and $S$ a subset of $\{1,\ldots,m\}$ such
+that $|S| > 1$.  Then there is a canonical identification
 \[
 \Psi_S(RT) \cong \Psi_S(R) \Psi_S(T).
 \]
@@ -875,7 +868,7 @@ Squaring both sides, it is clear that
 \]
 On the other hand, since 
 \[
-\partial_{\mathbb{R}}(\sum_{i=1}^n x_i, \sum_{i=1}^n y_i) \leq n(\max_i |x_i - y_i|) \leq n \partial_{\mathbb{R}^n}((x_i), (y_i))^2,
+\partial_{\mathbb{R}}(\sum_{i=1}^n x_i, \sum_{i=1}^n y_i) \leq n(\max_i |x_i - y_i|) \leq n \partial_{\mathbb{R}^n}((x_i), (y_i)),
 \]
 the addition of edge lengths can result in an expansion bounded by the
 size of the sum.
@@ -885,24 +878,26 @@ Another way to interpret the previous result is to observe that the addition map
 \end{remark}
 
 \begin{proposition}\label{prop:projcont}
-Let $S \subseteq \{1,\ldots,m\}$ and $\gamma \colon [0,1] \to \aE_m$ be a path from $T$ to $T'$.
-Then $\gamma \circ \Psi_S \colon [0,1] \to \Sigma_{|S|}$ is a path from $\Psi_S(T)$ to $\Psi_S(T')$ and $|\gamma'| \leq (\log_2 m) |\gamma|$.
+Let $S \subseteq \{1,\ldots,m\}$ such that $|S| > 1$ and let $\gamma
+\colon [0,1] \to \aE_m$ be a path from $T$ to $T'$.  Then $\gamma
+\circ \Psi_S \colon [0,1] \to \Sigma_{|S|}$ is a path from $\Psi_S(T)$
+to $\Psi_S(T')$ and $|\gamma'| \leq (\log_2 m) |\gamma|$.
 \end{proposition}
 
 \begin{proof}
 First, observe that if $T$ and $T'$ are in the same orthant of $\aE_m$, the result is clear. 
 For any $S$, $\Psi_S(T)$ and $\Psi_S(T')$ will be in the same orthant of $\Sigma_{|S|}$.
-The length of the projected path in that orthant, by the discussion above, is bounded by the length of the path in $\aE_m$ scaled by the depth of the tree, which is $\log_2 m$.
+By the discussion above, the length of the projected path in that orthant is bounded by the length of the path in $\aE_m$ scaled by the depth of the tree, which is $\log_2 m$.  This argument also shows that result holds for a path that goes through the origin and involves no rotations.
 
-Now suppose that $T$ and $T'$ are not in the same orthant and neither $T$ nor $T'$ is contained in a positive codimension subspace of $\aE_m$ (i.e., they are not on the boundary of any orthant).
-Further, we assume that $\gamma$ does not go through the origin.
-
-Now, assume that $\gamma$ can be expressed in terms of a finite list
-of tree rotations $(R_1, R_2, \ldots, R_k)$ and paths $(\gamma_1,
-\gamma_2, \ldots, \gamma_k)$ that describe the restriction of $\gamma$
-to the orthant prior to the rotation $R_i$.  We can always arrange
-this by perturbing $\gamma$ by an infinitesimal amount; passing to
-limits, it will suffice to work in this case.
+Now suppose that $T$ and $T'$ are not in the same orthant and neither
+$T$ nor $T'$ is contained in a positive codimension subspace of
+$\aE_m$ (i.e., they are not on the boundary of any orthant).  Further,
+we assume that $\gamma$ does not go through the origin and that
+$\gamma$ can be expressed in terms of a finite list of tree rotations
+$(R_1, R_2, \ldots, R_k)$ and paths $(\gamma_1, \gamma_2, \ldots,
+\gamma_k)$ that describe the restriction of $\gamma$ to the orthant
+prior to the rotation $R_i$.  That is, we assume that $\gamma$ only
+goes through codimension $1$ faces of each orthant.
 
 Now, fix a subset $S \in \{1,\ldots,m\}$.  The projection
 $\Psi_S(\gamma)$ yields a path $\gamma'$ from $\Psi_S(T)$ to
@@ -927,17 +922,16 @@ of the projected path is bounded by $(\log_2 m) |\gamma_i|$.  Summing,
 we find that the length of the projected path is bounded by $(\log_2
 m) \sum_{i=1}^k |\gamma_i| = |\gamma'|$.
 
-There are a few other cases to handle.  Continuity implies the result for a path that starts or ends on a positive codimension subspace of $\aE_m$.
-For a path that goes through the origin and involves no rotations, the result follows from the same argument as in the case of a path entirely contained in a single orthant.
-Finally, more complicated paths that involve both rotations and
-movements through the origin satisfy the bound by induction.
+For a general $\gamma$ that does not go through the origin but might traverse faces of codimension larger than $1$, observe that for any $\epsilon > 0$, we can perturb $\gamma$ to produce a path $\gamma'$ with the same endpoints which satisfies the hypothesis above and has $|\gamma'| = |\gamma| + \epsilon$.  Passing to limits then implies that the bound holds for such a path.  Similarly, a limit argument implies the result for a path that starts or ends on a positive codimension subspace of $\aE_m$.
+
+Finally, more complicated paths that involve both rotations and also pass through the origin satisfy the bound by an easy induction.
 \end{proof}
 
 Using Proposition~\ref{prop:projcont}, it is straighforward to deduce the next two theorems that provide the theoretical support for the use of tree dimensionality reduction.
 The following theorem is an immediate consequence of Proposition~\ref{prop:projcont}, choosing the path realizing the distance between $T$ and $T'$.
 
 \begin{theorem}\label{thm:stab}
-For $T,T' \in \aE_m$ such that $d_{\aE_m}(T,T') \leq \epsilon$, then for any $S \in \{1,\ldots,m\}$,
+For $T,T' \in \aE_m$ such that $d_{\aE_m}(T,T') \leq \epsilon$, then for any $S \subseteq \{1,\ldots,m\}$ such that $|S| > 1$, 
 \[
 d_{\Sigma_{|S|}}(\Psi_S(T), \Psi_S(T')) \leq (\log_2 m)\epsilon.
 \]
