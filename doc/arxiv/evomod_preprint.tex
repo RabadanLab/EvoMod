@@ -59,13 +59,13 @@ To address this issue, we introduce {\em tree dimensionality reduction}, a struc
 We prove a stability theorem ensuring that small perturbations of the large trees are taken to small perturbations of the resulting distributions.
 
 We then present a series of four biologically motivated applications to the analysis of genomic data, spanning cancer and infectious disease.
-The first quantifies how chemotherapy can disrupt the evolution of common leukemias. 
+The first quantifies how chemotherapy can disrupt the evolution of common leukemias.
 The second examines a link between geometric information and the histologic grade in relapsed gliomas, where longer relapse branches were specific to high grade glioma.
 The third concerns genetic stability of xenograft models of cancer, where heterogeneity at the single cell level increased with later mouse passages.
-The last studies genetic diversity in seasonal influenza A virus.  
+The last studies genetic diversity in seasonal influenza A virus.
 We apply tree dimensionality reduction to project 24 years of longitudinally collected H3N2 hemagglutinin sequences into distributions of smaller trees spanning between three and five seasons.
 A negative correlation is observed between the influenza vaccine effectiveness during a season and the variance of the distributions produced using preceding seasons' sequence data.
-Thus, we obtain an estimate of influenza vaccine effectiveness using genomic data. 
+Thus, we obtain an estimate of influenza vaccine effectiveness using genomic data.
 
 \end{abstract}
 \newpage
@@ -77,23 +77,13 @@ Thus, we obtain an estimate of influenza vaccine effectiveness using genomic dat
 \section{Introduction}
 
 The importance of phylogenetic tree structures in biological sciences cannot be overstated.
-In 1859, Charles Darwin proposed the tree as a metaphor for the
-process of species generation through branching of ancestral
-lineages~\cite{darwin1859origin}.  Since then, tree structures have
-been used pervasively in biology, where terminal branches can
-represent a diverse set of biological entities and taxonomic units
-including individual or families of genes, organisms, populations of
-related organisms, species, genera, or higher taxa.
+In 1859, Charles Darwin proposed the tree as a metaphor for the process of species generation through branching of ancestral lineages~\cite{darwin1859origin}.
+Since then, tree structures have been used pervasively in biology, where terminal branches can represent a diverse set of biological entities and taxonomic units including individual or families of genes, organisms, populations of related organisms, species, genera, or higher taxa.
 
-Although the widespread use of trees has been recently questioned on the grounds that some biological taxa are not the results of simple branching processes \cite{doolittle1999phylogenetic, chan2013topology}, a large set of evolutionary processes are well captured by tree-like structures.
-In particular, trees describe clonal evolution events that start from asexual reproduction of a single organism (the primordial clone), which mutates and differentiates into a large progeny (see figure \ref{fig:illustration_1})~\cite{khiabanian2014viral}.
-Examples of these processes include single gene phylogeny in
-non-recombinant viruses, evolution of bacteria that are not involved
-in horizontal gene transfer events, and metazoon development from a
-single germ cell.
-Recent developments in genomics allow the study of
-such events in exquisite detail, particularly at single cell/clone
-levels~\cite{navin2011tumour, shalek2013single, eirew2014dynamics}.
+Although the widespread use of trees has been recently questioned on the grounds that some biological taxa are not the results of simple branching processes~\cite{doolittle1999phylogenetic, chan2013topology}, a large set of evolutionary processes are well captured by tree-like structures.
+In particular, trees describe clonal evolution events that start from asexual reproduction of a single organism (the primordial clone), which mutates and differentiates into a large progeny (see Figure~\ref{fig:illustration_1})~\cite{khiabanian2014viral}.
+Examples of these processes include single gene phylogeny in non-recombinant viruses, evolution of bacteria that are not involved in horizontal gene transfer events, and metazoan development from a single germ cell.
+Recent developments in genomics allow the study of such events in exquisite detail, particularly at single cell/clone levels~\cite{navin2011tumour, shalek2013single, eirew2014dynamics}.
 
 An important example of clonal evolution can be observed in cancer where a single cell replicates and spreads uncontrollably.
 The answers to many clinical and biological questions involve investigating different phases of a tumor's clonal evolution.
@@ -107,14 +97,16 @@ If the evolution of the tumor is believed to be highly linear, subsequent phases
 On the other hand, if an ancestral clone gains resistance to therapy and dominates the long-time evolution, very different shapes of trees compared to those from a linear process will be observed.
 
 These and many other questions associated with clonal processes can be expressed in terms of comparing evolutionary histories.
-For instance, stratifying cancer patients according to their evolutionary history requires a way of comparing trees and associating summary statistics to clouds of trees. 
-In a recent paper~\cite{zairis2014moduli}, we proposed application of the metric geometry of the space of phylogenetic trees, constructed by Billera-Holmes-Vogtmann, to this problem. Here each history/patient is represented by a point in a space of trees.~\ref{fig:illustration_2}
-We referred to these tree spaces as ``evolutionary moduli spaces'', in which classifying histories translates into finding patterns within a point cloud.
+For instance, stratifying cancer patients according to their evolutionary history requires a way of comparing trees and associating summary statistics to clouds of trees.
+In a recent paper~\cite{zairis2014moduli}, we proposed applying the metric geometry of the space of phylogenetic trees, constructed by Billera-Holmes-Vogtmann, to this problem.
+As illustrated in Figure~\ref{fig:illustration_2}, each history/patient is represented by a point in a space of trees.
+We referred to these tree spaces as ``evolutionary moduli spaces,'' in which classifying histories translates into finding patterns within a point cloud.
 
 In this paper, we develop these applications in detail and introduce new machinery for dimensionality reduction.
-We begin by reviewing (in Section~\ref{sec:phylospace}) some of the fundamental notions regarding the geometry of evolutionary moduli spaces, following Billera-Holmes-Vogtman \cite{billera2001geometry}, Sturm \cite{sturm2003probability}, and our prior treatment~\cite{zairis2014moduli}.
+We begin by reviewing (in Section~\ref{sec:phylospace}) some of the fundamental notions regarding the geometry of evolutionary moduli spaces, following Billera-Holmes-Vogtman~\cite{billera2001geometry}, Sturm~\cite{sturm2003probability}, and our prior treatment~\cite{zairis2014moduli}.
 Motivated by several biological applications, we also introduce a projective version of these spaces and study some of their geometric properties.
-In Section~\ref{sec:ML}, we give an overview of the application of standard machine learning and statistical inference techniques in these spaces.  Applying these techniques, in Section~\ref{sec:cancer} we describe the interpretive power of evolutionary moduli spaces for studying cancer genomic data in three examples: evolution of chronic lymphocytic leukemia under therapy (Section~\ref{sec:CLL}), grade at relapse in glioma (Section~\ref{sec:glioma}), and clonal dynamics in patient-derived xenografts (Section~\ref{sec:xeno}).  In each case, we find that representing the problem in terms of the evolutionary moduli spaces permits meaningful inference with clinical significance.
+In Section~\ref{sec:ML}, we give an overview of the application of standard machine learning and statistical inference techniques in these spaces.  Applying these techniques, in Section~\ref{sec:cancer} we describe the interpretive power of evolutionary moduli spaces for studying cancer genomic data in three examples: evolution of chronic lymphocytic leukemia under therapy (Section~\ref{sec:CLL}), grade at relapse in glioma (Section~\ref{sec:glioma}), and clonal dynamics in patient-derived xenografts (Section~\ref{sec:xeno}).
+In each case, we find that representing the problem in terms of the evolutionary moduli spaces permits meaningful inference with clinical significance.
 
 The trees arising from clonal evolution in cancers tend to be quite small, since each leaf corresponds to a tissue sample from the tumor.
 However, when studying the evolution of a viral outbreak with thousands of isolates, or the genomic characterization of thousands of single cells, we expect very large trees.
@@ -135,7 +127,7 @@ We also describe the use of tree dimensionality reduction to produce a novel gen
     \centering
     \includegraphics[height=3in]{../figures/illustration_longitudinal.pdf}
     \end{subfigure}
-    \caption{{\bf Clonal evolution of an asexually reproducing genome}. (a) Through acquisition of mutations, the primordial clone gives rise to a large heterogeneous population, whose evolutionary history can be accurately described by a tree. (b) Longitudinal sampling of a clonal population permits the construction of phylogenetic trees that approximate the underlying history. Subpopulations are represented in different colors; stochastic sampling of a particular genotype at each time point is illustrated in the color of the external branch in the tree.  This tree is one of many that could be observed when sampling this population.}
+    \caption{{\bf Clonal evolution of an asexually reproducing genome}. (Left) Through acquisition of mutations, the primordial clone gives rise to a large heterogeneous population, whose evolutionary history can be accurately described by a tree. (Right) Longitudinal sampling of a clonal population permits the construction of phylogenetic trees that approximate the underlying history. Subpopulations are represented in different colors; random sampling of a particular genotype at each time point is illustrated in the color of the external branch in the tree. This tree is one of many that could be observed when sampling this population.}
      \label{fig:illustration_1}
 \end{figure}
 
@@ -143,7 +135,7 @@ We also describe the use of tree dimensionality reduction to produce a novel gen
 \begin{figure}
     \centering
     \includegraphics[height=3.5in]{../figures/illustration_BHV_5.png}
-    \caption{{\bf Moduli space of phylogenetic trees describing clonal evolution.} Collections of trees are points in a metric space, forming a point cloud.  Trees with the same topology live in the same orthant, and crossing into an adjacent orthant corresponds to a tree rotation.  Points closer to the vertex of the cone have relatively little internal branch length, while points near the base of the cone have little weight in the external branches.}
+    \caption{{\bf Moduli space of phylogenetic trees describing clonal evolution.} Collections of trees are points in a metric space, forming a point cloud. Trees with the same topology live in the same orthant, and crossing into an adjacent orthant corresponds to a tree rotation. Points closer to the vertex of the cone have relatively little internal branch length, while points near the base of the cone have little weight in the external branches.}
     \label{fig:illustration_2}
 \end{figure}
 
@@ -162,22 +154,13 @@ Finally, we discuss the properties of projective versions of tree spaces which a
 
 \subsection{A rapid review of metric geometry}
 
-In this subsection we quickly explain the foundations of metric
-geometry.  See~\cite{bridson99, burago01} for comprehensive textbooks
-on the subject.  A metric space $(X,d)$ is a set $X$ equipped with a
-distance function $d \colon X \times X \to \mathbb{R}^{\geq 0}$ having
-the properties that $d(x,y) = d(y,x)$, $d(x,y) = 0$ if and only if $x
-= y$, and $d(x,z) \leq d(x,y) + d(y,z)$ for all $x,y,z \in X$ (the
-triangle inequality).  Although metric spaces often arise in contexts
-in which there is not an evident notion of geometric structure, it
-turns out that under very mild hypotheses a metric space $(X,d)$ can
-be endowed with structures analogous to those arising on Riemannian
-manifolds.  A metric space is a length space if the distance $d(x,y)$
-is realized as the infimum of the lengths of paths joining $x$ and
-$y$.  A length space $(X,d)$ is a geodesic metric space if any two
-points $x$ and $y$ can be joined by a path with length precisely
-$d(x,y)$.  A key insight of Alexandrov is that {\em curvature} makes
-sense in any geodesic metric space~\cite{alexandrov1957uber}.
+In this subsection we quickly explain the foundations of metric geometry.
+See~\cite{bridson99, burago01} for comprehensive textbooks on the subject.
+A metric space $(X,d)$ is a set $X$ equipped with a distance function $d \colon X \times X \to \mathbb{R}^{\geq 0}$ having the properties that $d(x,y) = d(y,x)$, $d(x,y) = 0$ if and only if $x = y$, and $d(x,z) \leq d(x,y) + d(y,z)$ for all $x,y,z \in X$ (the triangle inequality).
+Although metric spaces often arise in contexts in which there is not an evident notion of geometric structure, it turns out that under very mild hypotheses a metric space $(X,d)$ can be endowed with structures analogous to those arising on Riemannian manifolds.
+A metric space is a length space if the distance $d(x,y)$ is realized as the infimum of the lengths of paths joining $x$ and $y$.
+A length space $(X,d)$ is a geodesic metric space if any two points $x$ and $y$ can be joined by a path with length precisely $d(x,y)$.
+A key insight of Alexandrov is that {\em curvature} makes sense in any geodesic metric space~\cite{alexandrov1957uber}.
 
 The idea is that the curvature of a space can be detected by considering the behavior of the area of triangles, and triangles can be defined in any geodesic metric spaces.
 Specifically, given points $p, q, r$, we have the triangle $T = [p,q,r]$ with edges the paths that realize the distances $d(p,q)$, $d(p,r)$, and $d(q,r)$.
@@ -206,14 +189,10 @@ As a consequence, there exist well-defined notions of mean and variance of a set
 
 \subsection{Cubical complexes and their links}
 
-In this subsection, we review the theory of cubical complexes, which
-provide a rich source of examples of $\CAT(0)$ metric spaces.  (Again, see~\cite{burago01} or~\cite{bridson99} for textbook treatments).  It is
-in general very difficult to determine for an arbitrary metric space
-whether it is $\CAT(\kappa)$ for any given $\kappa$.  Even for finite
-polyhedra where the metric is induced from the Euclidean metric on
-each face, this problem does not have a general solution.  The
-important of cubical complexes in this context comes from an effective
-criterion for determining if they are non-positively curved (i.e., $\CAT(0)$).
+In this subsection, we review the theory of cubical complexes, which provide a rich source of examples of $\CAT(0)$ metric spaces (again, see~\cite{burago01} or~\cite{bridson99} for textbook treatments).
+It is in general very difficult to determine for an arbitrary metric space whether it is $\CAT(\kappa)$ for any given $\kappa$.
+Even for finite polyhedra where the metric is induced from the Euclidean metric on each face, this problem does not have a general solution.
+The important of cubical complexes in this context comes from an effective criterion for determining if they are non-positively curved (i.e., $\CAT(0)$).
 
 Let $I^n \subseteq \mathbb{R}^n$ denote the $n$-dimensional unit cube $[0,1] \times \ldots \times [0,1]$, regarded as inheriting a metric structure from the standard metric on $\mathbb{R}^n$.
 A codimension $k$ face of the cube $I^n$ is determined by fixing $k$ coordinates to be in the set $\{0,1\}$.
@@ -232,10 +211,10 @@ S(C_i,v) = \{z \in C_i \, | \, d(z,v) = \epsilon\}.
 The set $S(C_i,v)$ has a metric induced by the Euclidean angle metric.
 The faces of $S(C_i,v)$ are defined as the intersections of $S(C_i,v)$ with faces of $C_i$; equivalently, these are the all-right spherical simplexes associated to faces of $C_i$.
 The collection of all-right spherical simplices for all pairs $(C_i, v)$ forms a polyhedral complex with metric given by the length metric induced from the angle metrics; this is referred to as a spherical complex.
-Forgetting the metric structure, the all-right spherical simplices also form an abstract simplicial complex. (Recall that an abstract simplicial complex is simply a set of subsets of a set $V$ that is closed under passage to subsets.)
+Forgetting the metric structure, the all-right spherical simplices also form an abstract simplicial complex.
+(Recall that an abstract simplicial complex is simply a set of subsets of a set $V$ that is closed under passage to subsets.)
 
-The link of a vertex $v$ in a cubical complex $C$ is the spherical
-complex obtained as the subset  
+The link of a vertex $v$ in a cubical complex $C$ is the spherical complex obtained as the subset  
 \[
 L(v) = \{z \in C \, | \, d(z,v) = \epsilon\},
 \]
@@ -243,164 +222,93 @@ for fixed $0 < \epsilon < 1$.
 Gromov's criterion now states that the cubical complex $C$ is locally $\CAT(0)$ if and only if the link is $\CAT(1)$ or the abstract simplicial complex underlying the link is flag.
 (Recall that a flag complex is a simplicial complex in which a $k$-simplex is in the complex if and only its $1$-dimensional faces are in the complex.)
 
-As an easy application of Gromov's criterion, we conclude the section
-by showing the standard result that the cartesian product of locally $\CAT(0)$ cubical complexes is itself a locally $\CAT(0)$ cubical complex.
+As an easy application of Gromov's criterion, we conclude the section by showing the standard result that the Cartesian product of locally $\CAT(0)$ cubical complexes is itself a locally $\CAT(0)$ cubical complex.
 Let $X$ and $Y$ be cubical complexes that are $\CAT(0)$.
 Since $I^n \times I^m \cong I^{n+m}$, it is clear that $X \times Y$ has the structure of a cubical complex.
 The set of vertices of $X \times Y$ is given by the product of the sets of vertices of $X$ and $Y$ respectively.
-The link of a vertex $(v,v')$ in $X \times Y$, regarded as an abstract simplicial complex, is the join of $L(v)$ and $L(v')$, which we denote $L(v) \ast L(v')$.
-(The join of complexes $S_1$ and $S_2$ is obtained by considering all pairwise unions of elements of $S_1$ and $S_2$.)
+The link of a vertex $(v,v')$ in $X \times Y$, regarded as an abstract simplicial complex, is the join of $L(v)$ and $L(v')$, which we denote $L(v) \ast L(v')$ (the join of complexes $S_1$ and $S_2$ is obtained by considering all pairwise unions of elements of $S_1$ and $S_2$).
 Finally, since the join of flag complexes is easily seen to be a flag complex, Gromov's criterion now implies that $X \times Y$ is locally $\CAT(0)$.
 
 \subsection{The Billera-Holmes-Vogtmann spaces of phylogenetic trees}
 
-A phylogenetic tree with $m$ leaves is a weighted, connected graph
-with no cycles, having $m$ distinguished vertices (referred to as {\em
-  leaves}) of degree $1$ and labeled $\{1, \ldots, m\}$.  All the
-other vertices are of degree $\geq 3$.  We refer to edges that
-terminate in leaves as {\em external} edges and the remaining edges
-are {\em internal}.
+A phylogenetic tree with $m$ leaves is a weighted, connected graph with no cycles, having $m$ distinguished vertices (referred to as {\em leaves}) of degree $1$ and labeled $\{1, \ldots, m\}$.
+All the other vertices are of degree $\geq 3$.
+We refer to edges that terminate in leaves as {\em external} edges and the remaining edges are {\em internal}.
 
-The space $\BHV_m$ of isometry classes of rooted phylogenetic trees
-with $m$-labelled leaves where the nonzero weights are on the internal
-branches was introduced and studied by Billera, Holmes, and
-Vogtmann~\cite{billera2001geometry}.  The space $\BHV_m$ is
-constructed by gluing together $(2m-3)!!$ positive orthants
-$\mathbb{R}^m_{\geq 0}$; each orthant corresponds to a particular tree
-topology, with the coordinates specifying the lengths of the edges.  A
-point in the interior of an orthant represents a binary tree; if any
-of the coordinates are $0$, the tree is obtained from a binary tree by
-collapsing some of the edges.  We glue orthants together such that a
-(non-binary) tree is on the boundary between two orthants when it can
-be obtained by collapsing edges from either tree geometry.  Put
-another way, two tree topologies are adjacent when they are connected
-by a {\em rotation}, i.e., one topology can be generated from the
-other by collapsing an edge to length $0$ and then expanding out
-another edge from the incident vertex.
+The space $\BHV_m$ of isometry classes of rooted phylogenetic trees with $m$-labelled leaves where the nonzero weights are on the internal branches was introduced and studied by Billera, Holmes, and Vogtmann~\cite{billera2001geometry}.
+The space $\BHV_m$ is constructed by gluing together $(2m-3)!!$ positive orthants $\mathbb{R}^m_{\geq 0}$; each orthant corresponds to a particular tree
+topology, with the coordinates specifying the lengths of the edges.
+A point in the interior of an orthant represents a binary tree; if any of the coordinates are $0$, the tree is obtained from a binary tree by collapsing some of the edges.
+We glue orthants together such that a (non-binary) tree is on the boundary between two orthants when it can be obtained by collapsing edges from either tree geometry.
+Put another way, two tree topologies are adjacent when they are connected by a {\em rotation}, i.e., one topology can be generated from the other by collapsing an edge to length $0$ and then expanding out another edge from the incident vertex.
 
-The metric on $\BHV_{m}$ is induced from the standard Euclidean
-distance on each of the orthants.  For two trees $t_1$ and $t_2$ which
-are both in a given orthant, the distance $d_{\BHV_{m}}(t_1,t_2)$ is
-defined to be the Euclidean distance between the points specified by
-the weights on the edges.  For two trees which are in different
-quadrants, there exist (many) paths connecting them which consist of a
-finite number of straight lines in each quadrant.  The length of such
-a path is the sum of the lengths of these lines, and the distance
-$d_{\BHV_{m}}(t_1,t_2)$ is then the minimum length over all such
-paths.  For many points, the shortest path goes through the ``cone
-point'', the star tree in which all internal edges are zero.
+The metric on $\BHV_{m}$ is induced from the standard Euclidean distance on each of the orthants.
+For two trees $t_1$ and $t_2$ which are both in a given orthant, the distance $d_{\BHV_{m}}(t_1,t_2)$ is defined to be the Euclidean distance between the points specified by the weights on the edges.
+For two trees which are in different quadrants, there exist (many) paths connecting them which consist of a finite number of straight lines in each quadrant.
+The length of such a path is the sum of the lengths of these lines, and the distance $d_{\BHV_{m}}(t_1,t_2)$ is then the minimum length over all such
+paths.
+For many points, the shortest path goes through the ``cone point'', the star tree in which all internal edges are zero.
 
-Allowing potentially nonzero weights for the $m$ external leaves
-corresponds to taking the cartesian product with an $m$-dimensional
-orthant.  We will focus on the space
-\[\Sigma_m = \BHV_{m-1} \times (\mathbb{R}^{\geq 0})^{m},\]
-which we refer as the evolutionary moduli space.  (The $m-1$ index
-arises from the fact that we consider unrooted trees.)  There is a
-metric on $\Sigma_m$ induced from the metric on $\BHV_{m-1}$.
-Specifically, for a tree $t$, let $t(i)$ denote the length of the
-external edge associated to the vertex $i$.
+Allowing potentially nonzero weights for the $m$ external leaves corresponds to taking the cartesian product with an $m$-dimensional orthant.
+We will focus on the space \[\Sigma_m = \BHV_{m-1} \times \mathbb{R}^m_{\geq 0},\] which we refer as the evolutionary moduli space (the $m-1$ index
+arises from the fact that we consider unrooted trees.)
+There is a metric on $\Sigma_m$ induced from the metric on $\BHV_{m-1}$.
+Specifically, for a tree $t$, let $t(i)$ denote the length of the external edge associated to the vertex $i$.
 Then \[d_{\Sigma_m}(t_1,t_2) =
-\sqrt{d_{\BHV_{m-1}}(\bar{t}_1,\bar{t}_2) + \sum_{i=1}^m (t_1(i) -
+\sqrt{d^2_{\BHV_{m-1}}(\bar{t}_1,\bar{t}_2) + \sum_{i=1}^m (t_1(i) -
   t_2(i))^2},\] where $\bar{t}_i$ denotes the tree in $\BHV_{m-1}$
 obtained by forgetting the lengths of the external edges (e.g.,
 see~\cite{owen2011fast}).
-As explained in ~\cite[\S4.2]{billera2001geometry}, efficiently
-computing the metric on $\Sigma_m$ is a nontrivial problem, although
-there exists a polynomial-time algorithm~\cite{owen2011fast}.
+As explained in ~\cite[\S4.2]{billera2001geometry}, efficiently computing the metric on $\Sigma_m$ is a nontrivial problem, although there exists a polynomial-time algorithm~\cite{owen2011fast}.
 
-The main result of Billera, Holmes, and Vogtmann is that the length
-metric on $\BHV_n$ endows this space with a (global) $\CAT(0)$
-structure.  By subdividing each orthant into cubes in the evident
-fashion, $\Sigma_m$ is naturally a cubical complex where the metric we
-have described is the one induced from the Euclidean metric on the
-cubes; a straightforward combinatorial analysis of the link of
-$\Sigma_m$ implies the result via Gromov's criterion.
-In addition, $\Sigma_m$ is clearly a complete and separable metric
-space; any tree can be approximated by a sequence of trees in the same
-orthant that have rational edge lengths.
+The main result of Billera, Holmes, and Vogtmann is that the length metric on $\BHV_n$ endows this space with a (global) $\CAT(0)$ structure.
+By subdividing each orthant into cubes in the evident fashion, $\Sigma_m$ is naturally a cubical complex where the metric we have described is the one induced from the Euclidean metric on the cubes; a straightforward combinatorial analysis of the link of $\Sigma_m$ implies the result via Gromov's criterion.
+In addition, $\Sigma_m$ is clearly a complete and separable metric space; any tree can be approximated by a sequence of trees in the same orthant that have rational edge lengths.
 
 \subsection{Binary trees and triangulations of convex polygons}
 
-Two trees $T_1$ and $T_2$ are in adjacent orthants of $\Sigma_m$ when they are related by a rotation, which we described above as the transformation on a tree performed by collapsing a specified edge to one of its incident vertices and then expanding out an edge from that vertex.
+Two trees are in adjacent orthants of $\Sigma_m$ when they are related by a rotation, which we described above as the transformation on a tree performed by collapsing a specified edge to one of its incident vertices and then expanding out an edge from that vertex.
 In order to study the geometry of tree space, it is often useful to have an alternate description of the rotation operation.
-We now explain the connection between binary trees and triangulations
-of convex polygons; in the setting of polygons, the rotation operation
-has a simple geometric description (e.g., see~\cite{sleator1988rotation}).
-This model was used in the computation of the diameter in rotation
-distance of tree space described in Section~\ref{sec:inj}, and will be
-applied when we study tree dimensionality reduction in
-Section~\ref{sec:treedimred}.
+We now explain the connection between binary trees and triangulations of convex polygons; in the setting of polygons, the rotation operation has a simple geometric description (e.g., see~\cite{sleator1988rotation}).
+This model was used in the computation of the diameter in rotation distance of tree space described in Section~\ref{sec:inj}, and will be applied when we study tree dimensionality reduction in Section~\ref{sec:treedimred}.
 
 Given a triangulation of a convex polygon with $n$ vertices, the dual graph is formed by taking a vertex for each triangle and an edge connecting vertices in adjacent triangles.
 It is clear that the dual graph forms a binary tree.
 On the other hand, given a rooted binary tree with $n$ leaves, we can recursively produce a triangulation of the regular $n+1$-gon as follows.
 We label the edges of the polygon by the leaves in counterclockwise order.
 We then add the triangle formed by the edge corresponding to the root of the tree and the vertex $k+3$, where $k$ denotes the number of leaves on the left side of the root.
-The process is then recursively carried out on the two polygons formed
-by this triangle.  One checks that these two procedures yield a
-bijection between rooted binary trees and triangulations.
+The process is then recursively carried out on the two polygons formed by this triangle.
+One checks that these two procedures yield a bijection between rooted binary trees and triangulations.
 
-A rotation of a tree in this context is now described in the polygon
-model by choosing a quadrilateral formed by two adjacent triangles and
-``flipping the diagonal''; i.e., deleting the diagonal chord and
-replacing it with the diagonal through the two vertices the original
-diagonal did not use.
+A rotation of a tree in this context is now described in the polygon model by choosing a quadrilateral formed by two adjacent triangles and ``flipping the diagonal''; i.e., deleting the diagonal chord and replacing it with the diagonal through the two vertices the original diagonal did not use.
 
 \subsection{The projective evolutionary moduli space}
 
-In evolutionary applications, we are often interested in classifying
-and comparing distinct behaviors by understanding the relative lengths
-of edges: rescaling edge lengths should not change the relationship
-between the branches \cite{zairis2014moduli}.  Motivated by this consideration, we define
-$\mathbb{P} \Sigma_m$ to be the subspace of $\Sigma_m$ consisting of
-the points $\{t_i\}$ in each orthant for which the constraint
-$\sum_{i} t_i = 1$ holds.
+In evolutionary applications, we are often interested in classifying and comparing distinct behaviors by understanding the relative lengths of edges: rescaling edge lengths should not change the relationship between the branches~\cite{zairis2014moduli}.
+Motivated by this consideration, we define $\mathbb{P} \Sigma_m$ to be the subspace of $\Sigma_m$ consisting of the points $\{t_i\}$ in each orthant for which the constraint $\sum_{i} t_i = 1$ holds.
 
-We denote the space of trees with internal edges of fixed length by
-$\tau_{m-1}$.  The space of $m$ external branches whose lengths sum to
-$1$ is the standard $m-1$ dimensional simplex $\Delta_{m-1}$ in
-$\mathbb{R}^m$.  In terms of these spaces, the requirement that the
-length of internal branches plus the external branches sum to $1$
-implies that
-\[\mathbb{P}\Sigma_m = \tau_{m-1} \star \Delta_{m-1},\]
-where here $\star$ denotes the join of two spaces.  We can also
-describe $\mathbb{P}\Sigma_m$ as the link on the origin in $\Sigma_m$.
+We denote the space of trees with internal edges of fixed length by $\tau_{m-1}$.
+The space of $m$ external branches whose lengths sum to $1$ is the standard $m-1$ dimensional simplex $\Delta_{m-1}$ in $\mathbb{R}^m$.
+In terms of these spaces, the requirement that the length of internal branches plus the external branches sum to $1$ implies that \[\mathbb{P}\Sigma_m = \tau_{m-1} \star \Delta_{m-1},\] where here $\star$ denotes the join of two spaces.
+We can also describe $\mathbb{P}\Sigma_m$ as the link on the origin in $\Sigma_m$.
 
-There are various possible natural metrics to consider on $\mathbb{P}
-\Sigma_m$.  The simplest way to endow $\mathbb{P} \Sigma_m$ with a
-metric is to use the metric specified by paths in $\Sigma_m$
-constrained to lie entirely within $\mathbb{P} \Sigma_m$.  From the
-perspective of metric geometry, the characterization of $\mathbb{P}
-\Sigma_m$ as the link of the origin endows it with a ``spherical''
-metric, and Gromov's criteria imply that with this metric, $\mathbb{P}
-\Sigma_m$ is a $\CAT(1)$ space.  It is clear that with either of these
-metrics, $\mathbb{P} \Sigma_m$ is complete and separable.
+There are various possible natural metrics to consider on $\mathbb{P} \Sigma_m$.
+The simplest way to endow $\mathbb{P} \Sigma_m$ with a metric is to use the metric specified by paths in $\Sigma_m$ constrained to lie entirely within $\mathbb{P} \Sigma_m$.
+From the perspective of metric geometry, the characterization of $\mathbb{P} \Sigma_m$ as the link of the origin endows it with a ``spherical'' metric, and Gromov's criteria imply that with this metric, $\mathbb{P} \Sigma_m$ is a $\CAT(1)$ space.
+It is clear that with either of these metrics, $\mathbb{P} \Sigma_m$ is complete and separable.
 
-To compute the metric on $\mathbb{P}\Sigma_m$, we use $\epsilon$-nets
-and a local-to-global construction.  Recall that a set of points $S$
-in a metric space $(X,\partial)$ is an $\epsilon$-net if for every $z
-\in X$, there exists $q \in S$ such that $\partial(z,x) < \epsilon$.
-For a compact metric space equipped with a probability measure such
-that all non-empty balls in the metric space have nonzero measure, we
-can produce an $\epsilon$-net by sampling.  More precisely, it is
-straightforward to show that given a finite collection of measurable
-sets $\{A_1, A_2, \ldots, A_k\}$ and a probability measure $\mu$ on
-$\cup_i A_i$ such that $\mu(A_i) \geq \alpha > 0$, then given at least
+To compute the metric on $\mathbb{P}\Sigma_m$, we use $\epsilon$-nets and a local-to-global construction.
+Recall that a set of points $S$ in a metric space $(X,\partial)$ is an $\epsilon$-net if for every $z \in X$, there exists $q \in S$ such that $\partial(z,x) < \epsilon$.
+For a compact metric space equipped with a probability measure such that all non-empty balls in the metric space have nonzero measure, we can produce an $\epsilon$-net by sampling.
+More precisely, it is straightforward to show that given a finite collection of measurable sets $\{A_1, A_2, \ldots, A_k\}$ and a probability measure $\mu$ on $\cup_i A_i$ such that $\mu(A_i) \geq \alpha > 0$, then given at least
 \[
 \frac{1}{\alpha}\left(\log k + \log(\frac{1}{\delta})\right)
 \]
-samples, with probability $1-\delta$ there is at least one sample in
-every $A_i$~\cite[5.1]{niyogi2008finding}.
+samples, with probability $1-\delta$ there is at least one sample in every $A_i$~\cite[5.1]{niyogi2008finding}.
 
-Next, suppose that we have a metric space $(X,\partial)$ where there
-exists a constant $\kappa$ such that if $\partial(x,y) < \kappa$, it
-is easy to compute $\partial(x,y)$.  An algorithm for approximating
-$\partial$ on all of $X$ is then to take a dense sample $S \subset X$,
-form the graph $G$ with vertices the points of $S$ and edges between
-$x$ and $y$ when $\partial(x,y) < \kappa$, and define the distance
-between $x$ and $y$ in $X$ to be the graph metric on $G$ between the
-nearest points to $x$ and $y$ in $S$.  This distance can be
-efficiently computed using Djikstra's algorithm.
+Next, suppose that we have a metric space $(X,\partial)$ where there exists a constant $\kappa$ such that if $\partial(x,y) < \kappa$, it is easy to compute $\partial(x,y)$.
+An algorithm for approximating $\partial$ on all of $X$ is then to take a dense sample $S \subset X$, form the graph $G$ with vertices the points of $S$ and edges between $x$ and $y$ when $\partial(x,y) < \kappa$, and define the distance between $x$ and $y$ in $X$ to be the graph metric on $G$ between the nearest points to $x$ and $y$ in $S$.
+This distance can be efficiently computed using Djikstra's algorithm.
 
 When $S$ is an $\epsilon$-net for sufficiently small $\epsilon$ relative to $\kappa$, we can describe the quality of the resulting approximation to $\partial$~\cite[Thm. 2]{bernstein2000graph}.
 In particular, if $\epsilon < \frac{\kappa}{4}$, then 
@@ -408,22 +316,11 @@ In particular, if $\epsilon < \frac{\kappa}{4}$, then
 \partial(x,y) \leq \partial_G(x,y) \leq (1 + 4\frac{\delta}{\epsilon}) \partial(x,y).
 \]
 
-Putting this all together, to approximate the metric on
-$\mathbb{P}\Sigma_m$ we take the union of $\epsilon$-nets on all of
-the simplices (including the faces) and form a $\kappa$-approximation
-$\partial_G$ as above.  In practice, the required density of samples
-is determined by looking at when the approximation converges (i.e.,
-when the change in distances drops below a specified precision bound).
-We sample densely on each simplex representing a tree topology on $m$
-leaves, and explicitly include certain key singular points of the
-projective space.  Reconstructing the epsilon net and leveraging
-Dijkstra's algorithm for shortest graph distances we can compute an
-affinity matrix on the discretized projective space.  Figure
-\ref{fig:epsilon_net} contains two visualizations of the projective
-space, using the radial basis function (RBF) kernel for calculating
-the affinities.
-{\bf I don't understand what we precisely mean by an affinity matrix
-  and how the RBF kernels comes into this; can we be more precise?}
+Putting this all together, to approximate the metric on $\mathbb{P}\Sigma_m$ we take the union of $\epsilon$-nets on all of the simplices (including the faces) and form a $\kappa$-approximation $\partial_G$ as above.
+In practice, the required density of samples is determined by looking at when the approximation converges (i.e., when the change in distances drops below a specified precision bound).
+We sample densely on each simplex representing a tree topology on $m$ leaves, and explicitly include certain key singular points of the projective space.
+Reconstructing the epsilon net and leveraging Dijkstra's algorithm for shortest graph distances we can compute an affinity matrix on the discretized projective space.
+Figure~\ref{fig:epsilon_net} contains two visualizations of the projective space, using force-directed layouts of the $\epsilon$-nets constructed on 4--leaved and 5--leaved trees respectively.
 
 \begin{figure}
     \begin{subfigure}{0.5\linewidth}
@@ -479,19 +376,11 @@ For smaller values, we have the following table (taken from~\cite[\S2.3]{sleator
 \end{table}
 
 \begin{warning}
-The results given in~\cite{pournin2014diameter}
-and~\cite{sleator1988rotation} differ slightly from the formula above
-and from each other due to divergent choices of indexing convention.
+The results given in~\cite{pournin2014diameter} and~\cite{sleator1988rotation} differ slightly from the formula above and from each other due to divergent choices of indexing convention.
 \end{warning}
 
-Unfortunately, computing the rotation distance is not known to have a
-polynomial-time solution, but there are efficient approximation
-algorithms (all of which have an error bound around $2$) that operate
-in linear time~\cite{cleary2010linear}.  Moreover, the join with the
-standard simplex adds further complication when working with
-$\mathbb{P}\Sigma_m$; paths that realize the distance may involve
-motion in the cone coordinate as well as in the ``rotation''
-direction.
+Unfortunately, computing the rotation distance is not known to have a polynomial-time solution, but there are efficient approximation algorithms (all of which have an error bound around $2$) that operate in linear time~\cite{cleary2010linear}.
+Moreover, the join with the standard simplex adds further complication when working with $\mathbb{P}\Sigma_m$; paths that realize the distance may involve motion in the cone coordinate as well as in the ``rotation'' direction.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -503,26 +392,16 @@ Regarding such collections as samples from distributions on the evolutionary mod
 More generally, we would like to understand the kinds of distributions that can arise in evolutionary moduli spaces.
 We are also interested in clustering and classification (i.e., unsupervised and supervised learning) problems in this context.
 Given a set of unlabeled samples, we want to infer clusters of points that have similar clinical outcomes.
-Given a set of labeled samples, we want to produce classifiers that
-can assign labels to new points in order to predict clinical outcomes.
+Given a set of labeled samples, we want to produce classifiers that can assign labels to new points in order to predict clinical outcomes.
 In this section, we will review available tools for these kinds of problems.
 
 \subsection{Statistics for distributions in $\Sigma_m$ and $\mathbb{P}\Sigma_m$}
 
 In order to study probability distributions in evolutionary moduli spaces, it is necessary to have reasonable notions of moments of the distribution, expectation of random variables, and analogues of the law of large numbers.
-Since $\Sigma_m$ is a $\CAT(0)$ space, points are connected by unique
-geodesics and there is a sensible notion of a centroid of a collection
-of points.
-Discussion of statistical inference in $\Sigma_m$ was initiated
-in~\cite{billera2001geometry}, and subsequently Holmes has written
-extensively on this topic~\cite{holmes2003bootstrapping,
-  holmes2003bootstrapping, holmes2005statistical} (and see
-also~\cite{feragen2013tree}).  More generally, Sturm explains how to
-study probability measures on general $\CAT(0)$
-spaces~\cite{sturm2003probability}.  He shows that there are
-reasonable notions of moments of distribution, expectation of random
-variables, and analogues of the law of large numbers on $\CAT(0)$
-spaces.
+Since $\Sigma_m$ is a $\CAT(0)$ space, points are connected by unique geodesics and there is a sensible notion of a centroid of a collection of points.
+Discussion of statistical inference in $\Sigma_m$ was initiated in~\cite{billera2001geometry}, and subsequently Holmes has written extensively on this topic~\cite{holmes2003bootstrapping, holmes2003bootstrapping, holmes2005statistical} (and see also~\cite{feragen2013tree}).
+More generally, Sturm explains how to study probability measures on general $\CAT(0)$ spaces~\cite{sturm2003probability}.
+He shows that there are reasonable notions of moments of distribution, expectation of random variables, and analogues of the law of large numbers on $\CAT(0)$ spaces.
 
 \begin{definition}
 Given a fixed set of $n$ trees $\{T_0, \ldots T_{n-1}\} \subseteq \Sigma_m$, the Fr\'echet mean $T$ is the unique tree that minimizes the quantity \[E = \sum_{i = 0}^{n-1} d_{\Sigma_m}(T_i, T)^2.\] 
@@ -530,38 +409,23 @@ The variance of $T$ is the ratio $\frac{E}{n}$.
 \end{definition}
 
 Sturm provides an iterative procedure for computing the mean and variance of a set of points in $\Sigma_m$, and by exploiting the local geometric structure of $\Sigma_m$, Miller, Owen, and Provan produce somewhat more efficient algorithms for computing the mean~\cite{miller2012polyhedral}.
-Furthermore, Sturm proves versions of Jensen's inequality and the law
-of large numbers in this context.  The situation for the central
-limit theorem is less satisfactory.  Barden, Le, and Owen study
-central limit theorems for Fr\'echet means in
-$\Sigma_m$~\cite{barden2013mean}; as they explain, the situation
-exhibits non-classical behavior and the limiting distributions depend
-on the codimension of the simplex in which the mean lies.  Finally,
-there has been some work on principal components analysis (PCA) in
-$\Sigma_m$~\cite{Nye2011PCA}.
+Furthermore, Sturm proves versions of Jensen's inequality and the law of large numbers in this context.
+The situation for the central limit theorem is less satisfactory.
+Barden, Le, and Owen study central limit theorems for Fr\'echet means in $\Sigma_m$~\cite{barden2013mean}; as they explain, the situation exhibits non-classical behavior and the limiting distributions depend on the codimension of the simplex in which the mean lies.
+Finally, there has been some work on principal components analysis (PCA) in $\Sigma_m$~\cite{Nye2011PCA}.
 
-However, in contrast to classical statistics on $\mathbb{R}^n$, we do
-not know many sensible analytically-defined distributions on the
-evolutionary moduli spaces.  Billera-Vogtmann-Holmes briefly introduce
-a family of Mallows distribution on $\Sigma_m$ with density function
+However, in contrast to classical statistics on $\mathbb{R}^n$, we do not know many sensible analytically-defined distributions on the evolutionary moduli spaces.
+Billera-Vogtmann-Holmes briefly introduce a family of Mallows distribution on $\Sigma_m$ with density function
 \[
 x(t) = \kappa e^{\alpha d_{\Sigma_m}(t_1, t)}
 \] 
-for fixed $t_1 \in \Sigma_m$, and an analogous family can be defined
-on $\mathbb{P}\Sigma_m$.  Sampling from these distributions is not
-easy; in general, the behavior of distributions on $\Sigma_m$ and
-sampling algorithms is somewhat perverse due to the pathological
-behavior near the origin due to the exponential growth in the mass of
-an $\epsilon$ ball.  A much more tractable source of distributions on
-$\Sigma_m$ and $\mathbb{P}\Sigma_m$ arise from resampling from a given
-set of empirical data points.
+for fixed $t_1 \in \Sigma_m$, and an analogous family can be defined on $\mathbb{P}\Sigma_m$.
+Sampling from these distributions is not easy; in general, the behavior of distributions on $\Sigma_m$ and sampling algorithms is somewhat perverse due to the pathological behavior near the origin due to the exponential growth in the mass of an $\epsilon$ ball.
+A much more tractable source of distributions on $\Sigma_m$ and $\mathbb{P}\Sigma_m$ arise from resampling from a given set of empirical data points.
 
-Unfortunately, the situation for $\mathbb{P}\Sigma_m$ is substantially
-more complicated.  Since this is not a $\CAT(0)$ space, the centroid
-of a set of points is not unique and the associated variance can be
-discontinuous in small perturbations of the points.  Only when the
-diameter of the set of sample points is sufficiently small do we
-expect reasonable behavior from these moments.
+Unfortunately, the situation for $\mathbb{P}\Sigma_m$ is substantially more complicated.
+Since this is not a $\CAT(0)$ space, the centroid of a set of points is not unique and the associated variance can be discontinuous in small perturbations of the points.
+Only when the diameter of the set of sample points is sufficiently small do we expect reasonable behavior from these moments.
 
 \subsection{Distributions in $\Sigma_m$ and $\mathbb{P}\Sigma_m$ via distributions in $\mathbb{R}^n$}
 
@@ -596,9 +460,7 @@ Unfortunately, the required $k$ may well be quite large.
 Finally, there is a substantial body of work on low-distortion embeddings of finite metric spaces into $\ell^p$ spaces, in particular Euclidean spaces.
 Recall that the distortion of a non-contractive (distance expanding) embedding of metric spaces $f \colon (X, \partial_X) \to (Y, \partial_Y)$ is given by $\sup_{x_1 \neq x_2} \frac{\partial_Y (f(x_1), f(x_2))}{\partial_X (x_1, x_2)}$.
 Notably, Abraham, Bartal, and Neiman show that one can construct a probabilistic embedding of an $n$-point finite metric space into an $O(\log n)$ dimensional space with distortion $O(\log n)$.
-Pushing forward distributions on $\Sigma_m$ and $\mathbb{P}\Sigma_m$
-provide another way of reducing statistical questions to Euclidean
-space.
+Pushing forward distributions on $\Sigma_m$ and $\mathbb{P}\Sigma_m$ provide another way of reducing statistical questions to Euclidean space.
 
 \subsection{Distinguishing samples from different underlying distributions}
 
@@ -613,7 +475,7 @@ A standard comparison between groups is then given by the distance
 \]
 between the means.
 In order to understand the variability due to sampling, we can use bootstrap resampling (or more general $k$ out of $n$ resampling without replacement) to generate confidence intervals for the value of $\theta_i$.
-(Asymptotic consistency for the bootstrap follows from the fact that the VC dimension of the collections of balls in $\Sigma_m$ and $\mathbb{P}\Sigma_m$ is bounded, via the usual criteria~\cite{Gine1984, Gine1986, Gine1990}.) 
+Asymptotic consistency for the bootstrap follows from the fact that the VC dimension of the collections of balls in $\Sigma_m$ and $\mathbb{P}\Sigma_m$ is bounded, via the usual criteria~\cite{Gine1984, Gine1986, Gine1990}.
 
 In contrast, when working in $\mathbb{P}\Sigma_m$, we have no choice to consider tests induced by the projections into $\mathbb{R}^n$ discussed above.
 Here, we can compare collections $\aC_i$ and $\aC_j$ by using any of the many standard non-parametric comparison techniques for real distributions, for example $\chi^2$ tests or two-sample Kolmogorov-Smirnov tests.
@@ -637,7 +499,7 @@ The advantage of $k$-medoids over $k$-means is that the problem of finding a cen
 Another natural family of clustering algorithms comes from spectral clustering techniques.
 Recall that spectral clustering can be applied to finite subsets of any metric space; one constructs an embedding into Euclidean space using the graph Laplacian associated to a graph encoding the local metric structure of the set of points and then performs $k$-means clustering.
 As such, spectral clustering can be applied both to $\Sigma_m$ and $\mathbb{P}\Sigma_m$.
-As illustrated in Figure \ref{fig:embedding}, there is substantial
+As illustrated in Figure~\ref{fig:embedding}, there is substantial
 distortion under such embeddings for low dimensions.
 
 \begin{figure}
@@ -654,33 +516,20 @@ Specifically, a temporal sequence of tumor samples will be linked with a categor
 We would then like to predict patient outcomes or expect response to treatment using a discriminative supervised learning algorithm operating in $\Sigma_m$ or $\mathbb{P}\Sigma_m$.
 Analogous to our use of $k$--medoids clustering for unsupervised grouping, the most basic algorithm for supervised learning is a $k$--nearest neighbor ($k$--NN) predictor.
 In this algorithm the predicted label for a given point is generated by taking a majority or weighted vote over the labels of the $k$ nearest trees.
-The optimal value of $k$ then specifies an order--$k$ Voronoi
-tesselation of the space that provides a description of the sizes of
-the predictive neighborhoods surrounding each element of the data
-set.  We use this classification algorithm to study clinical
-correlates of trees determined by tumor samples from glioma patients;
-see figure~\ref{fig:gliomaTMZ}.
+The optimal value of $k$ then specifies an order--$k$ Voronoi tesselation of the space that provides a description of the sizes of the predictive neighborhoods surrounding each element of the data set.
+We use this classification algorithm to study clinical correlates of trees determined by tumor samples from glioma patients; see Figure~\ref{fig:gliomaTMZ}.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \section{Tree dimensionality reduction}\label{sec:treedimred}
 
-When analyzing large number of genomes, phylogenetic trees are often
-too complex to visualize and analyze as they can contain thousands of
-branches.  In this section, we will explain a technique for
-dimensionality reduction that projects a single tree in $\Sigma_m$ or
-$\mathbb{P}\Sigma_m$ to a ``forest'' of trees in $\Sigma_{n}$, for $n
-< m$.  The main idea is that by subsampling leaves of a large tree we
-can have a distribution of smaller trees that can capture properties
-of the more complex structure.  This procedure makes it easy to
-visualize and analyze high-dimensional data, and avoids scalability
-issues with algorithms for working with the spaces of phylogenetic
-trees.  We believe that the analysis and visualization of the
-resulting clouds of trees is an effective way to study
-high-dimensional evolutionary moduli spaces.  To provide theoretica
-justification for this claim, we prove that this procedure is stable,
-in the sense that it preserves distances up to a constant factor.
+When analyzing large number of genomes, phylogenetic trees are often too complex to visualize and analyze as they can contain thousands of branches.
+In this section, we will explain a technique for dimensionality reduction that projects a single tree in $\Sigma_m$ or $\mathbb{P}\Sigma_m$ to a ``forest'' of trees in $\Sigma_{n}$, for $n < m$.
+The main idea is that by subsampling leaves of a large tree we can have a distribution of smaller trees that can capture properties of the more complex structure.
+This procedure makes it easy to visualize and analyze high-dimensional data, and avoids scalability issues with algorithms for working with the spaces of phylogenetic trees.
+We believe that the analysis and visualization of the resulting clouds of trees is an effective way to study high-dimensional evolutionary moduli spaces.
+To provide theoretical justification for this claim, we prove that this procedure is stable, in the sense that it preserves distances up to a constant factor.
 
 \subsection{Structured dimensionality reduction}
 
@@ -696,12 +545,12 @@ An edge $e$ created by vertex deletion is assigned weight $w_1 + w_2$, where the
 (It is easy to check that the order of vertex deletion does not change the resulting tree.)
 \end{definition}
 
-A representative example of $\Psi_S$ is shown in figure~\ref{fig:dimred_tree-dim-red}.
+A representative example of $\Psi_S$ is shown in Figure~\ref{fig:dimred_tree-dim-red}.
 Ignoring the weights, $\Psi_S$ has a very simple description in terms of an operation on the regular $n$-gon corresponding to a binary tree $T \in \Sigma_n$.
 Specifically, $\Psi_S$ deletes the external edges corresponding to leaves not in $S$, identifying chords that are connected by a deleted edge.
 Note that an extra collapse is required when all of the leaves on the right side of the root are removed.
 (Again, it is straightforward to check that the order of deletion of edges does not affect the resulting triangulated polygon.)
-This procedure is depicted in a step-wise fashion in Figure \ref{fig:dimred_def2}.
+This procedure is depicted in a step-wise fashion in Figure~\ref{fig:dimred_def2}.
 
 \begin{figure}
     \centering
@@ -976,7 +825,7 @@ d_{\aE_m}(T,T') \leq (\log_2 m) d_{M,L}(\Psi_C(T), \Psi_C(T')).
     \includegraphics[width=0.8\linewidth]{../figures/dimred_pwdist_m40_vs_K.pdf}
     \end{subfigure}
 
-    \caption{{\bf Distributions of subsample distances under the tree projection operation.} (top) Pairs of $m$-dimensional phylogenies with known distance (horizontal black lines) are projected into distributions of low dimensional trees. The distances between elements of the projections can exceed the original inter-phylogeny distance ($\epsilon$), but rarely approach the bound of $(\log_2 m)\epsilon$. (bottom) As the dimension of the projection operator approaches that of the initial phylogenies, there is a monotonic increase in the median and decrease in the variance of $d_{M,L}$.}
+    \caption{{\bf Distributions of subsample distances under the tree projection operation.} (Top) Pairs of $m$-dimensional phylogenies with known distance (horizontal black lines) are projected into distributions of low dimensional trees. The distances between elements of the projections can exceed the original inter-phylogeny distance ($\epsilon$), but rarely approach the bound of $(\log_2 m)\epsilon$. (Bottom) As the dimension of the projection operator approaches that of the initial phylogenies, there is a monotonic increase in the median and decrease in the variance of $d_{M,L}$.}
     \label{fig:dimred_calibration}
 \end{figure}
 
@@ -1033,7 +882,7 @@ subject in a subsequent paper.
 
 \section{Clinical utility of longitudinal tumor genomics}\label{sec:cancer}
 
-Progression of cancer is believed to be intimately related to the accumulation of genomic alterations in tumor cells \cite{nowell1976clonal}.
+Progression of cancer is believed to be intimately related to the accumulation of genomic alterations in tumor cells~\cite{nowell1976clonal}.
 Mutations can spur proliferation, either via activation of an oncogene or inactivation of a tumor suppressor.
 The spatial and temporal heterogeneity of tumors can be addressed by reconstructing the evolutionary history of tumors from different samples.
 For each location and time point, one can define (partially or totally) the genotype of the dominant clone.
@@ -1041,36 +890,29 @@ As the evolution proceeds in a clonal fashion, the relationships between dominan
 Questions about the nature of the evolutionary process, mechanisms of resistance, stratification of patient tumor histories, or prognosis can be formulated as a comparison between sets of trees.
 
 For example, a first step towards personalizing cancer therapy is to monitor the mutational status of patients along the therapeutic course.
-Genomic snapshots before and after administration of cytotoxic therapy
-can reveal the extent of population remodeling.
+Genomic snapshots before and after administration of cytotoxic therapy can reveal the extent of population remodeling.
 A further goal is to establish \textit{in vivo} mouse models of every patient's tumor, as a means of rapidly exploring drug susceptibility and resistance.
-Such models can be created by direct implantation of primary tumor
-tissue into immunodeficient mice and are termed patient-derived
-xenografts (PDX).  
+Such models can be created by direct implantation of primary tumor tissue into immunodeficient mice and are termed patient-derived xenografts (PDX).
 
-In this section, we describe three applications of the mathematical
-machinery of evolutionary moduli spaces.  We
-begin with the medically relevant problem of how therapy affects the
-evolution of common leukemias. Then, using public data from relapsed
-glioma, we highlight clinical correlates to the spatial distribution
-of patients in the moduli space.  Finally, we study single cell data from breast cancer derived xenografts to observe the departure of the tumor genetics from the primary lesion.  
+In this section, we describe three applications of the mathematical machinery of evolutionary moduli spaces.
+We begin with the medically relevant problem of how therapy affects the evolution of common leukemias.
+Then, using public data from relapsed glioma, we highlight clinical correlates to the spatial distribution of patients in the moduli space.
+Finally, we study single cell data from breast cancer derived xenografts to observe the departure of the tumor genetics from the primary lesion.  
 
 \subsection{Evolution of chronic lymphocytic leukemia under therapy}\label{sec:CLL}
 
-Chronic lymphocytic leukemia (CLL) is the most common leukemia in adults, primarily affecting the elderly population (median age at diagnosis is 70).~\cite{smith2011incidence}
+Chronic lymphocytic leukemia (CLL) is the most common leukemia in adults, primarily affecting the elderly population (median age at diagnosis is 70)~\cite{smith2011incidence}.
 CLL is a proliferative disorder of B-lymphoctyes characterized by a steady accumulation of clonal, non-functional B-cells.
 Treatment strategies vary greatly given the heterogeneity in disease course, ranging from watchful waiting, to localized radiation, to systemic chemotherapy.
-The fact that CLL is a relatively indolent malignancy makes it an
-excellent model for studying clonal evolution under different
-therapeutic strategies.~\cite{wang2015tumor}  
+The fact that CLL is a relatively indolent malignancy makes it an excellent model for studying clonal evolution under different therapeutic strategies~\cite{wang2015tumor}.
 
-A recent genomic study~\cite{landau2013evolution} performed WES on 160 CLL cases covering the spectrum of clinical courses the disease can take.
+A recent genomic study~\cite{landau2013evolution} performed whole exome sequencing on 160 CLL cases covering the spectrum of clinical courses the disease can take.
 This data established a space of recurrent alterations, which was then used to genotype 18 patients for whom two time points were available.
 Of these 18 patients, 10 of 12 treated with chemotherapy underwent clonal evolution compared to only 1 of 6 receiving no treatment according to the authors of the study.
 We combine the 18 patients of \cite{landau2013evolution} with those of a similar study~\cite{schuh2012monitoring} wherein 3 CLL patients received chemotherapy and were sequenced at multiple time points.
 The multiple time points for the 3 patients studied in \cite{schuh2012monitoring} are decomposed into all combinatorial triplets.
-Therefore, there are a total of 18 phylogenetic trees inferred from \cite{landau2013evolution} and 12 phylogenetic trees inferred from \cite{schuh2012monitoring}.
-In Figure \ref{fig:chemoCLL}, we map this data to $\mathbb{P}\Sigma_3$ and color based on treatment status.
+Therefore, there are a total of 18 phylogenetic trees inferred from \cite{landau2013evolution} and 12 phylogenetic trees inferred from~\cite{schuh2012monitoring}.
+In Figure~\ref{fig:chemoCLL}, we map this data to $\mathbb{P}\Sigma_3$ and color based on treatment status.
 
 \begin{figure}
     \begin{subfigure}{0.5\linewidth}
@@ -1090,13 +932,10 @@ In Figure \ref{fig:chemoCLL}, we map this data to $\mathbb{P}\Sigma_3$ and color
 From a clinical standpoint, a central question is whether treatment promotes evolution of the cancer and whether there is strong evidence for avoiding cytotoxic therapy in patient management.
 Quite clearly the distribution of 6 untreated patients resembles a pattern (in green) forms a tight cluster, indicating that tumors from patients who did not received therapy are stable genetically, sharing most of the mutations.
 However, in red are represented the histories of tumors of 15 patients under therapy, presenting some mutations at different times that are not shared across different samples.
-The ratio between the number of mutations that are exclusive in the early branch versus the ones that are share with other phases is represented in right hand side of figure \ref{fig:chemoCLL}.
+The ratio between the number of mutations that are exclusive in the early branch versus the ones that are share with other phases is represented in right hand side of Figure~\ref{fig:chemoCLL}.
 A number close to zero indicates a genetically stable tumor.
 
-To assess how different are the clonal histories of tumors from
-untreated vs treated patients, we studied the distance between the
-centroids of the two populations.{\bf AJB: Did we compute centroids in
-  the projective space?}
+To assess how different are the clonal histories of tumors from untreated vs treated patients, we studied the distance between the centroids of the two populations. {\bf AJB: Did we compute centroids in the projective space?}
 The 95\% CI for the distance between the centroids of the treated / untreated groups is (0.15, 0.36), under 1000-fold bootstrap resampling.
 The analogous intervals for untreated / untreated and treated / treated are (0.01, 0.14) and (0.02, 0.16) respectively.
 This analysis shows that the centroids of these clinically distinct sets of patients are well-resolved, supporting the idea that untreated tumors are more stable than treated ones, where district mutations can appear along the evolution of the tumor.
@@ -1107,7 +946,7 @@ As another application, we examined low grade gliomas (LGG), a set of tumors of 
 They are distinguised from high grade gliomas (III, IV), such as glioblastoma multiforme, by the absence of anaplasia and have a more favorable prognosis.
 Surgery alone is not considered curative for LGG and patients are typically treated with adjuvant radiation therapy, chemotherapy, or both.
 If a patient relapses, the tumor may be observed to have a higher grade at that time.
-Johnson \textit{et al.} studied a cohort of 23 LGG patients who relapsed, many of whom were treated with the chemotherapeutic agent temozolamide (TMZ).~\cite{johnson2014mutational}
+Johnson \textit{et al.} studied a cohort of 23 LGG patients who relapsed, many of whom were treated with the chemotherapeutic agent temozolamide (TMZ)~\cite{johnson2014mutational}.
 Whole exome sequencing was performed on tumor tissue at diagnosis and at relapse in an effort to characterize the evolution of recurrent glioma.
 
 \begin{figure}
@@ -1126,30 +965,22 @@ Whole exome sequencing was performed on tumor tissue at diagnosis and at relapse
 \end{figure}
 
 TMZ is an alkylating agent that directly damages the cellular genome, and accordingly we see that the subset of patients that were treated with TMZ show a greater acquisition of relapse-specific mutations.
-The 95\% CI for the distance between the centroids of the treated /
-untreated groups is (0.31, 0.48), under 1000-fold bootstrap
-resampling.
-{\bf AJB: Same question about centroids as above.}
+The 95\% CI for the distance between the centroids of the treated / untreated groups is (0.31, 0.48), under 1000-fold bootstrap resampling. {\bf AJB: Same question about centroids as above.}
 The analogous intervals for untreated / untreated and treated / treated are (0.02, 0.13) and (0.02, 0.16) respectively.
 TMZ treatment status defines two statistically well-resolved sub-populations of patients with respect to the shape of their evolutionary behavior.
 Also of interest is the apparent correlation between the geometry of the phylogenetic tree and the histologic grade at relapse.
 A 1-nearest neighbor classifier of this trinary observable (grade II, III, or IV at relapse) yields 85\% accuracy under two-fold cross-validation, and the accuracy does not improve with larger values of $k$.
 The tesselation of the space associated to a 1-nearest neighbor classifier is known as a Voronoi diagram, and we have colored the cells in accordance with the grade at relapse.
 
-This example shows that in the simple case of trees with three leaves,
-evolutionary tumor histories are visibly different under different
-therapeutic regimes.  Moreover, we see that evolutionary trajectory
-can be associated with prognosis, as measured by grade at relapse.
+This example shows that in the simple case of trees with three leaves, evolutionary tumor histories are visibly different under different therapeutic regimes.
+Moreover, we see that evolutionary trajectory can be associated with prognosis, as measured by grade at relapse.
 
 \subsection{Clonal dynamics in patient derived xenografts}\label{sec:xeno}
 
 The recent development of single cell transcriptomics and genomics is providing an opportunity to study the role of clonal heterogeneity in tumors~\cite{navin2011tumour, eirew2014dynamics, patel2014single} and to identify small, previously uncharacterized cell populations~\cite{grun2015single}.
 The single cell approach to studying complex populations brings with it new challenges associated with the large number of sampled genomes.
-Another rapidly maturing technology in the modeling of tumor population dynamics is that of patient-derived xenografts.
-Patient-derived xenografts (PDX) are generated by transplanting tumor
-tissue into immunodeficient mice, and are serially passaged as each
-host animal expires.
-{\bf AJB: ``Passaged'' is a strange verb; is that a technical term?}
+Another rapidly maturing technology in the modeling of tumor evolution is that of patient-derived xenografts.
+Patient-derived xenografts (PDX) are generated by transplanting tumor tissue into immunodeficient mice, and are serially passaged as each host animal expires. {\bf AJB: ``Passaged'' is a strange verb; is that a technical term?}
 This facilitates an understanding of tumor adaptation and clonal dynamics.
 
 We take advantage of recently published PDX data from breast cancer patients, where single-nucleus deep-sequencing was performed across a lineage of host animals~\cite{eirew2014dynamics}.
@@ -1176,23 +1007,16 @@ These sites include variants that Eirew \textit{et al.} associated with eight di
     \label{fig:xenograft}
 \end{figure} 
 
-Single-cell data from the primary tumor is not available, but we
-generated eight cluster-representative sequences and using 27, 36, and
-27 single nuclei from the first, second, and fourth passage, we
-sub-sample 3,000 trees from all possibilities and project the data
-into $\mathbb{P}\Sigma_4 $.
-{\bf AJB: Why 3000?  This is a little unclear --- 8 cluster samples
-  and then tons of other ones?  Or did we generate lots of
-  representatives for each cluster?  What does all possibilities mean
-  --- is that what is explained below?}
-First, we include trees relating the germ-line sequence, a randomly
-selected cluster-representative sequence form the primary tumor, and
-randomly selected single-nucleus sequences from the initial two
-xenograft passages.
-{\bf AJB: So this seems like it was premature to talk about making
-  trees in the first part of this paragraph.}
+Only bulk sequencing data were available from the primary tumor and matched normal tissue.
+We randomly selected sequences representative of the eight mutational clusters using 27, 36, and 27 single nuclei from the first, second, and fourth passages respectively.
+This preparation of the data implies five sequential time points along the tumor's history: benign germline genome, genotype at diagnosis of primary tumor, genotype at first PDX, genotype at second PDX, and genotype at fourth PDX.
+The latter three time points provide for the large combinatorial forest of phylogenetic trees since they are sequenced at single-cell resolution.
+Our question concerned the difference in heterogeneity between phylogenetic trees constructed on the first four time points and those constructed on last four time points.
+First, we include trees relating the germ-line sequence, a randomly selected cluster-representative sequence form the primary tumor, and randomly selected single-nucleus sequences from the initial two xenograft passages. {\bf AJB: So this seems like it was premature to talk about making trees in the first part of this paragraph.}
 Then, in a second analysis, we include trees relating a randomly selected cluster-representative sequence from the primary tumor and randomly selected single-nucleus sequences from three consecutive xenograft passages.
-Our results (Fig \ref{fig:xenograft}) show consistent linear evolution from primary tumor through the first two xenograft passages, however we observe significant heterogeneity of tumor clones upon the fourth mouse passage.
+
+The distributions trees from both time windows are visualized in Fig~\ref{fig:xenograft} as point clouds in $\mathbb{P}\Sigma_4 $. {\bf AJB: Why 3000?  This is a little unclear --- 8 cluster samples and then tons of other ones?  Or did we generate lots of representatives for each cluster?  What does all possibilities mean --- is that what is explained below?}
+Consistent linear evolution is seen from primary tumor through the first two xenograft passages, however we observe significant heterogeneity of tumor clones upon the fourth mouse passage.
 The first time window (purple) is completely contained within the topology corresponding to linear evolution, unlike the second (gold) which is centered on the origin and extends into all three possible topologies.
 The point cloud for the second time window displays a higher standard deviation than the first (10.49 vs. 8.69), and its centroid is essentially a star tree.
 The high degree of genotypic heterogeneity giving rise to the second time window distribution is suggestive of a clonal replacement event between the time points of Xenograft 2 (X2) and Xenograft 4 (X4).
@@ -1204,35 +1028,28 @@ These results raise interesting questions about the long-term fidelity of PDX ve
 
 \section{Detecting new dominant strains in seasonal influenza}\label{sec:flu}
 
-In this section, we will describe an analysis of dynamics in the
-circulating hemagglutinin sequences of seasonal H3N2 influenza.
-Influenza A is an RNA virus that annually infects approximately
-5--10\% of adults and 20--30\% of children~\cite{WHO}, leading to more
-than half a million flu associated deaths.
+In this section, we will describe an analysis of dynamics in the circulating hemagglutinin sequences of seasonal H3N2 influenza.
+Influenza A is an RNA virus that annually infects approximately 5--10\% of adults and 20--30\% of children~\cite{WHO}, leading to more than half a million flu associated deaths.
 Vaccination against the virus remains a major way of preventing morbidity.
 However, the virus genome evolves rapidly, changing the antigenic presentation of proteins that are in the envelope of the virus, mostly hemagglutinin (HA).
 These continuous antigenic changes, often referred as antigenic drift, can lead to failures in vaccine effectiveness.
 The design of the influenza vaccine is based on collected isolates of previous years, leaning heavily on the results of hemagglutinin inhibition (HI) assays to detect drift variants.
 The great majority of H3N2 isolates are only analyzed antigenically via HI assay, with approximately 10\% of viruses undergoing genetic sequencing of the HA segment.~\cite{russell2008influenza}
 Relatively small genetic changes in the genome of the virus can cause drastic antigenic changes.
-Influenza vaccine failures can be associated with the emergence of new
-clones with novel antigenic properties that have replaced recent
-circulating strains.
+Influenza vaccine failures can be associated with the emergence of new clones with novel antigenic properties that have replaced recent circulating strains.
 
 A different phenomenon that can lead to significant antigenic changes is reassortment.
 The influenza virus genome consists of eight single-stranded RNA segments, two of which code the antigenic surface glycoproteins, hemagglutinin (HA) and neuraminidase (NA).
 When two different viruses co-infect the same host, they can generate  progeny containing segments from both parental strains.
 Changes in the constellation of segments could introduce dramatic genetic and antigenic changes.
 Reassortments could occur between different viruses infecting the same host or even, more rarely, viruses that are typically found in different hosts.
-Introducing viral segments from non-human reservoirs has led to major pandemics over the past century~\cite{rabadan2007evolution, rabadan2008non} and was particularly associated with the emergence of the 2009 H1N1 pandemic.~\cite{trifonov2009geographic, solovyov2009cluster}
+Introducing viral segments from non-human reservoirs has led to major pandemics over the past century~\cite{rabadan2007evolution, rabadan2008non} and was particularly associated with the emergence of the 2009 H1N1 pandemic~\cite{trifonov2009geographic, solovyov2009cluster}.
 In 1968, the reassortment of then-circulating H2N2 with avian strains created H3N2 viruses, which have since been infecting human population.
 Reassortment of seasonal strains can also contribute to vaccine failure as low frequency hemagglutinin segments could combine with highly transmissible strains.
-In particular, reassortment of two H3N2 clades during the 2002-2003 season resulted in a major epidemic and higher incidents of vaccine failure in the succeeding season.~\cite{centers2004preliminary}
+In particular, reassortment of two H3N2 clades during the 2002-2003 season resulted in a major epidemic and higher incidents of vaccine failure in the succeeding season~\cite{centers2004preliminary}.
 
-In this section, we analyze how the emergence of a novel subclone
-could be identified by unusual/unexpected tree structures and we
-develop a genomic predictor of vaccine efficacy.
-We study the recent history of influenza A H3N2 using 1,089 sequences of hemagglutinin collected in the United States between 1993 and 2016 (Figure \ref{fig:flu_HA_sampling}).
+In this section, we analyze how the emergence of a novel subclone could be identified by unusual/unexpected tree structures and we develop a genomic predictor of vaccine efficacy.
+We study the recent history of influenza A H3N2 using 1,089 sequences of hemagglutinin collected in the United States between 1993 and 2016 (Figure~\ref{fig:flu_HA_sampling}).
 Genomic data was downloaded from the GISAID EpiFlu effectivenessdatabase (www.gisaid.org), and aligned with MUSCLE~\cite{edgar2004muscle} using default parameters.
 Vaccine effectiveness figures were drawn from the meta analysis of \cite{gupta2006quantifying}.
 
@@ -1251,19 +1068,16 @@ Vaccine effectiveness figures were drawn from the meta analysis of \cite{gupta20
     \label{fig:flu_HA_sampling}
 \end{figure}
 
-First, we used tree dimensionality reduction to obtain visualizations
-of the flu evolutionary profile for exploratory data analysis.
+First, we used tree dimensionality reduction to obtain visualizations of the flu evolutionary profile for exploratory data analysis.
 Using 1,089 full length sequences of hemagglutinin collected in New York state between 1993 and 2016, we relate HA sequences from one season to those from the preceding ones.
 We randomly select sets of HAs such that a single isolate is drawn from each of three, four, or five consecutive seasons to form a temporal window.
 Neighbor-joining with a Hamming metric is used to generate unrooted trees from the temporally ordered tuples of HA isolates.
-The case of length five windows is illustrated in Figure \ref{fig:flu_quint}, where we superimpose each temporal slice onto the same moduli space.
-If the current viruses are most similar to viruses circulating in the
-immediately preceding season, one should expect an unrooted tree
-topology relating $(1,2),3,(4,5)$ branches. Deviations from this
-topology indicate unexpected genetic relationships.  Figure \ref{fig:flu_quint} confirms that the vast majority of points land along the topologies most compatible with linear evolution of HA.
+The case of length five windows is illustrated in Figure~\ref{fig:flu_quint}, where we superimpose each temporal slice onto the same moduli space.
+If the current viruses are most similar to viruses circulating in the immediately preceding season, one should expect an unrooted tree topology relating $(1,2),3,(4,5)$ branches.
+Deviations from this topology indicate unexpected genetic relationships.  Figure~\ref{fig:flu_quint} confirms that the vast majority of points land along the topologies most compatible with linear evolution of HA.
 Certain windows yield well resolved clusters of trees, while others are dispersed point clouds.
 Either scenario might be indicative of elevated diversity in the HA segment or a clonal replacement event underway.
-The window ending in the 2003-2004 season shows a clear reemergence of strains in 2003-2004 that were genetically similar to those circulating in the 1999-2000 season.~\cite{holmes2005whole}
+The window ending in the 2003-2004 season shows a clear reemergence of strains in 2003-2004 that were genetically similar to those circulating in the 1999-2000 season~\cite{holmes2005whole}.
 
 \begin{figure}
     \centering
@@ -1272,35 +1086,20 @@ The window ending in the 2003-2004 season shows a clear reemergence of strains i
     \label{fig:flu_quint}
 \end{figure}
 
-Next, we used tree dimensionality reduction based on
-windowing to generate a predictor for vaccine efficacy.
-A natural hypothesis is that elevated HA genetic diversity in
-circulating influenza predicts poor vaccine performance in the
-subsequent season.  Distribution
-features that may intuitively predict future vaccine performance
-include the variance and the number of clusters in the point cloud.
-However, given our limited number of temporal windows, too rich a
-feature space runs the risk of overfitting, so we focused simply on
-the variance.  In Figure \ref{fig:flu_VE} we illustrate the prediction
-of vaccine efficacy using the variance of the distribution of trees
-generated by a lagging window of length 3. 
-In our notation, a window labeled year $y$ would include the flu
-season of $(y-1, y)$ and preceding years.  The vaccine effectiveness
-figures represent season $(y, y+1).$ It is clear, both from the left
-and right panels, that lower variance in a temporal window predicts
-increased future vaccine effectiveness, with a Spearman correlation of
--0.52 and p-value of 0.02. The lone outlier season came in 1997-1998
-\cite{gupta2006quantifying}, when the vaccine efficacy was lower than
-expected. In this season the dominant circulating strain was
-A/Sydney/5/97 while the vaccine strain was A/Wuhan/359/95.  The
-analysis can be carried out with length-4 or length-5 windows to yield
-a similar result.
+Next, we used tree dimensionality reduction based on windowing to generate a predictor for vaccine efficacy.
+A natural hypothesis is that elevated HA genetic diversity in circulating influenza predicts poor vaccine performance in the subsequent season.
+Distribution features that may intuitively predict future vaccine performance include the variance and the number of clusters in the point cloud.
+However, given our limited number of temporal windows, too rich a feature space runs the risk of overfitting, so we focused simply on the variance.
+In Figure \ref{fig:flu_VE} we illustrate the prediction of vaccine efficacy using the variance of the distribution of trees generated by a lagging window of length 3.
+In our notation, a window labeled year $y$ would include the flu season of $(y-1, y)$ and preceding years.
+The vaccine effectiveness figures represent season $(y, y+1).$
+It is clear, both from the left and right panels, that lower variance in a temporal window predicts increased future vaccine effectiveness, with a Spearman correlation of -0.52 and p-value of 0.02.
+The lone outlier season came in 1997-1998~\cite{gupta2006quantifying}, when the vaccine efficacy was lower than expected.
+In this season the dominant circulating strain was A/Sydney/5/97 while the vaccine strain was A/Wuhan/359/95.
+The analysis can be carried out with length-4 or length-5 windows to yield a similar result.
 
-The correlation between variance of tree distributions and vaccine
-effectiveness allows us to estimate the influenza vaccine
-effectiveness for future seasons based on genomic data. In particular,
-for the 2016-2017 season, the variance in tree space was 12.77,
-corresponding to an approximate effectiveness of 36\%.  
+The correlation between variance of tree distributions and vaccine effectiveness allows us to estimate the influenza vaccine effectiveness for future seasons based on genomic data.
+In particular, for the 2016-2017 season, the variance in tree space was 12.77, corresponding to an approximate effectiveness of 36\%.  
 
 \begin{figure}
     \centering
@@ -1309,17 +1108,17 @@ corresponding to an approximate effectiveness of 36\%.
     \label{fig:flu_VE}
 \end{figure} 
 
-\par
-
-Code associated with this work can be obtained at https://github.com/RabadanLab.
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsection*{Acknowledgments}
 
 The authors gratefully acknowledge the constructive feedback of Daniel Rosenbloom.
-This work is supported by a TL1 personalized medicine fellowship (5TL1TR000082) and NIH grants (R01 CA179044, R01CA185486, R01GM117591, U54 CA193313).
+This work was supported by a TL1 personalized medicine fellowship (5TL1TR000082) and NIH grants (R01 CA179044, R01CA185486, R01GM117591, U54 CA193313).
+
+\vspace{0.25in}
+
+Code associated with this work can be obtained at https://github.com/RabadanLab.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1328,7 +1127,5 @@ This work is supported by a TL1 personalized medicine fellowship (5TL1TR000082) 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-
 
 \end{document}
