@@ -92,8 +92,9 @@ How might a particular therapy disrupt tumor evolution?
 How does evolutionary information correlate with disease prognosis?
 How can patients' tumors be classified according to their evolutionary history?
 It is also essential to assess the value of genomic information measured at a particular time for predicting subsequent events in tumor progression.
-If the evolution of the tumor is believed to be highly linear, subsequent phases are expected to contain all the information present at the current phase.
-On the other hand, if an ancestral clone gains resistance to therapy and dominates the long-time evolution, very different shapes of trees compared to those from a linear process will be observed.
+If the evolution of the tumor is well approximated by a simple stepwise accumulation of alterations in the dominant clone, future observations are expected to contain all the mutational information at present.
+This scenario is often termed linear evolution, in reference to the shape of the implied phylogeny.
+On the other hand, if an ancestral clone gains resistance to therapy and dominates the long-term population, a very different shape of tree would be observed, often termed branched evolution to distinguish from the linear case.
 
 These and many other questions associated with clonal processes can be expressed in terms of comparing evolutionary histories.
 For instance, stratifying cancer patients according to their evolutionary history requires a way of comparing trees and associating summary statistics to clouds of trees.
@@ -104,7 +105,7 @@ We referred to these tree spaces as ``evolutionary moduli spaces,'' in which cla
 In this paper, we develop these applications in detail and introduce new machinery for dimensionality reduction.
 We begin by reviewing (in Section~\ref{sec:phylospace}) some of the fundamental notions regarding the geometry of evolutionary moduli spaces, following Billera-Holmes-Vogtman~\cite{billera2001geometry}, Sturm~\cite{sturm2003probability}, and our prior treatment~\cite{zairis2014moduli}.
 Motivated by several biological applications, we also introduce a projective version of these spaces and study some of their geometric properties.
-In Section~\ref{sec:ML}, we give an overview of the application of standard machine learning and statistical inference techniques in these spaces.  Applying these techniques, in Section~\ref{sec:cancer} we describe the interpretive power of evolutionary moduli spaces for studying cancer genomic data in three examples: evolution of chronic lymphocytic leukemia under therapy (Section~\ref{sec:CLL}), grade at relapse in glioma (Section~\ref{sec:glioma}), and clonal dynamics in patient-derived xenografts (Section~\ref{sec:xeno}).
+In Section~\ref{sec:ML}, we give an overview of the application of standard machine learning and statistical inference techniques in these spaces. Applying these techniques, in Section~\ref{sec:cancer} we describe the interpretive power of evolutionary moduli spaces for studying cancer genomic data in three examples: evolution of chronic lymphocytic leukemia under therapy (Section~\ref{sec:CLL}), grade at relapse in glioma (Section~\ref{sec:glioma}), and clonal dynamics in patient-derived xenografts (Section~\ref{sec:xeno}).
 In each case, we find that representing the problem in terms of the evolutionary moduli spaces permits meaningful inference with clinical significance.
 
 The trees arising from clonal evolution in cancers tend to be quite small, since each leaf corresponds to a tissue sample from the tumor.
@@ -168,7 +169,8 @@ To be precise, we consider the distance from a vertex of the triangle to a point
 
 Given a triangle $T=[p,q,r]$ in $(X,d)$, we can find a corresponding triangle $\tilde{T}$ in Euclidean space with the same edge lengths.
 Given a point $z$ on the edge $[p,q]$, a comparison point in $\tilde{T}$ is a point $\tilde{z}$ on the corresponding edge $[\tilde{p}, \tilde{q}]$ such that $d(\tilde{z}, \tilde{p}) = d(p,z)$.
-We say that a triangle $T$ in $M$ satisfies the $\CAT(0)$ inequality if for every pair of points $x$ and $y$ in $T$ and comparison points $\tilde{x}$ and $\tilde{y}$ on $\tilde{T}$, we have $d(x,y) \leq d(\tilde{x}, \tilde{y})$.
+We say that a triangle $T$ in $M$ satisfies the $\CAT(0)$ inequality if for every pair of points $z$ and $\tilde{z}$, we have $d(r,z) \leq d(\tilde{r},\tilde{z})$.
+ % $x$ and $y$ in $T$ and comparison points $\tilde{x}$ and $\tilde{y}$ on $\tilde{T}$, we have $d(x,y) \leq d(\tilde{x}, \tilde{y})$.
 If every triangle in $M$ satisfies the $\CAT(0)$ inequality then we say that $M$ is a $\CAT(0)$ space.
 
 More generally, let $M_{\kappa}$ denote the unique two-dimensional Riemannian manifold with curvature $\kappa$.
@@ -318,7 +320,7 @@ In particular, if $\epsilon < \frac{\kappa}{4}$, then
 Putting this all together, to approximate the metric on $\mathbb{P}\Sigma_m$ we take the union of $\epsilon$-nets on all of the simplices (including the faces) and form a $\kappa$-approximation $\partial_G$ as above.
 In practice, the required density of samples is determined by looking at when the approximation converges (i.e., when the change in distances drops below a specified precision bound).
 We sample densely on each simplex representing a tree topology on $m$ leaves, and explicitly include certain key singular points of the projective space.
-Reconstructing the epsilon net and leveraging Dijkstra's algorithm for shortest graph distances we can compute an affinity matrix on the discretized projective space.
+Reconstructing the epsilon net and leveraging Dijkstra's algorithm~\cite{dijkstra1959note} for shortest graph distances we can compute an affinity matrix on the discretized projective space.
 Figure~\ref{fig:epsilon_net} contains two visualizations of the projective space, using force-directed layouts of the $\epsilon$-nets constructed on 4--leaved and 5--leaved trees respectively.
 
 \begin{figure}
@@ -343,8 +345,7 @@ In contrast, $\mathbb{P}\Sigma_m$ does not have this property in either of the m
 In the spherical metric, $\mathbb{P}\Sigma_m$ is a $\CAT(1)$ space; as a consequence, there is a finite injectivity radius, which is the maximum distance between points $p,q \in \aP_n$ such that the distance between $p$ and $q$ is realized by a unique geodesic.
 The induced length metric (which is a ``flattening'' of the spherical metric) also fails to have unique realizations for the distances between all points.
 
-We now explain where the non-unique geodesics in $\mathbb{P}\Sigma_m$
-come from.  (See also~\cite[3.3]{billera2001geometry} for a related discussion.)
+We now explain where the non-unique geodesics in $\mathbb{P}\Sigma_m$ come from (see also~\cite[3.3]{billera2001geometry} for a related discussion).
 For simplicity, we will focus on the link in $\BHV_m$, which we will denote by $\aP_m$, and temporarily ignore the join with the simplex coming from the external edge lengths.
 Observe that adjacent top-dimensional simplices in $\aP_m$ differ by a {\em rotation} of tree topologies, where a rotation collapses an internal edge and then expands out from the resulting node.
 Next, recall that the homotopy type of $\aP_n$ is a wedge of $(n-1)!$ spheres of dimension $(n-3)$~\cite{robinson1996tree} (and see also~\cite[Thm. 6]{devadoss2014polyhedral}).
@@ -359,7 +360,7 @@ As a consequence, to understand the injectivity radius of $\aP_n$, we need to co
 For convenience, we describe this diameter in terms of counts of simplices; the actual value can then be obtained by multiplying by the diameter of a simplex.
 In this guise, the problem is an old one which can be described in many different forms, perhaps most relevantly as the computation of maximal rotation distances between binary trees.
 
-The main result here is that the diameter of $\aK_n$ is $2n - 8$ for $n > 11$~\cite{pournin2014diameter}; this bound was established asymptotically (for sufficiently large but indeterminate $n$) in~\cite{sleator1988rotation}.
+The main result here is that, for unrooted trees on $n$ leaves, the diameter of $\aK_n$ is $2n - 10$ for $n > 12$~\cite{pournin2014diameter}; this bound was established asymptotically (for sufficiently large but indeterminate $n$) in~\cite{sleator1988rotation}.
 For smaller values, we have the following table (taken from~\cite[\S2.3]{sleator1988rotation}) of explicit values:
 
 \begin{table}[ht]
@@ -367,7 +368,7 @@ For smaller values, we have the following table (taken from~\cite[\S2.3]{sleator
     \centering
     \begin{tabular}{c c c c c c c c}
     \hline\hline
-    4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 \\
+    5 & 6 & 7 & 8 & 9 & 10 & 11 & 12 \\
     \hline
     2 & 4 & 5 & 7 & 9 & 11 & 12 & 15 \\
     \hline
@@ -498,8 +499,7 @@ The advantage of $k$-medoids over $k$-means is that the problem of finding a cen
 Another natural family of clustering algorithms comes from spectral clustering techniques.
 Recall that spectral clustering can be applied to finite subsets of any metric space; one constructs an embedding into Euclidean space using the graph Laplacian associated to a graph encoding the local metric structure of the set of points and then performs $k$-means clustering.
 As such, spectral clustering can be applied both to $\Sigma_m$ and $\mathbb{P}\Sigma_m$.
-As illustrated in Figure~\ref{fig:embedding}, there is substantial
-distortion under such embeddings for low dimensions.
+As illustrated in Figure~\ref{fig:embedding}, there is substantial distortion under such embeddings for low dimensions.
 
 \begin{figure}
     \centering
@@ -532,7 +532,7 @@ To provide theoretical justification for this claim, we prove that this procedur
 
 \subsection{Structured dimensionality reduction}
 
-Let $\aE_m$ denote either $\Sigma_m$ or $\mathbb{P}\Sigma_m$.  
+Let $\aE_m$ denote either $\Sigma_m$ or $\mathbb{P}\Sigma_m$.
 
 \begin{definition}
 For $S \subseteq \{1,\ldots,m\}$, define the tree projection function 
@@ -582,8 +582,7 @@ Define the map
 as the map that takes $T \in \aE_m$ to the product of $\Psi_S(T)$ as $S$ varies over all subsets of $\{1, \ldots, m\}$ of size $k$.
 \end{definition}
 
-(In practice, we approximate $\Psi_k$ using Monte Carlo
-approximations.)
+(In practice, we approximate $\Psi_k$ using Monte Carlo approximations.)
 
 Often there is additional structure in the labels that can be exploited.
 For instance, in many natural examples, the genomic data has a natural chronological ordering.
@@ -605,9 +604,7 @@ For $1 \leq k < m$, define the map
 \[
 \Psi_C \aE_m \to \aC_{m-k}(\Sigma_k)
 \]
-as the assignment that takes $t \in \aE_m$ to the curve induced by
-$\Psi_S$ as $S$ varies over the subsets $\{1, \ldots, k\}$, $\{2,
-\ldots, k+1\}$, etc.
+as the assignment that takes $t \in \aE_m$ to the curve induced by $\Psi_S$ as $S$ varies over the subsets $\{1, \ldots, k\}$, $\{2, \ldots, k+1\}$, etc.
 
 Equivalently, we can regard this as producing a map
 \[
@@ -615,8 +612,7 @@ Equivalently, we can regard this as producing a map
 \]
 \end{definition}
 
-There are many variants of $\Psi_C$ depending on the precise strategy
-for windowing that is employed.
+There are many variants of $\Psi_C$ depending on the precise strategy for windowing that is employed.
 
 \subsection{Tree dimensionality reduction and neighbor-joining}
 
@@ -658,45 +654,27 @@ On the other hand,
 The result follows.
 \end{proof}
 
-For a metric space $(X,\partial_X)$, let $T(X)$ denote the tree
-obtained from neighbor-joining applied to $(X,\partial_X)$.  As a
-consequence of Proposition~\ref{prop:subnj}, given a metric space $(X,
-\partial_X)$ that is consistent with $T(X)$, the distribution
-$\Psi_k(T(X))$ is identical to the distribution $\{T(X_S)\}$ where $S$
-varies over all subsets of $X$ of cardinality $k$ and $X_S$ denotes
-the metric space structure on $S$ induced by $\partial_X$.
+For a metric space $(X,\partial_X)$, let $T(X)$ denote the tree obtained from neighbor-joining applied to $(X,\partial_X)$.
+As a consequence of Proposition~\ref{prop:subnj}, given a metric space $(X, \partial_X)$ that is consistent with $T(X)$, the distribution $\Psi_k(T(X))$ is identical to the distribution $\{T(X_S)\}$ where $S$ varies over all subsets of $X$ of cardinality $k$ and $X_S$ denotes the metric space structure on $S$ induced by $\partial_X$.
 
 \begin{remark}
-One can ask the same question for other methods of producing
-phylogenetic trees; the situation is more complicated.
+One can ask the same question for other methods of producing phylogenetic trees; the situation is more complicated.
 \end{remark}
 
 \subsection{Stability of tree dimensionality reduction}
 
-In order to apply tree dimensionality reduction in the face of
-potentially noisy data, we would like to know that small random
-perturbation of the original sample results in a distribution of
-subsamples that is ``close'' in some sense (e.g., small shifts in the
-centroid in $\Sigma_m$).  Conversely, if two distributions of
-subsamples are suitably close, we would like to be able to conclude
-that the sampled trees are also close.
+In order to apply tree dimensionality reduction in the face of potentially noisy data, we would like to know that small random perturbation of the original sample results in a distribution of subsamples that is ``close'' in some sense (e.g., small shifts in the centroid in $\Sigma_m$).
+Conversely, if two distributions of subsamples are suitably close, we would like to be able to conclude that the sampled trees are also close.
 
-We begin with a lemma describing the interaction of $\Psi_S$ and tree
-rotation.  First, observe that $\Psi_S$ applied to a binary tree $T$
-produces a binary tree as long as $|S| > 1$; the degree of a vertex is
-never increased and degree $2$ vertices are collapsed.  For a binary
-tree $T$, we say that a rotation $R$ on $T$ is completely contained in
-$\Psi_S(T)$ if $\Psi_S(T)$ contains the vertex of the rotation and all
-of the edges involved in the rotation.  In terms of the convex $n$-gon
-corresponding to $T$, the rotation is completely contained in
-$\Psi_S(T)$ if and only if the quadrilateral corresponding to the
-rotation is present in the polygon corresponding to $\Psi_S(T)$.
-Denote by $\Psi_S(R)$ the induced rotation on $\Psi_S(T)$ if it is
-completely contained and the identity map otherwise.
+We begin with a lemma describing the interaction of $\Psi_S$ and tree rotation.
+First, observe that $\Psi_S$ applied to a binary tree $T$ produces a binary tree as long as $|S| > 1$; the degree of a vertex is never increased and degree $2$ vertices are collapsed.
+For a binary tree $T$, we say that a rotation $R$ on $T$ is completely contained in $\Psi_S(T)$ if $\Psi_S(T)$ contains the vertex of the rotation and all of the edges involved in the rotation.
+In terms of the convex $n$-gon corresponding to $T$, the rotation is completely contained in $\Psi_S(T)$ if and only if the quadrilateral corresponding to the rotation is present in the polygon corresponding to $\Psi_S(T)$.
+Denote by $\Psi_S(R)$ the induced rotation on $\Psi_S(T)$ if it is completely contained and the identity map otherwise.
 
 \begin{lemma}\label{lem:rotprojcom}
-Let $T$ be a binary tree and $S$ a subset of $\{1,\ldots,m\}$ such
-that $|S| > 1$.  Then there is a canonical identification
+Let $T$ be a binary tree and $S$ a subset of $\{1,\ldots,m\}$ such that $|S| > 1$.
+Then there is a canonical identification
 \[
 \Psi_S(RT) \cong \Psi_S(R) \Psi_S(T).
 \]
@@ -719,59 +697,42 @@ On the other hand, since
 \[
 \partial_{\mathbb{R}}(\sum_{i=1}^n x_i, \sum_{i=1}^n y_i) \leq n(\max_i |x_i - y_i|) \leq n \partial_{\mathbb{R}^n}((x_i), (y_i)),
 \]
-the addition of edge lengths can result in an expansion bounded by the
-size of the sum.
+the addition of edge lengths can result in an expansion bounded by the size of the sum.
 
 \begin{remark}
 Another way to interpret the previous result is to observe that the addition map is an isometry for the Manhattan distance (when working in the positive orthant) but not for the Euclidean distance.
 \end{remark}
 
 \begin{proposition}\label{prop:projcont}
-Let $S \subseteq \{1,\ldots,m\}$ such that $|S| > 1$ and let $\gamma
-\colon [0,1] \to \aE_m$ be a path from $T$ to $T'$.  Then $\gamma
-\circ \Psi_S \colon [0,1] \to \Sigma_{|S|}$ is a path from $\Psi_S(T)$
-to $\Psi_S(T')$ and $|\gamma'| \leq (\log_2 m) |\gamma|$.
+Let $S \subseteq \{1,\ldots,m\}$ such that $|S| > 1$ and let $\gamma \colon [0,1] \to \aE_m$ be a path from $T$ to $T'$.
+Then $\gamma \circ \Psi_S \colon [0,1] \to \Sigma_{|S|}$ is a path from $\Psi_S(T)$ to $\Psi_S(T')$ and $|\gamma'| \leq (\log_2 m) |\gamma|$.
 \end{proposition}
 
 \begin{proof}
-First, observe that if $T$ and $T'$ are in the same orthant of $\aE_m$, the result is clear. 
+First, observe that if $T$ and $T'$ are in the same orthant of $\aE_m$, the result is clear.
 For any $S$, $\Psi_S(T)$ and $\Psi_S(T')$ will be in the same orthant of $\Sigma_{|S|}$.
-By the discussion above, the length of the projected path in that orthant is bounded by the length of the path in $\aE_m$ scaled by the depth of the tree, which is $\log_2 m$.  This argument also shows that result holds for a path that goes through the origin and involves no rotations.
+By the discussion above, the length of the projected path in that orthant is bounded by the length of the path in $\aE_m$ scaled by the depth of the tree, which is $\log_2 m$.
+This argument also shows that result holds for a path that goes through the origin and involves no rotations.
 
-Now suppose that $T$ and $T'$ are not in the same orthant and neither
-$T$ nor $T'$ is contained in a positive codimension subspace of
-$\aE_m$ (i.e., they are not on the boundary of any orthant).  Further,
-we assume that $\gamma$ does not go through the origin and that
-$\gamma$ can be expressed in terms of a finite list of tree rotations
-$(R_1, R_2, \ldots, R_k)$ and paths $(\gamma_1, \gamma_2, \ldots,
-\gamma_k)$ that describe the restriction of $\gamma$ to the orthant
-prior to the rotation $R_i$.  That is, we assume that $\gamma$ only
-goes through codimension $1$ faces of each orthant.
+Now suppose that $T$ and $T'$ are not in the same orthant and neither $T$ nor $T'$ is contained in a positive codimension subspace of $\aE_m$ (i.e., they are not on the boundary of any orthant).
+Further, we assume that $\gamma$ does not go through the origin and that $\gamma$ can be expressed in terms of a finite list of tree rotations $(R_1, R_2, \ldots, R_k)$ and paths $(\gamma_1, \gamma_2, \ldots, \gamma_k)$ that describe the restriction of $\gamma$ to the orthant prior to the rotation $R_i$.
+That is, we assume that $\gamma$ only goes through codimension $1$ faces of each orthant.
 
-Now, fix a subset $S \in \{1,\ldots,m\}$.  The projection
-$\Psi_S(\gamma)$ yields a path $\gamma'$ from $\Psi_S(T)$ to
-$\Psi_S(T')$ in $\Sigma_{|S|}$ as follows.  For each rotation $R_i$,
-either the rotation is completely contained within $\Psi_S(R_{i-1}
-R_{i-2} \ldots R_1 T)$ or at least one edge involved in the rotation
-is missing.  We write $\Psi_S(R_i)$ for the rotation induced by the
-projection on $\Psi_S(R_{i-1} R_{i-2} \ldots R_1 T)$; if the rotation
-is not completely contained, we let $\Psi_S(R_i)$ be the identity map.
+Now, fix a subset $S \in \{1,\ldots,m\}$.
+The projection $\Psi_S(\gamma)$ yields a path $\gamma'$ from $\Psi_S(T)$ to $\Psi_S(T')$ in $\Sigma_{|S|}$ as follows.
+For each rotation $R_i$, either the rotation is completely contained within $\Psi_S(R_{i-1} R_{i-2} \ldots R_1 T)$ or at least one edge involved in the rotation is missing.
+We write $\Psi_S(R_i)$ for the rotation induced by the projection on $\Psi_S(R_{i-1} R_{i-2} \ldots R_1 T)$; if the rotation is not completely contained, we let $\Psi_S(R_i)$ be the identity map.
 
-Therefore, we obtain a sequence of rotations $\Psi_S(R_1),
-\Psi_S(R_2), \ldots, \Psi_S(R_k)$.  By Lemma~\ref{lem:rotprojcom}, we
-conclude that this sequence specifies a path of tree rotations from
-$\Psi_S(T)$ to $\Psi_S(T')$.  For the actual path in $\Sigma_{|S|}$,
-we simply observe that the projection of $\gamma_i$ to the restriction
-of the projected orthant specifies a path from $\Psi_S(R_{i-1} R_{i-2}
-\ldots R_1 T)$ to $\Psi_S(R_i R_{i-1} R_{i-2} \ldots R_1 T)$.  This
-follows from the fact that the restriction of $\gamma_i$ specifies a
-path through the boundary of the orthant if and only if the
-corresponding rotation is completely contained.  As above, the length
-of the projected path is bounded by $(\log_2 m) |\gamma_i|$.  Summing,
-we find that the length of the projected path is bounded by $(\log_2
-m) \sum_{i=1}^k |\gamma_i| = |\gamma'|$.
+Therefore, we obtain a sequence of rotations $\Psi_S(R_1), \Psi_S(R_2), \ldots, \Psi_S(R_k)$.
+By Lemma~\ref{lem:rotprojcom}, we conclude that this sequence specifies a path of tree rotations from $\Psi_S(T)$ to $\Psi_S(T')$.
+For the actual path in $\Sigma_{|S|}$, we simply observe that the projection of $\gamma_i$ to the restriction of the projected orthant specifies a path from $\Psi_S(R_{i-1} R_{i-2} \ldots R_1 T)$ to $\Psi_S(R_i R_{i-1} R_{i-2} \ldots R_1 T)$.
+This follows from the fact that the restriction of $\gamma_i$ specifies a path through the boundary of the orthant if and only if the corresponding rotation is completely contained.
+As above, the length of the projected path is bounded by $(\log_2 m) |\gamma_i|$.
+Summing, we find that the length of the projected path is bounded by $(\log_2 m) \sum_{i=1}^k |\gamma_i| = |\gamma'|$.
 
-For a general $\gamma$ that does not go through the origin but might traverse faces of codimension larger than $1$, observe that for any $\epsilon > 0$, we can perturb $\gamma$ to produce a path $\gamma'$ with the same endpoints which satisfies the hypothesis above and has $|\gamma'| = |\gamma| + \epsilon$.  Passing to limits then implies that the bound holds for such a path.  Similarly, a limit argument implies the result for a path that starts or ends on a positive codimension subspace of $\aE_m$.
+For a general $\gamma$ that does not go through the origin but might traverse faces of codimension larger than $1$, observe that for any $\epsilon > 0$, we can perturb $\gamma$ to produce a path $\gamma'$ with the same endpoints which satisfies the hypothesis above and has $|\gamma'| = |\gamma| + \epsilon$.
+Passing to limits then implies that the bound holds for such a path.
+Similarly, a limit argument implies the result for a path that starts or ends on a positive codimension subspace of $\aE_m$.
 
 Finally, more complicated paths that involve both rotations and also pass through the origin satisfy the bound by an easy induction.
 \end{proof}
@@ -830,30 +791,15 @@ d_{\aE_m}(T,T') \leq (\log_2 m) d_{M,L}(\Psi_C(T), \Psi_C(T')).
 
 \begin{remark}
 In practice, we may be interested in $d_M$ rather than $d_{M,L}$ when we do not expect to be given the labelling for the projection.
-However, it is clear that we cannot expect an analogue of
-Theorem~\ref{thm:converse}; if $T$ and $T'$ admit any kind of symmetry
-visible on subtrees, it is possible for $d_M$ to be substantially
-smaller than $d_{\aE_m}(T,T')$.
+However, it is clear that we cannot expect an analogue of Theorem~\ref{thm:converse}; if $T$ and $T'$ admit any kind of symmetry visible on subtrees, it is possible for $d_M$ to be substantially smaller than $d_{\aE_m}(T,T')$.
 \end{remark}
 
-We conclude the discussion by describing some computational results on
-simulated data that illustrates the divergence between $d_M$ and
-$d_{\aE_m}(T,T')$; see Figure~\ref{fig:dimred_calibration}.  To
-demonstrate the stability of the tree projection operation, and to
-empirically test its approach of the distance bound, we constructed a
-panel of pairs of $m$-dimensional trees, $m > 10$.  The distances
-between the pairs of trees were computed and compared against the
-distributions of distances induced by the $k$-dimensional projection
-operator, $\Psi_k$ with $k \in {3,4,5,6}$.  The distances between
-elements of the projections can exceed the original inter-phylogeny
-distance ($\epsilon$), but rarely approach the bound of $(\log_2
-m)\epsilon$.  To further characterize the behavior of the distribution
-$d_{M,L}$ as a function of $k$, we compared the distributions of
-projected distances ranging from $k=3$ to $k=m-1$ for a fixed pair of
-$m$-dimensional phylogenies.  We see that the median $d_{M,L}$ grows
-monotonically with $k,$ approaching the true $m$-dimensional
-$d_{BHV}(T, T')$, while the variance in $d_{M,L}$ appears to decrease
-monotonically with $k$.
+We conclude the discussion by describing some computational results on simulated data that illustrates the divergence between $d_M$ and $d_{\aE_m}(T,T')$; see Figure~\ref{fig:dimred_calibration}.
+To demonstrate the stability of the tree projection operation, and to empirically test its approach of the distance bound, we constructed a panel of pairs of $m$-dimensional trees, $m > 10$.
+The distances between the pairs of trees were computed and compared against the distributions of distances induced by the $k$-dimensional projection operator, $\Psi_k$ with $k \in {3,4,5,6}$.
+The distances between elements of the projections can exceed the original inter-phylogeny distance ($\epsilon$), but rarely approach the bound of $(\log_2 m)\epsilon$.
+To further characterize the behavior of the distribution $d_{M,L}$ as a function of $k$, we compared the distributions of projected distances ranging from $k=3$ to $k=m-1$ for a fixed pair of $m$-dimensional phylogenies.
+We see that the median $d_{M,L}$ grows monotonically with $k,$ approaching the true $m$-dimensional $d_{BHV}(T, T')$, while the variance in $d_{M,L}$ appears to decrease monotonically with $k$.
 
 \subsection{Using tree dimensionality reduction for inference and machine learning}
 
@@ -862,21 +808,13 @@ This has several advantages.
 First, when working with $\mathbb{P}\Sigma_m$, the resulting clouds live in $\Sigma_k$, and as discussed above analysis in the non-projectivized space is much simpler.
 Second, when projecting to $\Sigma_3$ or $\Sigma_4$, both visualization and analysis is easier (particularly in $\Sigma_3$, since that has a Euclidean metric).
 For example, in order to perform supervised classification on a labelled set of trees $X$, we can simultaneously solve classification problems in $\Psi'_k(X)$ and use majority voting in order to assign labels to new trees.
-Another possibility is to perform hierarchical clustering on the
-clouds in $\Psi'_k(X)$, resulting in another tree, and use the
-distance in tree space as a test statistic to discriminate between
-clouds.
-In Section~\ref{sec:flu} below we describe an application that
-involves producing a predictor for flu vaccine efficacy using the
-variance of the distribution produced by $\Psi$.
+Another possibility is to perform hierarchical clustering on the clouds in $\Psi'_k(X)$, resulting in another tree, and use the distance in tree space as a test statistic to discriminate between clouds.
+In Section~\ref{sec:flu} below we describe an application that involves producing a predictor for flu vaccine efficacy using the variance of the distribution produced by $\Psi$.
 
 \begin{remark}
-Another interesting direction of research is to consider the use of
-topological data analysis summaries (i.e., hierarchical clustering
-dendrograms or barcodes) for the clouds of projected points.  The
-stability results above easily imply stability results for the
-associated barcodes of the projections.  We intend to return to this
-subject in a subsequent paper.
+Another interesting direction of research is to consider the use of topological data analysis summaries (i.e., hierarchical clustering dendrograms or barcodes) for the clouds of projected points.
+The stability results above easily imply stability results for the associated barcodes of the projections.
+We intend to return to this subject in a subsequent paper.
 \end{remark}
 
 \section{Clinical utility of longitudinal tumor genomics}\label{sec:cancer}
@@ -896,7 +834,7 @@ Such models can be created by direct implantation of primary tumor tissue into i
 In this section, we describe three applications of the mathematical machinery of evolutionary moduli spaces.
 We begin with the medically relevant problem of how therapy affects the evolution of common leukemias.
 Then, using public data from relapsed glioma, we highlight clinical correlates to the spatial distribution of patients in the moduli space.
-Finally, we study single cell data from breast cancer derived xenografts to observe the departure of the tumor genetics from the primary lesion.  
+Finally, we study single cell data from breast cancer derived xenografts to observe the departure of the tumor genetics from the primary lesion.
 
 \subsection{Evolution of chronic lymphocytic leukemia under therapy}\label{sec:CLL}
 
@@ -924,7 +862,7 @@ In Figure~\ref{fig:chemoCLL}, we map this data to $\mathbb{P}\Sigma_3$ and color
     \includegraphics[height=2.2in]{../figures/CLL_histogram.pdf}
     \end{subfigure}
 
-    \caption{{\bf Different evolutionary patterns observed in CLL.} (Left) In patients that did not receive chemotherapy the tumor genome did not change. Tumors from these patients, represented in green, shared most mutations along different time points. However, under therapy (shown in red) mutations before therapy were not present after treatment, and new mutations were acquired. (Right) The proportion of mutations shared between time points is significantly lower among patients treated with chemotherapy ($p = 0.049$, log-rank test).}
+    \caption{{\bf Different evolutionary patterns observed in CLL.} (Left) In patients that did not receive chemotherapy the tumor exome did not change. Tumors from these patients, represented in green, shared most mutations along different time points. However, under therapy (shown in red) mutations before therapy were not present after treatment, and new mutations were acquired. (Right) The proportion of mutations shared between time points is significantly lower among patients treated with chemotherapy ($p = 0.049$, log-rank test).}
     \label{fig:chemoCLL}
 \end{figure}
 
@@ -934,7 +872,7 @@ However, in red are represented the histories of tumors of 15 patients under the
 The ratio between the number of mutations that are exclusive in the early branch versus the ones that are share with other phases is represented in right hand side of Figure~\ref{fig:chemoCLL}.
 A number close to zero indicates a genetically stable tumor.
 
-To assess how different are the clonal histories of tumors from untreated vs treated patients, we studied the distance between the centroids of the two populations. {\bf AJB: Did we compute centroids in the projective space?}
+To assess how different are the clonal histories of tumors from untreated vs treated patients, we studied the distance between the centroids of the two populations, after rescaling trees such that total branch length is 1.
 The 95\% CI for the distance between the centroids of the treated / untreated groups is (0.15, 0.36), under 1000-fold bootstrap resampling.
 The analogous intervals for untreated / untreated and treated / treated are (0.01, 0.14) and (0.02, 0.16) respectively.
 This analysis shows that the centroids of these clinically distinct sets of patients are well-resolved, supporting the idea that untreated tumors are more stable than treated ones, where district mutations can appear along the evolution of the tumor.
@@ -964,7 +902,7 @@ Whole exome sequencing was performed on tumor tissue at diagnosis and at relapse
 \end{figure}
 
 TMZ is an alkylating agent that directly damages the cellular genome, and accordingly we see that the subset of patients that were treated with TMZ show a greater acquisition of relapse-specific mutations.
-The 95\% CI for the distance between the centroids of the treated / untreated groups is (0.31, 0.48), under 1000-fold bootstrap resampling. {\bf AJB: Same question about centroids as above.}
+After rescaling trees such that total branch length is 1, we find the 95\% confidence interval for distance between centroids of the treated / untreated groups is (0.31, 0.48), under 1000-fold bootstrap resampling.
 The analogous intervals for untreated / untreated and treated / treated are (0.02, 0.13) and (0.02, 0.16) respectively.
 TMZ treatment status defines two statistically well-resolved sub-populations of patients with respect to the shape of their evolutionary behavior.
 Also of interest is the apparent correlation between the geometry of the phylogenetic tree and the histologic grade at relapse.
@@ -979,8 +917,8 @@ Moreover, we see that evolutionary trajectory can be associated with prognosis, 
 The recent development of single cell transcriptomics and genomics is providing an opportunity to study the role of clonal heterogeneity in tumors~\cite{navin2011tumour, eirew2014dynamics, patel2014single} and to identify small, previously uncharacterized cell populations~\cite{grun2015single}.
 The single cell approach to studying complex populations brings with it new challenges associated with the large number of sampled genomes.
 Another rapidly maturing technology in the modeling of tumor evolution is that of patient-derived xenografts.
-Patient-derived xenografts (PDX) are generated by transplanting tumor tissue into immunodeficient mice, and are serially passaged as each host animal expires. {\bf AJB: ``Passaged'' is a strange verb; is that a technical term?}
-This facilitates an understanding of tumor adaptation and clonal dynamics.
+Patient-derived xenografts (PDX) are generated by transplanting tumor tissue into immunodeficient mice, serially engrafting in new mice as each host animal expires.
+This provides an \textit{in vivo} platform for drug screening as well as longitudinal monitoring of tumor adaptation and clonal dynamics.
 
 We take advantage of recently published PDX data from breast cancer patients, where single-nucleus deep-sequencing was performed across a lineage of host animals~\cite{eirew2014dynamics}.
 The data are comprised of a sample from the primary tumor, as well as three subsequent mouse passages, and the sequencing data revealed 55 informative sites of substitution.
@@ -1011,10 +949,11 @@ We randomly selected sequences representative of the eight mutational clusters u
 This preparation of the data implies five sequential time points along the tumor's history: benign germline genome, genotype at diagnosis of primary tumor, genotype at first PDX, genotype at second PDX, and genotype at fourth PDX.
 The latter three time points provide for the large combinatorial forest of phylogenetic trees since they are sequenced at single-cell resolution.
 Our question concerned the difference in heterogeneity between phylogenetic trees constructed on the first four time points and those constructed on last four time points.
-First, we include trees relating the germ-line sequence, a randomly selected cluster-representative sequence form the primary tumor, and randomly selected single-nucleus sequences from the initial two xenograft passages. {\bf AJB: So this seems like it was premature to talk about making trees in the first part of this paragraph.}
+First, we include trees relating the germ-line sequence, a randomly selected cluster-representative sequence form the primary tumor, and randomly selected single-nucleus sequences from the initial two xenograft passages.
 Then, in a second analysis, we include trees relating a randomly selected cluster-representative sequence from the primary tumor and randomly selected single-nucleus sequences from three consecutive xenograft passages.
 
-The distributions trees from both time windows are visualized in Fig~\ref{fig:xenograft} as point clouds in $\mathbb{P}\Sigma_4 $. {\bf AJB: Why 3000?  This is a little unclear --- 8 cluster samples and then tons of other ones?  Or did we generate lots of representatives for each cluster?  What does all possibilities mean --- is that what is explained below?}
+The distributions trees from both time windows are visualized in Fig~\ref{fig:xenograft} as point clouds in $\mathbb{P}\Sigma_4 $.
+{\bf AJB: Why 3000?  This is a little unclear --- 8 cluster samples and then tons of other ones?  Or did we generate lots of representatives for each cluster?  What does all possibilities mean --- is that what is explained below?}
 Consistent linear evolution is seen from primary tumor through the first two xenograft passages, however we observe significant heterogeneity of tumor clones upon the fourth mouse passage.
 The first time window (purple) is completely contained within the topology corresponding to linear evolution, unlike the second (gold) which is centered on the origin and extends into all three possible topologies.
 The point cloud for the second time window displays a higher standard deviation than the first (10.49 vs. 8.69), and its centroid is essentially a star tree.
@@ -1073,7 +1012,8 @@ We randomly select sets of HAs such that a single isolate is drawn from each of 
 Neighbor-joining with a Hamming metric is used to generate unrooted trees from the temporally ordered tuples of HA isolates.
 The case of length five windows is illustrated in Figure~\ref{fig:flu_quint}, where we superimpose each temporal slice onto the same moduli space.
 If the current viruses are most similar to viruses circulating in the immediately preceding season, one should expect an unrooted tree topology relating $(1,2),3,(4,5)$ branches.
-Deviations from this topology indicate unexpected genetic relationships.  Figure~\ref{fig:flu_quint} confirms that the vast majority of points land along the topologies most compatible with linear evolution of HA.
+Deviations from this topology indicate unexpected genetic relationships.
+Figure~\ref{fig:flu_quint} confirms that the vast majority of points land along the topologies most compatible with linear evolution of HA.
 Certain windows yield well resolved clusters of trees, while others are dispersed point clouds.
 Either scenario might be indicative of elevated diversity in the HA segment or a clonal replacement event underway.
 The window ending in the 2003-2004 season shows a clear reemergence of strains in 2003-2004 that were genetically similar to those circulating in the 1999-2000 season~\cite{holmes2005whole}.
@@ -1083,6 +1023,13 @@ The window ending in the 2003-2004 season shows a clear reemergence of strains i
     \includegraphics[width=6in]{../figures/influenza_quint.png}
     \caption{{\bf Temporally windowed subtrees in $\mathbb{P}\Sigma_5$.} Using a common set of axes for projective tree space, we superimpose the distributions of trees derived from windows five seasons long. 1,089 full-length HA segments (H3N2) were collected in New York state from 1993 to 2016. Two consecutive seasons of poor vaccine effectiveness are 2003-2004 and 2004-2005, highlighted with green and gray arrows respectively. The green distribution strongly pairs the 1999-2000 and 2003-2004 strains, hinting at a reemergence.}
     \label{fig:flu_quint}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\linewidth]{../figures/influenza_VE.png}
+    \caption{{\bf Diversity in recent circulating HA predicts vaccine failure.} Negative correlation observed between vaccine effectiveness in season $(t, t+1)$ and the variance in trees generated from seasons $(t-1,t), (t-2. t-1), (t-3,t-2)$.}
+    \label{fig:flu_VE}
 \end{figure}
 
 Next, we used tree dimensionality reduction based on windowing to generate a predictor for vaccine efficacy.
@@ -1096,16 +1043,29 @@ It is clear, both from the left and right panels, that lower variance in a tempo
 The lone outlier season came in 1997-1998~\cite{gupta2006quantifying}, when the vaccine efficacy was lower than expected.
 In this season the dominant circulating strain was A/Sydney/5/97 while the vaccine strain was A/Wuhan/359/95.
 The analysis can be carried out with length-4 or length-5 windows to yield a similar result.
-
+Noteworthy is the fact that this association rests only on aligned nucleotide sequence, making no direct use of HA epitope or HI assay data.
 The correlation between variance of tree distributions and vaccine effectiveness allows us to estimate the influenza vaccine effectiveness for future seasons based on genomic data.
-In particular, for the 2016-2017 season, the variance in tree space was 12.77, corresponding to an approximate effectiveness of 36\%.  
+In particular, for the 2016-2017 season, the variance in tree space was 12.77, corresponding to an approximate effectiveness of 36\%.
+
+It is also of interest to retrospectively examine the annual W.H.O. decisions to either keep or change the H3N2 componenet of the Northern hemisphere vaccine, and whether the choice resulted in superior or inferior vaccine effectiveness in the following season.
+A coarse-grained view of the antigenic features of our HA isolates can be procured using the work of~\cite{du2012mapping}, who defined a clustering of antigenic phenotype and trained a naive Bayes model, that maps HA protein sequence to these labels.
+We begin by labeling our phylogenetic trees using the antigenic cluster (AC) assignments of the classifier, and selecting those seasons in which more than one AC is observed.
+The goal is to define a mapping between features of the different AC distributions and the change in vaccine effectiveness of the next season relative to the present.
+Figure~\ref{fig:flu_antigenic} indicates that in 9 of the 19 seasons for which we have data, only a single AC was observed.
+In this case it does not make sense to ask whether a change in H3N2 vaccine strain should have considered for the subsequent season, since we detect no antigenic diversity.
+The other 10 seasons were represented as vectors comprised of 4 features: (distance between the centroids of the older / newer AC distributions, standard deviation of the older AC distribution, standard deviation of the newer AC distribution, whether the vaccine strain for the subsequent season was changed from that of the current season); the binary label associated to each of the 10 seasons was whether the change in vaccine effectiveness was positive or negative.
+Using a heavily restricted vocabulary of logical and arithmetic operators, we exhaustively searched~\cite{schmidt2009distilling} for a decision-tree-structured rule for mapping the feature vectors to the binary label, under a fitness function of area under receiver operator characteristic.
+A decision rule that achieves perfect classification on this admittedly small data set is depicted in Figure~\ref{fig:flu_antigenic}.
+The straight-forward interpretation of the decision tree is that if a vaccine strain is unchanged, a higher variance in the old AC distribution predicts $\Delta V.E. > 0$, while if a vaccine strain is changed, then the new AC distribution being well-resolved from the old AC predicts $\Delta V.E. > 0$.
 
 \begin{figure}
     \centering
-    \includegraphics[width=\linewidth]{../figures/influenza_VE.png}
-    \caption{{\bf Diversity in recent circulating HA predicts vaccine failure.} Negative correlation observed between vaccine effectiveness in season $(t, t+1)$ and the variance in trees generated from seasons $(t-1,t), (t-2. t-1), (t-3,t-2)$.}
-    \label{fig:flu_VE}
-\end{figure} 
+    \includegraphics[width=\linewidth]{../figures/influenza_antigenic.png}
+    \caption{{\bf Stratification of trees on predicted antigenic cluster.} Trees are categorically labeled using the predicted~\cite{du2012mapping} antigenic cluster (AC) of their most recent isolate. (Top) A simple decision rule is fit~\cite{schmidt2009distilling} to the 10 seasons in which more than one AC is observed, explaining the change in vaccine effectivness (VE) in the following season. (Bottom) Colors encode different AC labels associated to the HA sequences collected over time. We also plot the predicted VE change given by the decision rule against the historical data, for the 10 relevant seasons.}
+    \label{fig:flu_antigenic}
+\end{figure}
+
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
