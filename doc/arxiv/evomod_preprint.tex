@@ -36,7 +36,6 @@
 \author{Sakellarios Zairis$^{1}$, Hossein Khiabanian$^{1,\dagger}$, Andrew J. Blumberg$^{2}$, and Raul Rabadan$^{1}$\\
 \\
 $^1$ Department of Systems Biology, Columbia University\\
-% $^2$ Center for Topology of Cancer Evolution and Heterogeneity, Columbia University\\
 $^2$ Department of Mathematics, UT Austin\\
 $^\dagger$ Present address: Rutgers Cancer Institute, Rutgers University\\}
 \maketitle
@@ -63,7 +62,8 @@ The second examines a link between geometric information and the histologic grad
 The third concerns genetic stability of xenograft models of cancer, where heterogeneity at the single cell level increased with later mouse passages.
 The last studies genetic diversity in seasonal influenza A virus.
 We apply tree dimensionality reduction to project 24 years of longitudinally collected H3N2 hemagglutinin sequences into distributions of smaller trees spanning between three and five seasons.
-A negative correlation is observed between the influenza vaccine effectiveness during a season and the variance of the distributions produced using preceding seasons' sequence data. We also show how tree distributions relate to antigenic clusters and choice of influenza vaccine.
+A negative correlation is observed between the influenza vaccine effectiveness during a season and the variance of the distributions produced using preceding seasons' sequence data.
+We also show how tree distributions relate to antigenic clusters and choice of influenza vaccine.
 These results provide compelling evidence that our formalism exposes links between genomic data of influenza A and important clinical observables, namely vaccine selection and efficacy.
 
 \end{abstract}
@@ -105,7 +105,8 @@ We referred to these tree spaces as ``evolutionary moduli spaces,'' in which cla
 In this paper, we develop these applications in detail and introduce new machinery for dimensionality reduction.
 We begin by reviewing (in Section~\ref{sec:phylospace}) some of the fundamental notions regarding the geometry of evolutionary moduli spaces, following Billera-Holmes-Vogtman~\cite{billera2001geometry}, Sturm~\cite{sturm2003probability}, and our prior treatment~\cite{zairis2014moduli}.
 Motivated by several biological applications, we also introduce a projective version of these spaces and study some of their geometric properties.
-In Section~\ref{sec:ML}, we give an overview of the application of standard machine learning and statistical inference techniques in these spaces. Applying these techniques, in Section~\ref{sec:cancer} we describe the interpretive power of evolutionary moduli spaces for studying cancer genomic data in three examples: evolution of chronic lymphocytic leukemia under therapy (Section~\ref{sec:CLL}), grade at relapse in glioma (Section~\ref{sec:glioma}), and clonal dynamics in patient-derived xenografts (Section~\ref{sec:xeno}).
+In Section~\ref{sec:ML}, we give an overview of the application of standard machine learning and statistical inference techniques in these spaces.
+Applying these techniques, in Section~\ref{sec:cancer} we describe the interpretive power of evolutionary moduli spaces for studying cancer genomic data in three examples: evolution of chronic lymphocytic leukemia under therapy (Section~\ref{sec:CLL}), grade at relapse in glioma (Section~\ref{sec:glioma}), and clonal dynamics in patient-derived xenografts (Section~\ref{sec:xeno}).
 In each case, we find that representing the problem in terms of the evolutionary moduli spaces permits meaningful inference with clinical significance.
 
 The trees arising from clonal evolution in cancers tend to be quite small, since each leaf corresponds to a tissue sample from the tumor.
@@ -368,7 +369,7 @@ For smaller values, we have the following table (taken from~\cite[\S2.3]{sleator
     \centering
     \begin{tabular}{c c c c c c c c}
     \hline\hline
-    4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 \\
+    5 & 6 & 7 & 8 & 9 & 10 & 11 & 12 \\
     \hline
     2 & 4 & 5 & 7 & 9 & 11 & 12 & 15 \\
     \hline
@@ -785,7 +786,7 @@ d_{\aE_m}(T,T') \leq (\log_2 m) d_{M,L}(\Psi_C(T), \Psi_C(T')).
     \includegraphics[width=0.8\linewidth]{../figures/dimred_pwdist_m40_vs_K.pdf}
     \end{subfigure}
 
-    \caption{{\bf Distributions of subsample distances under the tree projection operation.} (Top) Pairs of $m$-dimensional phylogenies with known distance (horizontal black lines) are projected into distributions of low dimensional trees. The distances between elements of the projections can exceed the original inter-phylogeny distance ($\epsilon$), but rarely approach the bound of $(\log_2 m)\epsilon$. (Bottom) As the dimension of the projection operator approaches that of the initial phylogenies, there is a monotonic increase in the median and decrease in the variance of $d_{M,L}$.}
+    \caption{{\bf Distributions of subsample distances under the tree projection operation.} (Top) Pairs of $m$-dimensional phylogenies with known distance (horizontal black lines) are projected into distributions of low dimensional trees. The distances between elements of the projections can exceed the original inter-phylogeny distance ($\epsilon$), but rarely approach the bound of $(\log_2 m)\epsilon$. (Bottom) As the dimension of the projection operator approaches that of the initial phylogenies, there is a decrease in the variance of $d_{M,L}$ and its median approaches the $m$-dimensional $d_{BHV}(T, T')$.}
     \label{fig:dimred_calibration}
 \end{figure}
 
@@ -799,7 +800,7 @@ To demonstrate the stability of the tree projection operation, and to empiricall
 The distances between the pairs of trees were computed and compared against the distributions of distances induced by the $k$-dimensional projection operator, $\Psi_k$ with $k \in {3,4,5,6}$.
 The distances between elements of the projections can exceed the original inter-phylogeny distance ($\epsilon$), but rarely approach the bound of $(\log_2 m)\epsilon$.
 To further characterize the behavior of the distribution $d_{M,L}$ as a function of $k$, we compared the distributions of projected distances ranging from $k=3$ to $k=m-1$ for a fixed pair of $m$-dimensional phylogenies.
-We see that the median $d_{M,L}$ grows monotonically with $k,$ approaching the true $m$-dimensional $d_{BHV}(T, T')$, while the variance in $d_{M,L}$ appears to decrease monotonically with $k$.
+We see that the median $d_{M,L}$ approachies the true $m$-dimensional $d_{BHV}(T, T')$ with larger values of $k$, while the variance appears to decrease monotonically.
 
 \subsection{Using tree dimensionality reduction for inference and machine learning}
 
@@ -829,7 +830,7 @@ Questions about the nature of the evolutionary process, mechanisms of resistance
 For example, a first step towards personalizing cancer therapy is to monitor the mutational status of patients along the therapeutic course.
 Genomic snapshots before and after administration of cytotoxic therapy can reveal the extent of population remodeling.
 A further goal is to establish \textit{in vivo} mouse models of every patient's tumor, as a means of rapidly exploring drug susceptibility and resistance.
-Such models can be created by direct implantation of primary tumor tissue into immunodeficient mice and are termed patient-derived xenografts (PDX).
+Such models can be created by direct implantation of human tumor tissue into immunodeficient mice and are termed patient-derived xenografts (PDX).
 
 In this section, we describe three applications of the mathematical machinery of evolutionary moduli spaces.
 We begin with the medically relevant problem of how therapy affects the evolution of common leukemias.
@@ -872,7 +873,8 @@ However, in red are represented the histories of tumors of 15 patients under the
 The ratio between the number of mutations that are exclusive in the early branch versus the ones that are share with other phases is represented in right hand side of Figure~\ref{fig:chemoCLL}.
 A number close to zero indicates a genetically stable tumor.
 
-To assess how different are the clonal histories of tumors from untreated vs treated patients, we studied the distance between the centroids of the two populations regarded as points in $\mathbb{P}\Sigma_3$.  (Note that computing the centroid is well-defined here because $\mathbb{P}\Sigma_3$ is a Euclidean simplex.)
+To assess how different are the clonal histories of tumors from untreated vs treated patients, we studied the distance between the centroids of the two populations regarded as points in $\mathbb{P}\Sigma_3$.
+(Note that computing the centroid is well-defined here because $\mathbb{P}\Sigma_3$ is a Euclidean simplex.)
 The 95\% CI for the distance between the centroids of the treated / untreated groups is (0.15, 0.36), under 1000-fold bootstrap resampling.
 The analogous intervals for untreated / untreated and treated / treated are (0.01, 0.14) and (0.02, 0.16) respectively.
 This analysis shows that the centroids of these clinically distinct sets of patients are well-resolved, supporting the idea that untreated tumors are more stable than treated ones, where district mutations can appear along the evolution of the tumor.
@@ -897,7 +899,7 @@ Whole exome sequencing was performed on tumor tissue at diagnosis and at relapse
     \includegraphics[height=2in]{../figures/glioma_voronoi_stage.png}
     \end{subfigure}
 
-    \caption{{\bf Effects of temozolamide (TMZ) treatment in relapsed glioma.} Exome sequencing was performed both at diagnosis and at relapse in 23 glioma patients, allowing for 46 phylogenetic trees to be inferred (spatial replicates in certain cases). (a) Patients treated with TMZ are colored red, and the size of a point denotes the total number of mutations observed. There is a clear tendency of TMZ-treated patients to localize in a particular corner of the space and to exhibit more mutations associated to the therapy. (b) Less obvious was the association between the shape of patient's tree and the histologic grade of the tumor at relapse, displayed as a Voronoi tessellation.}
+    \caption{{\bf Effects of temozolamide (TMZ) treatment in relapsed glioma.} Exome sequencing was performed both at diagnosis and at relapse in 23 glioma patients, allowing for 46 phylogenetic trees to be inferred (spatial replicates in certain cases). (Left) Patients treated with TMZ are colored red, and the size of a point denotes the total number of mutations observed. There is a clear tendency of TMZ-treated patients to localize in a particular corner of the space and to exhibit more mutations associated to the therapy. (Right) Less obvious was the association between the shape of patient's tree and the histologic grade of the tumor at relapse, displayed as a Voronoi tessellation.}
     \label{fig:gliomaTMZ}
 \end{figure}
 
@@ -957,7 +959,7 @@ The distributions trees from both time windows are visualized in Fig~\ref{fig:xe
 Consistent linear evolution is seen from primary tumor through the first two xenograft passages, however we observe significant heterogeneity of tumor clones upon the fourth mouse passage.
 The first time window (purple) is completely contained within the topology corresponding to linear evolution, unlike the second (gold) which is centered on the origin and extends into all three possible topologies.
 The point cloud for the second time window displays a higher standard deviation than the first (10.49 vs. 8.69), and its centroid is essentially a star tree.
-{\bf AJB: Where did we compute this centroid?}
+Centroids and variances are computed in $\Sigma_4$, prior to rescaling of branch lengths.
 The high degree of genotypic heterogeneity giving rise to the second time window distribution is suggestive of a clonal replacement event between the time points of Xenograft 2 (X2) and Xenograft 4 (X4).
 Many of the prevalent alterations before X4 disappear during the final passage, and many new mutations rise to dominance.
 These results raise interesting questions about the long-term fidelity of PDX vehicles to the genetics of their ancestral primary tumors, which theoretically they serve to mimic.
@@ -1054,7 +1056,8 @@ We begin by labeling our phylogenetic trees using the antigenic cluster (AC) ass
 The goal is to define a mapping between features of the different AC distributions and the change in vaccine effectiveness of the next season relative to the present.
 Figure~\ref{fig:flu_antigenic} indicates that in 9 of the 19 seasons for which we have data, only a single AC was observed.
 In this case it does not make sense to ask whether a change in H3N2 vaccine strain should have considered for the subsequent season, since we detect no antigenic diversity.
-The other 10 seasons were represented as vectors comprised of 4 features: distance between the centroids of the older / newer AC distributions, standard deviation of the older AC distribution, standard deviation of the newer AC distribution, whether the vaccine strain for the subsequent season was changed from that of the current season.  We associated a binary label to each of the 10 seasons was whether the change in vaccine effectiveness was positive or negative.
+The other 10 seasons were represented as vectors comprised of 4 features: distance between the centroids of the older / newer AC distributions, standard deviation of the older AC distribution, standard deviation of the newer AC distribution, whether the vaccine strain for the subsequent season was changed from that of the current season.
+We associated a binary label to each of the 10 seasons was whether the change in vaccine effectiveness was positive or negative.
 
 Using a heavily restricted vocabulary of logical and arithmetic operators, we exhaustively searched~\cite{schmidt2009distilling} for a decision tree mapping the feature vectors to the binary label, using a fitness function maximizing area under the receiver operating characteristic (ROC) curve.
 A decision rule that achieves perfect classification on this data set is depicted in Figure~\ref{fig:flu_antigenic}.
