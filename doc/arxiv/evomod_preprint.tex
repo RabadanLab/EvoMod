@@ -523,7 +523,7 @@ We use this classification algorithm to study clinical correlates of trees deter
 
 \section{Tree dimensionality reduction}\label{sec:treedimred}
 
-When analyzing large number of genomes, phylogenetic trees are often too complex to visualize and analyze as they can contain thousands of branches.
+When analyzing a large number of genomes, phylogenetic trees are often too complex to visualize and analyze as they can contain thousands of branches.
 In this section, we will explain a technique for dimensionality reduction that projects a single tree in $\Sigma_m$ or $\mathbb{P}\Sigma_m$ to a ``forest'' of trees in $\Sigma_{n}$, for $n < m$.
 The main idea is that by subsampling leaves of a large tree we can have a distribution of smaller trees that can capture properties of the more complex structure.
 This procedure makes it easy to visualize and analyze high-dimensional data, and avoids scalability issues with algorithms for working with the spaces of phylogenetic trees.
@@ -539,7 +539,7 @@ For $S \subseteq \{1,\ldots,m\}$, define the tree projection function
 \[
 \Psi_S \colon \aE_m \to \Sigma_{|S|}
 \] 
-by specifying $\Psi_S(t)$ to be the unique tree obtained by taking the full subgraph of $t$ on the leaves that have labels in $S$ and then deleting vertices of degree $2$.
+by specifying $\Psi_S(T)$ to be the unique tree obtained by taking the full subgraph of $t$ on the leaves that have labels in $S$ and then deleting vertices of degree $2$.
 An edge $e$ created by vertex deletion is assigned weight $w_1 + w_2$, where the $w_i$ are the weights of the incident edges for the deleted vertex.
 (It is easy to check that the order of vertex deletion does not change the resulting tree.)
 \end{definition}
@@ -590,7 +590,7 @@ When this holds, sliding windows over the labels induces an ordering on subtrees
 Rather than just regarding such a sequence as a distribution, the ordering makes it sensible to consider the associated trees as forming a piecewise-linear curve in $\Sigma_k$.
 (Note that given a set of points in $\Sigma_k$ it is always reasonable to form the associated piecewise-linear curve because each pair of points is connected by a unique geodesic.)
 Let $\aC_k(\Sigma_m)$ denote the set of piecewise linear curves in $\Sigma_m$; equivalently, $\aC_k(\Sigma_m)$ can be thought as the set of ordered sequences in $\Sigma_m$ of cardinality $k$.
-A schematic example of this sequential operation is given in Figure~\ref{fig:dimred_def4}
+A schematic example of this sequential operation is given in Figure~\ref{fig:dimred_def4}.
 
 \begin{figure}
     \centering
@@ -602,13 +602,13 @@ A schematic example of this sequential operation is given in Figure~\ref{fig:dim
 \begin{definition}[Sequential tree dimensionality reduction]
 For $1 \leq k < m$, define the map
 \[
-\Psi_C \aE_m \to \aC_{m-k}(\Sigma_k)
+\Psi_C \colon \aE_m \to \aC_{m-k}(\Sigma_k)
 \]
-as the assignment that takes $t \in \aE_m$ to the curve induced by $\Psi_S$ as $S$ varies over the subsets $\{1, \ldots, k\}$, $\{2, \ldots, k+1\}$, etc.
+as the assignment that takes $T \in \aE_m$ to the curve induced by $\Psi_S$ as $S$ varies over the subsets $\{1, \ldots, k\}$, $\{2, \ldots, k+1\}$, etc.
 
 Equivalently, we can regard this as producing a map
 \[
-\Psi_C \aE_m \to \aD(\Sigma_k).
+\Psi_C \colon \aE_m \to \aD(\Sigma_k).
 \]
 \end{definition}
 
@@ -751,7 +751,7 @@ Moreover, this bound is tight.
 Let $A$ and $B$ be subsets of $\aE_m$ such that $|A| = |B| \leq 2^m$.
 If we assume that each item of $A$ and $B$ has a label in $L \subset \aP(\{1,\ldots,m\})$ (where $\aP(-)$ denotes the power set of $\{1,\ldots,m\}$), then we can define a matching distance as
 \[
-d_{M,L}(A,B) \max_{S \in L} d_{\aE_m}(A(S), B(S)).
+d_{M,L}(A,B) = \max_{S \in L} d_{\aE_m}(A(S), B(S)).
 \]
 
 Without assuming such a labelling, we define the matching distance between $A$ and $B$ to be 
