@@ -670,13 +670,13 @@ We begin with a lemma describing the interaction of $\Psi_S$ and tree rotation.
 First, observe that $\Psi_S$ applied to a binary tree $T$ produces a binary tree as long as $|S| > 1$; the degree of a vertex is never increased and degree $2$ vertices are collapsed.
 For a binary tree $T$, we say that a rotation $R$ on $T$ is completely contained in $\Psi_S(T)$ if $\Psi_S(T)$ contains the vertex of the rotation and all of the edges involved in the rotation.
 In terms of the convex $n$-gon corresponding to $T$, the rotation is completely contained in $\Psi_S(T)$ if and only if the quadrilateral corresponding to the rotation is present in the polygon corresponding to $\Psi_S(T)$.
-Denote by $\Psi_S(R)$ the induced rotation on $\Psi_S(T)$ if it is completely contained and the identity map otherwise.
+Denote by $\widetilde{R}_S$ the induced rotation on $\Psi_S(T)$ if it is completely contained and the identity map otherwise.
 
 \begin{lemma}\label{lem:rotprojcom}
 Let $T$ be a binary tree and $S$ a subset of $\{1,\ldots,m\}$ such that $|S| > 1$.
 Then there is a canonical identification
 \[
-\Psi_S(RT) \cong \Psi_S(R) \Psi_S(T).
+\Psi_S(RT) \cong \widetilde{R}_S \Psi_S(T).
 \]
 \end{lemma}
 
@@ -716,25 +716,20 @@ This argument also shows that result holds for a path that goes through the orig
 
 Now suppose that $T$ and $T'$ are not in the same orthant and neither $T$ nor $T'$ is contained in a positive codimension subspace of $\aE_m$ (i.e., they are not on the boundary of any orthant).
 Further, we assume that $\gamma$ does not go through the origin and that $\gamma$ can be expressed in terms of a finite list of tree rotations $(R_1, R_2, \ldots, R_k)$ and paths $(\gamma_1, \gamma_2, \ldots, \gamma_k)$ that describe the restriction of $\gamma$ to the orthant prior to the rotation $R_i$.
-That is, we assume that $\gamma$ only goes through codimension $1$ faces of each orthant.
+That is, we assume that $\gamma$ only goes through codimension $1$ faces of each orthant.  It suffices to consider this case, since for a general $\gamma$ that does not go through the origin but might traverse faces of codimension larger than $1$, observe that for any $\epsilon > 0$, we can perturb $\gamma$ to produce a path $\gamma'$ with the same endpoints which satisfies the hypothesis above and has $|\gamma'| = |\gamma| + \epsilon$.  Passing to limits then implies that the bound holds for such a path.
+Similarly, a limit argument implies the result for a path that starts or ends on a positive codimension subspace of $\aE_m$.  More complicated paths that involve both rotations and also pass through the origin satisfy the bound by an easy induction.
 
-Now, fix a subset $S \in \{1,\ldots,m\}$.
+Thus, fix a subset $S \in \{1,\ldots,m\}$.
 The projection $\Psi_S(\gamma)$ yields a path $\gamma'$ from $\Psi_S(T)$ to $\Psi_S(T')$ in $\Sigma_{|S|}$ as follows.
 For each rotation $R_i$, either the rotation is completely contained within $\Psi_S(R_{i-1} R_{i-2} \ldots R_1 T)$ or at least one edge involved in the rotation is missing.
-We write $\Psi_S(R_i)$ for the rotation induced by the projection on $\Psi_S(R_{i-1} R_{i-2} \ldots R_1 T)$; if the rotation is not completely contained, we let $\Psi_S(R_i)$ be the identity map.
+We write $\widetilde{(R_i)}_S$ for the rotation induced by the projection on $\Psi_S(R_{i-1} R_{i-2} \ldots R_1 T)$; if the rotation is not completely contained, we let $\widetilde{(R_i)}_S$ denote the identity map.
 
-Therefore, we obtain a sequence of rotations $\Psi_S(R_1), \Psi_S(R_2), \ldots, \Psi_S(R_k)$.
+Therefore, we obtain a sequence of rotations $\widetilde{(R_1)}_S, \widetilde{(R_2)}_S, \ldots, \\widetilde{(R_k)}_S$.
 By Lemma~\ref{lem:rotprojcom}, we conclude that this sequence specifies a path of tree rotations from $\Psi_S(T)$ to $\Psi_S(T')$.
 For the actual path in $\Sigma_{|S|}$, we simply observe that the projection of $\gamma_i$ to the restriction of the projected orthant specifies a path from $\Psi_S(R_{i-1} R_{i-2} \ldots R_1 T)$ to $\Psi_S(R_i R_{i-1} R_{i-2} \ldots R_1 T)$.
 This follows from the fact that the restriction of $\gamma_i$ specifies a path through the boundary of the orthant if and only if the corresponding rotation is completely contained.
 As above, the length of the projected path is bounded by $(\log_2 m) |\gamma_i|$.
 Summing, we find that the length of the projected path is bounded by $(\log_2 m) \sum_{i=1}^k |\gamma_i| = |\gamma'|$.
-
-For a general $\gamma$ that does not go through the origin but might traverse faces of codimension larger than $1$, observe that for any $\epsilon > 0$, we can perturb $\gamma$ to produce a path $\gamma'$ with the same endpoints which satisfies the hypothesis above and has $|\gamma'| = |\gamma| + \epsilon$.
-Passing to limits then implies that the bound holds for such a path.
-Similarly, a limit argument implies the result for a path that starts or ends on a positive codimension subspace of $\aE_m$.
-
-Finally, more complicated paths that involve both rotations and also pass through the origin satisfy the bound by an easy induction.
 \end{proof}
 
 Using Proposition~\ref{prop:projcont}, it is straighforward to deduce the next two theorems that provide the theoretical support for the use of tree dimensionality reduction.
@@ -762,12 +757,12 @@ where $\phi$ varies over all bijections $A \to B$.
 
 The following is now also immediate from Proposition~\ref{prop:projcont}.
 
-\begin{theorem}\label{thm:converse}
-For $T, T' \in \aE_m$, 
+\begin{lemma}\label{lem:converse}
+For $T, T' \in \aE_m$ and $L \subset \aP(\{1,\ldots,m\})$, , 
 \[
-d_{\aE_m}(T,T') \leq (\log_2 m) d_{M,L}(\Psi_C(T), \Psi_C(T')).
+d_{\aE_m}(T,T') \geq (\log_2 m) d_{M,L}(\Psi_{S \in L}(T), \Psi_{S \in L}(T')).
 \]
-\end{theorem}
+\end{lemma}
 
 \begin{figure}
     \begin{subfigure}{0.5\linewidth}
@@ -788,11 +783,6 @@ d_{\aE_m}(T,T') \leq (\log_2 m) d_{M,L}(\Psi_C(T), \Psi_C(T')).
     \caption{{\bf Distributions of subsample distances under the tree projection operation.} (Top) Pairs of $m$-dimensional phylogenies with known distance (horizontal black lines) are projected into distributions of low dimensional trees. The distances between elements of the projections can exceed the original inter-phylogeny distance ($\epsilon$), but rarely approach the bound of $(\log_2 m)\epsilon$. (Bottom) As the dimension of the projection operator approaches that of the initial phylogenies, there is a monotonic increase in the median and decrease in the variance of $d_{M,L}$.}
     \label{fig:dimred_calibration}
 \end{figure}
-
-\begin{remark}
-In practice, we may be interested in $d_M$ rather than $d_{M,L}$ when we do not expect to be given the labelling for the projection.
-However, it is clear that we cannot expect an analogue of Theorem~\ref{thm:converse}; if $T$ and $T'$ admit any kind of symmetry visible on subtrees, it is possible for $d_M$ to be substantially smaller than $d_{\aE_m}(T,T')$.
-\end{remark}
 
 We conclude the discussion by describing some computational results on simulated data that illustrates the divergence between $d_M$ and $d_{\aE_m}(T,T')$; see Figure~\ref{fig:dimred_calibration}.
 To demonstrate the stability of the tree projection operation, and to empirically test its approach of the distance bound, we constructed a panel of pairs of $m$-dimensional trees, $m > 10$.
