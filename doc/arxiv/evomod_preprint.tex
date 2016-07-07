@@ -45,14 +45,14 @@ $^\dagger$ Present address: Rutgers Cancer Institute, Rutgers University\\}
 
 \begin{abstract}
 
-Phylogenetic trees are arguably the most common representation of evolutionary processes; for example, they have been used to characterize pathogen spread, the relationship between different species, and the evolution of cancers.
+Phylogenetic trees are arguably the most common representation of evolutionary processes; they have been used to characterize pathogen spread, the relationship between different species, and the evolution of cancers.
 Comparison between different trees is a key part of the analysis of evolutionary phenomena in this framework.
 For instance, one might compare the evolutionary trajectories of tumors in different patients to study the differential response to therapy.
 
 Recently, an elegant approach has been introduced by Billera-Holmes-Vogtmann that allows a systematic comparison of different evolutionary histories using the metric geometry of tree spaces.
 We begin by reviewing in detail the relevant mathematical and computational foundations for applying standard techniques from machine learning and statistical inference in these spaces, which we refer to as evolutionary moduli spaces.
 
-For some problems one encounters heavily populated phylogenetic trees with many leaves; in these cases, it is very cumbersome to visualize and analyze the relevant evolutionary moduli spaces.
+In many problem settings one encounters heavily populated phylogenetic trees, where the large number of leaves encumbers visualization and analysis in the relevant evolutionary moduli spaces.
 To address this issue, we introduce {\em tree dimensionality reduction}, a structured approach to reducing large and complex phylogenetic trees to a distribution of smaller trees.
 We prove a stability theorem ensuring that small perturbations of the large trees are taken to small perturbations of the resulting distributions.
 
@@ -116,7 +116,7 @@ In Section~\ref{sec:treedimred}, we introduce a procedure for ``tree dimensional
 We argue that the properties of these distributions capture salient information about the large trees.
 To support this contention, we provide both theoretical and experimental validation.
 We prove a ``stability'' theorem (Theorem~\ref{thm:stab}) which bounds perturbation in the projected trees in terms of perturbation of the large tree; this implies in particular that the procedure is robust to certain kinds of noise.
-We also describe the use of tree dimensionality reduction to produce a novel genomic predictor for flu vaccine efficacy in Section~\ref{sec:flu}.
+We also describe the use of tree dimensionality reduction to produce a novel genomic predictor for influenza vaccine effectiveness in Section~\ref{sec:flu}.
 
 \begin{figure}
     \begin{subfigure}{0.5\linewidth}
@@ -810,7 +810,7 @@ First, when working with $\mathbb{P}\Sigma_m$, the resulting clouds live in $\Si
 Second, when projecting to $\Sigma_3$ or $\Sigma_4$, both visualization and analysis is easier (particularly in $\Sigma_3$, since that has a Euclidean metric).
 For example, in order to perform supervised classification on a labelled set of trees $X$, we can simultaneously solve classification problems in $\Psi'_k(X)$ and use majority voting in order to assign labels to new trees.
 Another possibility is to perform hierarchical clustering on the clouds in $\Psi'_k(X)$, resulting in another tree, and use the distance in tree space as a test statistic to discriminate between clouds.
-In Section~\ref{sec:flu} below we describe an application that involves producing a predictor for flu vaccine efficacy using the variance of the distribution produced by $\Psi$.
+In Section~\ref{sec:flu} below we describe an application that involves producing a predictor for influenza vaccine effectiveness using the variance of the distribution produced by $\Psi$.
 
 \begin{remark}
 Another interesting direction of research is to consider the use of topological data analysis summaries (i.e., hierarchical clustering dendrograms or barcodes) for the clouds of projected points.
@@ -942,7 +942,7 @@ These sites include variants that Eirew \textit{et al.} associated with eight di
     \includegraphics[height=2.5in]{../figures/xenograft_tree_gold.pdf}
     \end{subfigure}
 
-    \caption{{\bf Emerging clonal heterogeneity in patient-derived xenograft.} Single cell analysis of tumor evolution in a breast cancer derived xenograft model. Single-nucleus deep-sequence data obtained from passage 1, 2, and 4. Single-cell data from primary tumor is not available, however Eirew \textit{et al.} identified eight distinct clusters. This data was used to generate two $\mathbb{P}\Sigma_4 $ spaces.}
+    \caption{{\bf Emerging clonal heterogeneity in patient-derived xenograft.} Single cell analysis of tumor evolution in a breast cancer derived xenograft model. Single-nucleus deep-sequence data was obtained from mouse passages 1, 2, and 4, while only bulk sequencing data was available from the primary tumor and matched normal tissue. This data was used to generate two distributions of four-leaved trees, shown in purple and gold in $\mathbb{P}\Sigma_4 $. The former space displays lower standard deviation than the latter, whose centroid is a star tree.}
     \label{fig:xenograft}
 \end{figure} 
 
@@ -955,7 +955,7 @@ We examined the difference in heterogeneity between phylogenetic trees construct
 First, we include trees relating the germ-line sequence, a randomly selected cluster-representative sequence form the primary tumor, and randomly selected single-nucleus sequences from the initial two xenograft passages.
 Then, in a second analysis, we include trees relating a randomly selected cluster-representative sequence from the primary tumor and randomly selected single-nucleus sequences from three consecutive xenograft passages.
 
-The distributions trees from both time windows are visualized in Fig~\ref{fig:xenograft} as point clouds in $\mathbb{P}\Sigma_4 $.
+The distributions trees from both time windows are visualized in Figure~\ref{fig:xenograft} as point clouds in $\mathbb{P}\Sigma_4 $.
 Consistent linear evolution is seen from primary tumor through the first two xenograft passages, however we observe significant heterogeneity of tumor clones upon the fourth mouse passage.
 The first time window (purple) is completely contained within the topology corresponding to linear evolution, unlike the second (gold) which is centered on the origin and extends into all three possible topologies.
 The point cloud for the second time window displays a higher standard deviation than the first (10.49 vs. 8.69), and its centroid is essentially a star tree.
@@ -989,9 +989,9 @@ In 1968, the reassortment of then-circulating H2N2 with avian strains created H3
 Reassortment of seasonal strains can also contribute to vaccine failure as low frequency hemagglutinin segments could combine with highly transmissible strains.
 In particular, reassortment of two H3N2 clades during the 2002-2003 season resulted in a major epidemic and higher incidents of vaccine failure in the succeeding season~\cite{centers2004preliminary}.
 
-In this section, we analyze how the emergence of a novel subclone could be identified by unusual/unexpected tree structures and we develop a genomic predictor of vaccine efficacy.
+In this section, we analyze how the emergence of a novel subclone could be identified by unusual/unexpected tree structures and we develop a genomic predictor of vaccine effectiveness.
 We study the recent history of influenza A H3N2 using 1,089 sequences of hemagglutinin collected in the United States between 1993 and 2016 (Figure~\ref{fig:flu_HA_sampling}).
-Genomic data was downloaded from the GISAID EpiFlu effectivenessdatabase (www.gisaid.org), and aligned with MUSCLE~\cite{edgar2004muscle} using default parameters.
+Genomic data was downloaded from the GISAID EpiFlu database (www.gisaid.org), and aligned with MUSCLE~\cite{edgar2004muscle} using default parameters.
 Vaccine effectiveness figures were drawn from the meta analysis of~\cite{gupta2006quantifying}.
 
 \begin{figure}
@@ -1024,26 +1024,26 @@ The window ending in the 2003-2004 season shows a clear reemergence of strains i
 \begin{figure}
     \centering
     \includegraphics[width=6in]{../figures/influenza_quint.png}
-    \caption{{\bf Temporally windowed subtrees in $\mathbb{P}\Sigma_5$.} Using a common set of axes for projective tree space, we superimpose the distributions of trees derived from windows five seasons long. 1,089 full-length HA segments (H3N2) were collected in New York state from 1993 to 2016. Two consecutive seasons of poor vaccine effectiveness are 2003-2004 and 2004-2005, highlighted with green and gray arrows respectively. The green distribution strongly pairs the 1999-2000 and 2003-2004 strains, hinting at a reemergence.}
+    \caption{{\bf Temporally windowed subtrees in $\mathbb{P}\Sigma_5$.} Using a common set of axes for projective tree space, we superimpose the distributions of trees derived from windows five seasons long. 1,089 full-length HA segments (H3N2) were collected in New York state from 1993 to 2016. Trees are colored by their most recent season, and point size encodes the magnitude of the cone coordinate. Two consecutive seasons of poor vaccine effectiveness are 2003-2004 and 2004-2005, highlighted with green and gray arrows respectively. The green distribution strongly pairs the 1999-2000 and 2003-2004 strains, hinting at a reemergence.}
     \label{fig:flu_quint}
 \end{figure}
 
 \begin{figure}
     \centering
     \includegraphics[width=\linewidth]{../figures/influenza_VE.png}
-    \caption{{\bf Diversity in recent circulating HA predicts vaccine failure.} Negative correlation observed between vaccine effectiveness in season $(t, t+1)$ and the variance in trees generated from seasons $(t-1,t), (t-2. t-1), (t-3,t-2)$.}
+    \caption{{\bf Diversity in recent circulating HA predicts vaccine failure.} Negative correlation observed between vaccine effectiveness in season $(t, t+1)$ and the variance in trees generated from seasons $(t-1, t), (t-2, t-1), (t-3, t-2)$.}
     \label{fig:flu_VE}
 \end{figure}
 
-Next, we used tree dimensionality reduction based on windowing to generate a predictor for vaccine efficacy.
+Next, we used tree dimensionality reduction based on windowing to generate a predictor for vaccine effectiveness.
 A natural hypothesis is that elevated HA genetic diversity in circulating influenza predicts poor vaccine performance in the subsequent season.
 Distribution features that may intuitively predict future vaccine performance include the variance and the number of clusters in the point cloud.
 However, given our limited number of temporal windows, too rich a feature space runs the risk of overfitting, so we focused simply on the variance.
-In Figure~\ref{fig:flu_VE} we illustrate the prediction of vaccine efficacy using the variance of the distribution of trees generated by a lagging window of length 3.
+In Figure~\ref{fig:flu_VE} we illustrate the prediction of vaccine effectivenss using the variance of the distribution of trees generated by a lagging window of length 3.
 In our notation, a window labeled year $y$ would include the flu season of $(y-1, y)$ and preceding years.
 The vaccine effectiveness figures represent season $(y, y+1).$
 It is clear, both from the left and right panels, that lower variance in a temporal window predicts increased future vaccine effectiveness, with a Spearman correlation of -0.52 and p-value of 0.02.
-The lone outlier season came in 1997-1998~\cite{gupta2006quantifying}, when the vaccine efficacy was lower than expected.
+The lone outlier season came in 1997-1998~\cite{gupta2006quantifying}, when the vaccine effectiveness was lower than expected.
 In this season the dominant circulating strain was A/Sydney/5/97 while the vaccine strain was A/Wuhan/359/95.
 The analysis can be carried out with length-4 or length-5 windows to yield a similar result.
 Noteworthy is the fact that this association rests only on aligned nucleotide sequence, making no direct use of HA epitope or HI assay data.
@@ -1057,12 +1057,12 @@ The goal is to define a mapping between features of the different AC distributio
 Figure~\ref{fig:flu_antigenic} indicates that in 9 of the 19 seasons for which we have data, only a single AC was observed.
 In this case it does not make sense to ask whether a change in H3N2 vaccine strain should have considered for the subsequent season, since we detect no antigenic diversity.
 The other 10 seasons were represented as vectors comprised of 4 features: distance between the centroids of the older / newer AC distributions, standard deviation of the older AC distribution, standard deviation of the newer AC distribution, whether the vaccine strain for the subsequent season was changed from that of the current season.
-We associated a binary label to each of the 10 seasons was whether the change in vaccine effectiveness was positive or negative.
+We associated a binary label to each of the 10 seasons: whether the change in vaccine effectiveness was positive or negative.
 
-Using a heavily restricted vocabulary of logical and arithmetic operators, we exhaustively searched~\cite{schmidt2009distilling} for a decision tree mapping the feature vectors to the binary label, using a fitness function maximizing area under the receiver operating characteristic (ROC) curve.
+Using a heavily restricted vocabulary of logical and arithmetic operators, we exhaustively searched for a decision tree mapping the feature vectors to the binary label, based on a fitness function maximizing area under the receiver operating characteristic (ROC) curve~\cite{schmidt2009distilling}.
 A decision rule that achieves perfect classification on this data set is depicted in Figure~\ref{fig:flu_antigenic}.
 The very small size of the data set means that caution is warranted when interpreting the results.
-Nonetheless, the results do suggest that if a vaccine strain is unchanged, a higher variance in the old AC distribution predicts $\Delta V.E. > 0$, while if a vaccine strain is changed, then the new AC distribution being well-resolved from the old AC predicts $\Delta V.E. > 0$.
+Nonetheless, the results do suggest that if a vaccine strain is unchanged, a higher variance in the old AC distribution predicts improvement in vaccine effectiveness ($\Delta V.E. > 0$), while if a vaccine strain is changed, then the new AC distribution being well-resolved from the old AC predicts $\Delta V.E. > 0$.
 
 \begin{figure}
     \centering
