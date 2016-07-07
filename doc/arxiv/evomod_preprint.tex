@@ -725,7 +725,7 @@ The projection $\Psi_S(\gamma)$ yields a path $\gamma'$ from $\Psi_S(T)$ to $\Ps
 For each rotation $R_i$, either the rotation is completely contained within $\Psi_S(R_{i-1} R_{i-2} \ldots R_1 T)$ or at least one edge involved in the rotation is missing.
 We write $\widetilde{(R_i)}_S$ for the rotation induced by the projection on $\Psi_S(R_{i-1} R_{i-2} \ldots R_1 T)$; if the rotation is not completely contained, we let $\widetilde{(R_i)}_S$ denote the identity map.
 
-Therefore, we obtain a sequence of rotations $\widetilde{(R_1)}_S, \widetilde{(R_2)}_S, \ldots, \\widetilde{(R_k)}_S$.
+Therefore, we obtain a sequence of rotations $\widetilde{(R_1)}_S, \widetilde{(R_2)}_S, \ldots, \widetilde{(R_k)}_S$.
 By Lemma~\ref{lem:rotprojcom}, we conclude that this sequence specifies a path of tree rotations from $\Psi_S(T)$ to $\Psi_S(T')$.
 For the actual path in $\Sigma_{|S|}$, we simply observe that the projection of $\gamma_i$ to the restriction of the projected orthant specifies a path from $\Psi_S(R_{i-1} R_{i-2} \ldots R_1 T)$ to $\Psi_S(R_i R_{i-1} R_{i-2} \ldots R_1 T)$.
 This follows from the fact that the restriction of $\gamma_i$ specifies a path through the boundary of the orthant if and only if the corresponding rotation is completely contained.
@@ -761,7 +761,7 @@ The following is now also immediate from Proposition~\ref{prop:projcont}.
 \begin{lemma}\label{lem:converse}
 For $T, T' \in \aE_m$ and $L \subset \aP(\{1,\ldots,m\})$, , 
 \[
-d_{\aE_m}(T,T') \geq (\log_2 m) d_{M,L}(\Psi_{S \in L}(T), \Psi_{S \in L}(T')).
+d_{\aE_m}(T,T') \geq \left(\frac{1}{\log_2 m}\right) d_{M,L}(\Psi_{S \in L}(T), \Psi_{S \in L}(T')).
 \]
 \end{lemma}
 
@@ -781,7 +781,7 @@ d_{\aE_m}(T,T') \geq (\log_2 m) d_{M,L}(\Psi_{S \in L}(T), \Psi_{S \in L}(T')).
     \includegraphics[width=0.8\linewidth]{../figures/dimred_pwdist_m40_vs_K.pdf}
     \end{subfigure}
 
-    \caption{{\bf Distributions of subsample distances under the tree projection operation.} (Top) Pairs of $m$-dimensional phylogenies with known distance (horizontal black lines) are projected into distributions of low dimensional trees. The distances between elements of the projections can exceed the original inter-phylogeny distance ($\epsilon$), but rarely approach the bound of $(\log_2 m)\epsilon$. (Bottom) As the dimension of the projection operator approaches that of the initial phylogenies, there is a decrease in the variance of $d_{M,L}$ and its median approaches the $m$-dimensional $d_{BHV}(T, T')$.}
+    \caption{{\bf Distributions of subsample distances under the tree projection operation.} (Top) Pairs of $m$-dimensional phylogenies with known distance (horizontal black lines) are projected into distributions of low dimensional trees. The distances between elements of the projections can exceed the original inter-phylogeny distance ($\epsilon$), but rarely approach the bound of $(\log_2 m)\epsilon$. (Bottom) As the dimension of the projection operator approaches that of the initial phylogenies, there is a decrease in the variance of the distribution of subtree distances and its median approaches the $m$-dimensional $d_{BHV}(T, T')$.}
     \label{fig:dimred_calibration}
 \end{figure}
 
@@ -789,8 +789,8 @@ We conclude the discussion by describing some computational results on simulated
 To demonstrate the stability of the tree projection operation, and to empirically test its approach of the distance bound, we constructed a panel of pairs of $m$-dimensional trees, $m > 10$.
 The distances between the pairs of trees were computed and compared against the distributions of distances induced by the $k$-dimensional projection operator, $\Psi_k$ with $k \in {3,4,5,6}$.
 The distances between elements of the projections can exceed the original inter-phylogeny distance ($\epsilon$), but rarely approach the bound of $(\log_2 m)\epsilon$.
-To further characterize the behavior of the distribution $d_{M,L}$ as a function of $k$, we compared the distributions of projected distances ranging from $k=3$ to $k=m-1$ for a fixed pair of $m$-dimensional phylogenies.
-We see that the median $d_{M,L}$ approachies the true $m$-dimensional $d_{BHV}(T, T')$ with larger values of $k$, while the variance appears to decrease monotonically.
+To further characterize the behavior of the distribution of subtree distances as a function of $k$, we compared the distributions of projected distances ranging from $k=3$ to $k=m-1$ for a fixed pair of $m$-dimensional phylogenies.
+We see that the median approaches the true $m$-dimensional $d_{BHV}(T, T')$ with larger values of $k$, while the variance appears to decrease monotonically.
 
 \subsection{Using tree dimensionality reduction for inference and machine learning}
 
