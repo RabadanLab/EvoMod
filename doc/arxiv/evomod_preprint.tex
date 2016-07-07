@@ -717,8 +717,11 @@ This argument also shows that result holds for a path that goes through the orig
 
 Now suppose that $T$ and $T'$ are not in the same orthant and neither $T$ nor $T'$ is contained in a positive codimension subspace of $\aE_m$ (i.e., they are not on the boundary of any orthant).
 Further, we assume that $\gamma$ does not go through the origin and that $\gamma$ can be expressed in terms of a finite list of tree rotations $(R_1, R_2, \ldots, R_k)$ and paths $(\gamma_1, \gamma_2, \ldots, \gamma_k)$ that describe the restriction of $\gamma$ to the orthant prior to the rotation $R_i$.
-That is, we assume that $\gamma$ only goes through codimension $1$ faces of each orthant.  It suffices to consider this case, since for a general $\gamma$ that does not go through the origin but might traverse faces of codimension larger than $1$, observe that for any $\epsilon > 0$, we can perturb $\gamma$ to produce a path $\gamma'$ with the same endpoints which satisfies the hypothesis above and has $|\gamma'| = |\gamma| + \epsilon$.  Passing to limits then implies that the bound holds for such a path.
-Similarly, a limit argument implies the result for a path that starts or ends on a positive codimension subspace of $\aE_m$.  More complicated paths that involve both rotations and also pass through the origin satisfy the bound by an easy induction.
+That is, we assume that $\gamma$ only goes through codimension $1$ faces of each orthant.
+It suffices to consider this case, since for a general $\gamma$ that does not go through the origin but might traverse faces of codimension larger than $1$, observe that for any $\epsilon > 0$, we can perturb $\gamma$ to produce a path $\gamma'$ with the same endpoints which satisfies the hypothesis above and has $|\gamma'| = |\gamma| + \epsilon$.
+Passing to limits then implies that the bound holds for such a path.
+Similarly, a limit argument implies the result for a path that starts or ends on a positive codimension subspace of $\aE_m$.
+More complicated paths that involve both rotations and also pass through the origin satisfy the bound by an easy induction.
 
 Thus, fix a subset $S \in \{1,\ldots,m\}$.
 The projection $\Psi_S(\gamma)$ yields a path $\gamma'$ from $\Psi_S(T)$ to $\Psi_S(T')$ in $\Sigma_{|S|}$ as follows.
@@ -766,14 +769,9 @@ d_{\aE_m}(T,T') \geq \left(\frac{1}{\log_2 m}\right) d_{M,L}(\Psi_{S \in L}(T), 
 \end{lemma}
 
 \begin{figure}
-    \begin{subfigure}{0.5\linewidth}
+    \begin{subfigure}{\linewidth}
     \centering
-    \includegraphics[width=\linewidth]{../figures/dimred_pwdist_vs_M.pdf}
-    \end{subfigure}
-    ~
-    \begin{subfigure}{0.5\linewidth}
-    \centering
-    \includegraphics[width=\linewidth]{../figures/dimred_pwdist_vs_K.pdf}
+    \includegraphics[width=0.8\linewidth]{../figures/dimred_pwdist_vs_K.pdf}
     \end{subfigure}
     
     \begin{subfigure}{\linewidth}
@@ -781,7 +779,7 @@ d_{\aE_m}(T,T') \geq \left(\frac{1}{\log_2 m}\right) d_{M,L}(\Psi_{S \in L}(T), 
     \includegraphics[width=0.8\linewidth]{../figures/dimred_pwdist_m40_vs_K.pdf}
     \end{subfigure}
 
-    \caption{{\bf Distributions of subsample distances under the tree projection operation.} (Top) Pairs of $m$-dimensional phylogenies with known distance (horizontal black lines) are projected into distributions of low dimensional trees. The distances between elements of the projections can exceed the original inter-phylogeny distance ($\epsilon$), but rarely approach the bound of $(\log_2 m)\epsilon$. (Bottom) As the dimension of the projection operator approaches that of the initial phylogenies, there is a decrease in the variance of the distribution of subtree distances and its median approaches the $m$-dimensional $d_{BHV}(T, T')$.}
+    \caption{{\bf Distributions of subsample distances under the tree projection operation.} (Top) Pairs of $m$-dimensional phylogenies with known distance (horizontal black lines) are projected into distributions of low dimensional trees. The distances between elements of the projections can exceed the original inter-phylogeny distance ($\epsilon$), but rarely approach the bound of $(\log_2 m)\epsilon$. (Bottom) As the dimension of the projection operator approaches that of the initial phylogenies, there is a decrease in the variance of the distribution of subtree distances and its median approaches the 40-dimensional $d_{BHV}(T, T')$.}
     \label{fig:dimred_calibration}
 \end{figure}
 
