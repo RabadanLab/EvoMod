@@ -28,6 +28,7 @@
 \newcommand{\aK}{\mathcal{K}}
 \newcommand{\aP}{\mathcal{P}}
 \newcommand{\Out}{\textrm{Out}}
+\newcommand{\depth}{\textrm{depth}}
 
 \begin{document}
 
@@ -150,7 +151,6 @@ The foundation of our framework for analysis is the {\em metric geometry} of the
 The purpose of this section is to review in detail the spaces of phylogenetic trees that we work with and their geometric structure.
 We begin with a rapid review of the geometry of geodesic metric spaces and the theory of cubical complexes.
 We then review the definition and properties of the Billera-Holmes-Vogtmann metric space of phylogenetic trees and its metric geometry, following the the excellent original treatment.
-Next, we explain the connection between binary trees and triangulations of convex polygons, which turns out to be useful in our analysis of tree dimensionality reduction.
 Finally, we discuss the properties of projective versions of tree spaces which are relevant for some of the biological applications.
 
 \subsection{A rapid review of metric geometry}
@@ -267,6 +267,7 @@ The main result of Billera, Holmes, and Vogtmann is that the length metric on $\
 By subdividing each orthant into cubes in the evident fashion, $\Sigma_m$ is naturally a cubical complex where the metric we have described is the one induced from the Euclidean metric on the cubes; a straightforward combinatorial analysis of the link of $\Sigma_m$ implies the result via Gromov's criterion.
 In addition, $\Sigma_m$ is clearly a complete and separable metric space; any tree can be approximated by a sequence of trees in the same orthant that have rational edge lengths.
 
+\iffalse
 \subsection{Binary trees and triangulations of convex polygons}
 
 Two trees are in adjacent orthants of $\Sigma_m$ when they are related by a rotation, which we described above as the transformation on a tree performed by collapsing a specified edge to one of its incident vertices and then expanding out an edge from that vertex.
@@ -283,6 +284,7 @@ The process is then recursively carried out on the two polygons formed by this t
 One checks that these two procedures yield a bijection between rooted binary trees and triangulations.
 
 A rotation of a tree in this context is now described in the polygon model by choosing a quadrilateral formed by two adjacent triangles and ``flipping the diagonal''; i.e., deleting the diagonal chord and replacing it with the diagonal through the two vertices the original diagonal did not use.
+\fi
 
 \subsection{The projective evolutionary moduli space}
 
@@ -291,15 +293,34 @@ Motivated by this consideration, we define $\mathbb{P} \Sigma_m$ to be the subsp
 
 We denote the space of trees with internal edges of fixed length by $\tau_{m-1}$.
 The space of $m$ external branches whose lengths sum to $1$ is the standard $m-1$ dimensional simplex $\Delta_{m-1}$ in $\mathbb{R}^m$.
-The constraint that the length of internal branches plus the external branches sum to $1$ implies that \[\mathbb{P}\Sigma_m = \tau_{m-1} \star \Delta_{m-1},\] where here $\star$ denotes the join of two spaces.
+The constraint that the length of internal branches plus the external branches sum to $1$ implies that 
+\[\mathbb{P}\Sigma_m = \tau_{m-1} \star \Delta_{m-1},\]
+where here $\star$ denotes the join of two spaces, using the Milnor model of the join.
 We can also describe $\mathbb{P}\Sigma_m$ as the link on the origin in $\Sigma_m$.
 
 There are various possible natural metrics to consider on $\mathbb{P} \Sigma_m$.
-The simplest way to endow $\mathbb{P} \Sigma_m$ with a metric is to use the metric specified by paths in $\Sigma_m$ constrained to lie entirely within $\mathbb{P} \Sigma_m$.
+The simplest way to endow $\mathbb{P} \Sigma_m$ with a metric is to use the induced intrinsic metric specified by paths in $\Sigma_m$ constrained to lie entirely within $\mathbb{P} \Sigma_m$.
 From the perspective of metric geometry, the characterization of $\mathbb{P} \Sigma_m$ as the link of the origin endows it with a ``spherical'' metric, and Gromov's criteria imply that with this metric, $\mathbb{P} \Sigma_m$ is a $\CAT(1)$ space.
-It is clear that with either of these metrics, $\mathbb{P} \Sigma_m$ is complete and separable.
+(Alternatively, $\mathbb{P} \Sigma_m$ is the spherical join of $\tau_{m-1}$ and the spherical realization of the $\Delta_{m-1}$; since $\tau_{m-1}$ and $\Delta_{m-1}$ are $\CAT(1)$, so is their spherical join~\cite[II.3.15]{bridson99}.)
+The theory of polyhedral complexes implies that in either case $\mathbb{P} \Sigma_m$ is a complete geodesic metric space~\cite[I.7.19]{bridson99}, and it is evidently separable.
 
-To compute the metric on $\mathbb{P}\Sigma_m$, we use $\epsilon$-nets and a local-to-global construction.
+Moreover, with the induced intrinsic metric $\mathbb{P} \Sigma_m$ is in fact a $\CAT(0)$ space; although $\tau_{m-1}$ has points which are not connected by unique geodesics (see Section~\ref{sec:inj} below for a more detailed discussion), the join with $\Delta_{m-1}$ introduces a new ``cone direction'' that changes the geometry.
+
+\begin{theorem}
+The projective moduli space $\mathbb{P} \Sigma_m$ endowed with the intrinsic metric is a $\CAT(0)$ space.
+\end{theorem}
+
+\begin{proof}
+First, observe that $\tau_{m-1} \star \Delta_{k}$ is isomorphic to 
+\[
+\tau_{m-1} \star \underbrace{\Delta_0 \star \Delta_0 \ldots \star \Delta_0}_{k}.
+\]
+To see this, observe that a point in the join of $\tau_{m-1} \star \Delta_{k-1}$ with $\Delta_0$ can be described as a tuple $((wt_0, \ldots, wt_n), (wx_0, \ldots, wx_{\ell}), 1-w)$, where $\sum_i t_i + \sum_i x_i = 1$.
+
+The fact that $\BHV_{m-1}$ is $\CAT(0)$ implies that $\tau_{m-1} \star \Delta_0$ is $\CAT(0)$, and from this it follows by induction that $\tau_{m-1} \star \Delta_{m-1}$ is also $\CAT(0)$.
+\end{proof}
+
+To compute the intrinsic metric on $\mathbb{P}\Sigma_m$, we use $\epsilon$-nets and a local-to-global construction.
 Recall that a set of points $S$ in a metric space $(X,\partial)$ is an $\epsilon$-net if for every $z \in X$, there exists $q \in S$ such that $\partial(z,x) < \epsilon$.
 For a compact metric space equipped with a probability measure such that all non-empty balls in the metric space have nonzero measure, we can produce an $\epsilon$-net by sampling.
 More precisely, it is straightforward to show that given a finite collection of measurable sets $\{A_1, A_2, \ldots, A_k\}$ and a probability measure $\mu$ on $\cup_i A_i$ such that $\mu(A_i) \geq \alpha > 0$, then given at least
@@ -339,14 +360,9 @@ Figure~\ref{fig:epsilon_net} contains two visualizations of the projective space
      \label{fig:epsilon_net}
 \end{figure}
 
-\subsection{The injectivity radius in $\mathbb{P}\Sigma_m$}\label{sec:inj}
+\subsection{The size of $\mathbb{P}\Sigma_m$}\label{sec:inj}
 
-Since $\Sigma_m$ is a $\CAT(0)$ space, any two points are connected by a unique geodesic.
-In contrast, $\mathbb{P}\Sigma_m$ does not have this property in either of the metrics discussed above.
-In the spherical metric, $\mathbb{P}\Sigma_m$ is a $\CAT(1)$ space; as a consequence, there is a finite injectivity radius, which is the maximum distance between points $p,q$ such that the distance between $p$ and $q$ is realized by a unique geodesic.
-The induced length metric (which is a ``flattening'' of the spherical metric) also fails to have unique realizations for the distances between all points.
-
-We now explain where the non-unique geodesics in $\mathbb{P}\Sigma_m$ come from (see also~\cite[3.3]{billera2001geometry} for a related discussion).
+We now describe the size of $\mathbb{P}\Sigma_m$ (see also~\cite[3.3]{billera2001geometry} for a related discussion).
 For simplicity, we will focus on the link in $\BHV_n$, which we will denote by $\aP_n$, and temporarily ignore the join with the simplex coming from the external edge lengths.
 Observe that adjacent top-dimensional simplices in $\aP_m$ differ by a {\em rotation} of tree topologies, where a rotation collapses an internal edge and then expands out from the resulting node.
 Next, recall that the homotopy type of $\aP_n$ is a wedge of $(n-1)!$ spheres of dimension $(n-3)$~\cite{robinson1996tree} (and see also~\cite[Thm. 6]{devadoss2014polyhedral}).
@@ -356,7 +372,7 @@ As discussed in~\cite[Prop. 1]{devadoss2014polyhedral} and~\cite[\S 3.1]{billera
 Following~\cite{devadoss2014polyhedral}, let us denote this boundary by $\aK_n$.
 Explicitly $\aK_n$ is a simplicial sphere of dimension $(n-3)$ where a $k$-simplex corresponds to a planar rooted tree with $n$ leaves and $k+1$ internal edges.
 Then the homotopy type of $\aP_n$ can be described in terms of various embedded copies of $\aK_n$.
-As a consequence, to understand the injectivity radius of $\aP_n$, we need to compute the diameter of $\aK_n$.
+As a consequence, to understand the size of $\aP_n$, we need to compute the diameter of $\aK_n$.
 
 For convenience, we describe this diameter in terms of counts of simplices; the actual value can then be obtained by multiplying by the diameter of a simplex.
 In this guise, the problem is an old one which can be described in many different forms, perhaps most relevantly as the computation of maximal rotation distances between binary trees.
@@ -380,8 +396,7 @@ For smaller values, we have the following table (taken from~\cite[\S2.3]{sleator
 The results given in~\cite{pournin2014diameter} and~\cite{sleator1988rotation} differ slightly from the formula above and from each other due to divergent choices of indexing convention.
 \end{warning}
 
-Unfortunately, computing the rotation distance is not known to have a polynomial-time solution, but there are efficient approximation algorithms (all of which have an error bound around $2$) that operate in linear time~\cite{cleary2010linear}.
-Moreover, the join with the standard simplex adds further complication when working with $\mathbb{P}\Sigma_m$; paths that realize the distance may involve motion in the cone coordinate as well as in the ``rotation'' direction.
+More generally, the maximum rotation distance between labelled trees on $n$ leaves is $O(n \log n)$~\cite{sleator1992short}.  Of course, the cone point associated to the join with standard simplex means that the size is considerably smaller.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -546,6 +561,14 @@ An edge $e$ created by vertex deletion is assigned weight $w_1 + w_2$, where the
 \end{definition}
 
 A representative example of $\Psi_S$ is shown in Figure~\ref{fig:dimred_tree-dim-red}.
+\begin{figure}
+    \centering
+    \includegraphics[width=6in]{../figures/dimred_tree-dim-red.pdf}
+    \caption{{\bf Tree dimensionality reduction.} The leaves that are not highlighted in the starting phylogeny are pruned and their external edges removed; internal vertices of degree $2$ are collapsed and edge weights on either side are summed.}
+    \label{fig:dimred_tree-dim-red}
+\end{figure} 
+
+\iffalse
 Ignoring the weights, $\Psi_S$ has a very simple description in terms of an operation on the regular $n$-gon corresponding to a binary tree $T \in \Sigma_n$.
 Specifically, $\Psi_S$ deletes the external edges corresponding to leaves not in $S$, identifying chords that are connected by a deleted edge.
 Note that an extra collapse is required when all of the leaves on the right side of the root are removed.
@@ -554,17 +577,11 @@ This procedure is depicted in a step-wise fashion in Figure~\ref{fig:dimred_def2
 
 \begin{figure}
     \centering
-    \includegraphics[width=6in]{../figures/dimred_tree-dim-red.pdf}
-    \caption{{\bf Tree dimensionality reduction.} The leaves that are not highlighted in the starting phylogeny are pruned and their external edges removed; internal vertices of degree $2$ are collapsed and edge weights on either side are summed.}
-    \label{fig:dimred_tree-dim-red}
-\end{figure} 
-
-\begin{figure}
-    \centering
     \includegraphics[width=6in]{../figures/dimred_def2.pdf}
     \caption{{\bf Correspondence between tree retraction and edge removal in a polygon.} Tree pruning can equivalently be described via step-wise removal of edges in a triangulated polygon, identifying chords incident upon a shared edge that is removed.}
     \label{fig:dimred_def2}
 \end{figure} 
+\fi
 
 Using $\Psi$, we can describe a number of dimensionality reduction procedures.
 The most basic example is simply to exhaustively subsample the labels.
@@ -659,7 +676,7 @@ For a metric space $(X,\partial_X)$, let $T(X)$ denote the tree obtained from ne
 As a consequence of Proposition~\ref{prop:subnj}, given a metric space $(X, \partial_X)$ that is consistent with $T(X)$, the distribution $\Psi_k(T(X))$ is identical to the distribution $\{T(X_S)\}$ where $S$ varies over all subsets of $X$ of cardinality $k$ and $X_S$ denotes the metric space structure on $S$ induced by $\partial_X$.
 
 \begin{remark}
-One can ask the same question for other methods of producing phylogenetic trees; the situation is more complicated.
+One can ask the same question for other methods of producing phylogenetic trees; the situation is substantially more complicated, and we intend to provide a detailed analysis in future work.
 \end{remark}
 
 \subsection{Stability of tree dimensionality reduction}
@@ -667,28 +684,28 @@ One can ask the same question for other methods of producing phylogenetic trees;
 In order to apply tree dimensionality reduction in the face of potentially noisy data, we would like to know that small random perturbation of the original sample results in a distribution of subsamples that is ``close'' in some sense (e.g., small shifts in the centroid in $\Sigma_m$).
 Conversely, if two distributions of subsamples are suitably close, we would like to be able to conclude that the sampled trees are also close.
 
-We begin with a lemma describing the interaction of $\Psi_S$ and tree rotation.
-First, observe that $\Psi_S$ applied to a binary tree $T$ produces a binary tree as long as $|S| > 1$; the degree of a vertex is never increased and degree $2$ vertices are collapsed.
-For a binary tree $T$, we say that a rotation $R$ on $T$ is completely contained in $\Psi_S(T)$ if $\Psi_S(T)$ contains the vertex of the rotation and all of the edges involved in the rotation.
-In terms of the convex $n$-gon corresponding to $T$, the rotation is completely contained in $\Psi_S(T)$ if and only if the quadrilateral corresponding to the rotation is present in the polygon corresponding to $\Psi_S(T)$.
-Denote by $\widetilde{R}_S$ the induced rotation on $\Psi_S(T)$ if it is completely contained and the identity map otherwise.
+We begin with a lemma describing the interaction of $\Psi_S$ and the boundaries of orthants.
 
 \begin{lemma}\label{lem:rotprojcom}
-Let $T$ be a binary tree and $S$ a subset of $\{1,\ldots,m\}$ such that $|S| > 1$.
-Then there is a canonical identification
-\[
-\Psi_S(RT) \cong \widetilde{R}_S \Psi_S(T).
-\]
+Fix $S \subseteq \{1,\ldots,m\}$.
+Let $T$ be a point in the interior of an orthant of $\Sigma_m$, and let $\gamma \colon [0,1] \to \Sigma_m$ be the geodesic path contained in that orthant from $T$ to $T'$, where $T'$ is obtained from $T$ by collapsing an interior edge to length $0$.
+Then $\Psi_S(T')$ is obtained from $\Psi_S(T)$ by shrinking an interior edge, and $\Psi_S(\gamma)$ is the geodesic path from $\Psi_S(T)$ to $\Psi_S(T')$.
 \end{lemma}
 
 \begin{proof}
-If $R$ is not completely contained in $\Psi_S(T)$, then $\Psi_S(RT) = \Psi_S(T)$.
-Consider the polygon corresponding to $T$; if the rotation is not completely contained, then the quadrilateral involved in the rotation has been collapsed out by $\Psi$, and after this collapse, the remaining polygons are identical.
-On the other hand, if the rotation is completely contained, then the relevant quadrilateral is present in both $\Psi_S(T)$ and $T$, and so performing it before or after applying $\Psi_S$ does not change the result.
+It suffices to show that $\Psi_{S}(T')$ is obtained from $\Psi_S(T)$ by shrinking an edge; given this, the assertion about $\gamma$ is clear.
+Let $e = (v_1,v_2)$ denote the edge to be collapsed, with $v_1$ the vertex closer to the root and $v_2$ the vertex closer to the leaves.
+There are three possibilities.  
+If the edge $e$ is not present in $\Psi_S(T)$, then this means that none of the leaves below $e$ are in $S$; as a consequence, none of the leaves below $v_1$ in $T'$ are in $S$, and so $\Psi_S(T')$ will also not contain $e$ and so $\Psi_S(T) = \Psi_S(T')$.
+If the edge $e$ is present in $\Psi_S(T)$ and does not participate in a vertex collapse, this means that both edges emanating from $v_2$ are present in $\Psi_S(T)$ and therefore that collapsing $e$ to $0$ commutes with applying $\Psi_S$.
+Finally, if applying $\Psi_S$ to $T$ causes $e$ to be concatenated with another edge, then there are two cases to analyze.
+If this happened because $v_2$ became degree $2$, collapsing $e$ and applying $\Psi_S$ will cause the corresponding vertex $v_2$ in $T'$ to become degree $2$, and concatenation occurs at $v_2$.
+On the other hand, if this happened because $v_1$ became degree $2$, the disposition of $e$ does not affect this, and so the same thing will happen when applying $\Psi_S$ to $T'$.
 \end{proof}
 
-The main technical fact controlling the behavior of $\Psi_S$ is that for $S \subseteq \{1,\ldots,m\}$, the projection $\Psi_S$ preserves paths and the increase in length is bounded.
-To understand the nature of the bound, we need to consider the impact of the addition of edge lengths that occurs when a degree 2 vertex is produced by the reduction process.
+In light of Lemma~\ref{lem:rotprojcom}, the projection $\Psi_S$ preserves paths.
+The other thing we need to understand is the potential increase in length caused by applying $\Psi_S$.
+Specifically, we need to consider the impact of the addition of edge lengths that occurs when a degree 2 vertex is produced by the reduction process.
 In the simplest case, we are considering the map $\mathbb{R}^2 \to \mathbb{R}$ specified by $(x,y) \mapsto x+y$, and in general, we are looking at $\mathbb{R}^n \mapsto \mathbb{R}$ specified by $(x_1, x_2, \ldots, x_n) \mapsto \sum_{i=1}^n x_i$.
 Squaring both sides, it is clear that
 \[
@@ -704,37 +721,33 @@ the addition of edge lengths can result in an expansion bounded by the size of t
 Another way to interpret the previous result is to observe that the addition map is an isometry for the Manhattan distance (when working in the positive orthant) but not for the Euclidean distance.
 \end{remark}
 
+For a rooted tree $T$, let $\depth(T)$ denote the length of the longest path from a leaf to the root.
+
 \begin{proposition}\label{prop:projcont}
 Let $S \subseteq \{1,\ldots,m\}$ such that $|S| > 1$ and let $\gamma \colon [0,1] \to \aE_m$ be a path from $T$ to $T'$.
-Then $\gamma \circ \Psi_S \colon [0,1] \to \Sigma_{|S|}$ is a path from $\Psi_S(T)$ to $\Psi_S(T')$ and $|\gamma'| \leq (\log_2 m) |\gamma|$.
+Then $\gamma \circ \Psi_S \colon [0,1] \to \Sigma_{|S|}$ is a path from $\Psi_S(T)$ to $\Psi_S(T')$ and $|\gamma'| \leq \max(\depth(T), \depth(T')) |\gamma|$.
 \end{proposition}
 
 \begin{proof}
 First, observe that if $T$ and $T'$ are in the same orthant of $\aE_m$, the result is clear.
-For any $S$, $\Psi_S(T)$ and $\Psi_S(T')$ will be in the same orthant of $\Sigma_{|S|}$.
-By the discussion above, the length of the projected path in that orthant is bounded by the length of the path in $\aE_m$ scaled by the depth of the tree, which is $\log_2 m$.
-This argument also shows that result holds for a path that goes through the origin and involves no rotations.
+In this case, for any $S$, $\Psi_S(T)$ and $\Psi_S(T')$ will be in the same orthant of $\Sigma_{|S|}$.
+By the discussion above, the length of the projected path in that orthant is bounded by the length of the path in $\aE_m$ scaled by the depth of the tree.
+This argument also shows that result holds for trees joined by the cone path; $\Psi_S$ applied to the cone point produces the cone point.
 
 Now suppose that $T$ and $T'$ are not in the same orthant and neither $T$ nor $T'$ is contained in a positive codimension subspace of $\aE_m$ (i.e., they are not on the boundary of any orthant).
-Further, we assume that $\gamma$ does not go through the origin and that $\gamma$ can be expressed in terms of a finite list of tree rotations $(R_1, R_2, \ldots, R_k)$ and paths $(\gamma_1, \gamma_2, \ldots, \gamma_k)$ that describe the restriction of $\gamma$ to the orthant prior to the rotation $R_i$.
+Further, we assume that $\gamma$ does not go through the origin and that $\gamma$ can be expressed in terms of a sequence of contractions and expansions of a single edge.
 That is, we assume that $\gamma$ only goes through codimension $1$ faces of each orthant.
 It suffices to consider this case, since for a general $\gamma$ that does not go through the origin but might traverse faces of codimension larger than $1$, observe that for any $\epsilon > 0$, we can perturb $\gamma$ to produce a path $\gamma'$ with the same endpoints which satisfies the hypothesis above and has $|\gamma'| = |\gamma| + \epsilon$.
 Passing to limits then implies that the bound holds for such a path.
 Similarly, a limit argument implies the result for a path that starts or ends on a positive codimension subspace of $\aE_m$.
-More complicated paths that involve both rotations and also pass through the origin satisfy the bound by an easy induction.
+Moroever, given this case, more complicated paths that involve both rotations and also pass through the origin satisfy the bound by an easy induction.
 
-Thus, fix a subset $S \in \{1,\ldots,m\}$.
-The projection $\Psi_S(\gamma)$ yields a path $\gamma'$ from $\Psi_S(T)$ to $\Psi_S(T')$ in $\Sigma_{|S|}$ as follows.
-For each rotation $R_i$, either the rotation is completely contained within $\Psi_S(R_{i-1} R_{i-2} \ldots R_1 T)$ or at least one edge involved in the rotation is missing.
-We write $\widetilde{(R_i)}_S$ for the rotation induced by the projection on $\Psi_S(R_{i-1} R_{i-2} \ldots R_1 T)$; if the rotation is not completely contained, we let $\widetilde{(R_i)}_S$ denote the identity map.
-
-Therefore, we obtain a sequence of rotations $\widetilde{(R_1)}_S, \widetilde{(R_2)}_S, \ldots, \widetilde{(R_k)}_S$.
-By Lemma~\ref{lem:rotprojcom}, we conclude that this sequence specifies a path of tree rotations from $\Psi_S(T)$ to $\Psi_S(T')$.
-For the actual path in $\Sigma_{|S|}$, we simply observe that the projection of $\gamma_i$ to the restriction of the projected orthant specifies a path from $\Psi_S(R_{i-1} R_{i-2} \ldots R_1 T)$ to $\Psi_S(R_i R_{i-1} R_{i-2} \ldots R_1 T)$.
-This follows from the fact that the restriction of $\gamma_i$ specifies a path through the boundary of the orthant if and only if the corresponding rotation is completely contained.
-As above, the length of the projected path is bounded by $(\log_2 m) |\gamma_i|$.
-Summing, we find that the length of the projected path is bounded by $(\log_2 m) \sum_{i=1}^k |\gamma_i| = |\gamma'|$.
+Thus, fix a subset $S \in \{1,\ldots,m\}$.  Lemma~\ref{lem:rotprojcom} now implies that $\Psi_S(\gamma)$ is a path from $\Psi_S(T)$ to $\Psi_S(T')$, and the discussion preceding the proposition implies that the potential expansion in length is $\max(\depth(T),\depth(T'))$.
 \end{proof}
+
+\begin{remark}
+In fact, the expansion factor in Proposition~\ref{prop:projcont} depends on the number of edge conactenations that occur when $\Psi_S$ is applied; in situations where an estimate of this is available, tighter bounds can be used.
+\end{remark}
 
 Using Proposition~\ref{prop:projcont}, it is straighforward to deduce the next two theorems that provide the theoretical support for the use of tree dimensionality reduction.
 The following theorem is an immediate consequence of Proposition~\ref{prop:projcont}, choosing the path realizing the distance between $T$ and $T'$.
@@ -742,7 +755,7 @@ The following theorem is an immediate consequence of Proposition~\ref{prop:projc
 \begin{theorem}\label{thm:stab}
 For $T,T' \in \aE_m$ such that $d_{\aE_m}(T,T') \leq \epsilon$, then for any $S \subseteq \{1,\ldots,m\}$ such that $|S| > 1$, 
 \[
-d_{\Sigma_{|S|}}(\Psi_S(T), \Psi_S(T')) \leq (\log_2 m)\epsilon.
+d_{\Sigma_{|S|}}(\Psi_S(T), \Psi_S(T')) \leq \max(\depth(T),\depth(T')) \epsilon.
 \]
 Moreover, this bound is tight.
 \end{theorem}
@@ -764,7 +777,7 @@ The following is now also immediate from Proposition~\ref{prop:projcont}.
 \begin{lemma}\label{lem:converse}
 For $T, T' \in \aE_m$ and $L \subset \aP(\{1,\ldots,m\})$, , 
 \[
-d_{\aE_m}(T,T') \geq \left(\frac{1}{\log_2 m}\right) d_{M,L}(\Psi_{S \in L}(T), \Psi_{S \in L}(T')).
+d_{\aE_m}(T,T') \geq \left(\frac{1}{\max(\depth(T), \depth(T'))}\right) d_{M,L}(\Psi_{S \in L}(T), \Psi_{S \in L}(T')).
 \]
 \end{lemma}
 
@@ -779,14 +792,14 @@ d_{\aE_m}(T,T') \geq \left(\frac{1}{\log_2 m}\right) d_{M,L}(\Psi_{S \in L}(T), 
     \includegraphics[width=0.8\linewidth]{../figures/dimred_pwdist_m40_vs_K.pdf}
     \end{subfigure}
 
-    \caption{{\bf Distributions of subsample distances under the tree projection operation.} (Top) Pairs of $m$-dimensional phylogenies with known distance (horizontal black lines) are projected into distributions of low dimensional trees. The distances between elements of the projections can exceed the original inter-phylogeny distance ($\epsilon$), but rarely approach the bound of $(\log_2 m)\epsilon$. (Bottom) As the dimension of the projection operator approaches that of the initial phylogenies, there is a decrease in the variance of the distribution of subtree distances and its median approaches the 40-dimensional $d_{BHV}(T, T')$.}
+    \caption{{\bf Distributions of subsample distances under the tree projection operation.} (Top) Pairs of $m$-dimensional phylogenies with known distance (horizontal black lines) are projected into distributions of low dimensional trees. The distances between elements of the projections can exceed the original inter-phylogeny distance ($\epsilon$), but rarely approach the upper bound. (Bottom) As the dimension of the projection operator approaches that of the initial phylogenies, there is a decrease in the variance of the distribution of subtree distances and its median approaches the 40-dimensional $d_{BHV}(T, T')$.}
     \label{fig:dimred_calibration}
 \end{figure}
 
 We conclude the discussion by describing some computational results on simulated data that illustrates the divergence between $d_M$ and $d_{\aE_m}(T,T')$; see Figure~\ref{fig:dimred_calibration}.
 To demonstrate the stability of the tree projection operation, and to empirically test its approach of the distance bound, we constructed a panel of pairs of $m$-dimensional trees, $m > 10$.
 The distances between the pairs of trees were computed and compared against the distributions of distances induced by the $k$-dimensional projection operator, $\Psi_k$ with $k \in {3,4,5,6}$.
-The distances between elements of the projections can exceed the original inter-phylogeny distance ($\epsilon$), but rarely approach the bound of $(\log_2 m)\epsilon$.
+The distances between elements of the projections can exceed the original inter-phylogeny distance ($\epsilon$), but rarely approach the upper bound.
 To further characterize the behavior of the distribution of subtree distances as a function of $k$, we compared the distributions of projected distances ranging from $k=3$ to $k=m-1$ for a fixed pair of $m$-dimensional phylogenies.
 We see that the median approaches the true $m$-dimensional $d_{BHV}(T, T')$ with larger values of $k$, while the variance appears to decrease monotonically.
 
@@ -794,7 +807,7 @@ We see that the median approaches the true $m$-dimensional $d_{BHV}(T, T')$ with
 
 Broadly speaking, the various tree dimensionality reduction operators transform questions about comparison of trees or analysis of finite sets of trees to questions about comparisons and analysis of sets of clouds of trees.
 This has several advantages.
-First, when working with $\mathbb{P}\Sigma_m$, the resulting clouds live in $\Sigma_k$, and as discussed above analysis in the non-projectivized space is much simpler.
+First, when working with $\mathbb{P}\Sigma_m$, the resulting clouds live in $\Sigma_k$, and as discussed above analysis in the non-projectivized space can be simpler.
 Second, when projecting to $\Sigma_3$ or $\Sigma_4$, both visualization and analysis is easier (particularly in $\Sigma_3$, since that has a Euclidean metric).
 For example, in order to perform supervised classification on a labelled set of trees $X$, we can simultaneously solve classification problems in $\Psi'_k(X)$ and use majority voting in order to assign labels to new trees.
 Another possibility is to perform hierarchical clustering on the clouds in $\Psi'_k(X)$, resulting in another tree, and use the distance in tree space as a test statistic to discriminate between clouds.
@@ -862,7 +875,7 @@ The ratio between the number of mutations that are exclusive in the early branch
 A number close to zero indicates a genetically stable tumor.
 
 To assess how different are the clonal histories of tumors from untreated vs treated patients, we studied the distance between the centroids of the two populations regarded as points in $\mathbb{P}\Sigma_3$.
-(Note that computing the centroid is well-defined here because $\mathbb{P}\Sigma_3$ is a Euclidean simplex.)
+%(Note that computing the centroid is particularly easy here because $\mathbb{P}\Sigma_3$ is a Euclidean simplex.)
 The 95\% CI for the distance between the centroids of the treated / untreated groups is (0.15, 0.36), under 1000-fold bootstrap resampling.
 The analogous intervals for untreated / untreated and treated / treated are (0.01, 0.14) and (0.02, 0.16) respectively.
 This analysis shows that the centroids of these clinically distinct sets of patients are well-resolved, supporting the idea that untreated tumors are more stable than treated ones, where district mutations can appear along the evolution of the tumor.
