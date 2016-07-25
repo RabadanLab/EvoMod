@@ -185,7 +185,7 @@ As described, $\CAT(\kappa)$ is a global condition; we will say that a metric sp
 For example, the flat torus (obtained by identifying opposite edges in a rectangle) is locally $\CAT(0)$ but not globally $\CAT(0)$.
 The Cartan-Hadamard theorem implies that a simply-connected metric space that is locally $\CAT(0)$ is also globally $\CAT(0)$.
 
-A remarkably productive observation of Gromov is that many geometric properties of Riemannian manifolds are shared by $CAT(\kappa)$ spaces.
+A remarkably productive observation of Gromov is that many geometric properties of Riemannian manifolds are shared by $\CAT(\kappa)$ spaces.
 In particular, $\CAT(\kappa)$ spaces with $\kappa \leq 0$ (referred to as {\em non-positively curved metric spaces}) admit unique geodesics joining each pair of points $x$ and $y$, balls $B_{\epsilon}(x)$ are convex and contractible for all $x$ and $\epsilon \geq 0$, and midpoints of geodesics are well-behaved.
 As a consequence, there exist well-defined notions of mean and variance of a set of points, and more generally one can develop some of the foundations of classical statistics, as we review below in Section~\ref{sec:ML}.
 
@@ -340,7 +340,7 @@ samples, with probability $1-\delta$ there is at least one sample in every $A_i$
 
 Next, suppose that we have a metric space $(X,\partial)$ where there exists a constant $\kappa$ such that if $\partial(x,y) < \kappa$, it is easy to compute $\partial(x,y)$.
 An algorithm for approximating $\partial$ on all of $X$ is then to take a dense sample $S \subset X$, form the graph $G$ with vertices the points of $S$ and edges between $x$ and $y$ when $\partial(x,y) < \kappa$, and define the distance between $x$ and $y$ in $X$ to be the graph metric on $G$ between the nearest points to $x$ and $y$ in $S$.
-This distance can be efficiently computed using Djikstra's algorithm.
+This distance can be efficiently computed using Dijkstra's algorithm~\cite{dijkstra1959note}.
 
 When $S$ is an $\epsilon$-net for sufficiently small $\epsilon$ relative to $\kappa$, we can describe the quality of the resulting approximation to $\partial$~\cite[Thm. 2]{bernstein2000graph}.
 In particular, if $\epsilon < \frac{\kappa}{4}$, then 
@@ -405,7 +405,8 @@ For smaller values, we have the following table (taken from~\cite[\S2.3]{sleator
 The results given in~\cite{pournin2014diameter} and~\cite{sleator1988rotation} differ slightly from the formula above and from each other due to divergent choices of indexing convention.
 \end{warning}
 
-More generally, the maximum rotation distance between labelled trees on $n$ leaves is $O(n \log n)$~\cite{sleator1992short}.  Of course, the cone point associated to the join with standard simplex means that the size is considerably smaller.
+More generally, the maximum rotation distance between labelled trees on $n$ leaves is $O(n \log n)$~\cite{sleator1992short}.
+Of course, the cone point associated to the join with standard simplex means that the size is considerably smaller.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -700,7 +701,7 @@ Then $\Psi_S(T')$ is obtained from $\Psi_S(T)$ by shrinking an interior edge, an
 \begin{proof}
 It suffices to show that $\Psi_{S}(T')$ is obtained from $\Psi_S(T)$ by shrinking an edge; given this, the assertion about $\gamma$ is clear.
 Let $e = (v_1,v_2)$ denote the edge to be collapsed, with $v_1$ the vertex closer to the root and $v_2$ the vertex closer to the leaves.
-There are three possibilities.  
+There are three possibilities.
 If the edge $e$ is not present in $\Psi_S(T)$, then this means that none of the leaves below $e$ are in $S$; as a consequence, none of the leaves below $v_1$ in $T'$ are in $S$, and so $\Psi_S(T')$ will also not contain $e$ and so $\Psi_S(T) = \Psi_S(T')$.
 If the edge $e$ is present in $\Psi_S(T)$ and does not participate in a vertex collapse, this means that both edges emanating from $v_2$ are present in $\Psi_S(T)$ and therefore that collapsing $e$ to $0$ commutes with applying $\Psi_S$.
 Finally, if applying $\Psi_S$ to $T$ causes $e$ to be concatenated with another edge, then there are two cases to analyze.
@@ -747,7 +748,8 @@ Passing to limits then implies that the bound holds for such a path.
 Similarly, a limit argument implies the result for a path that starts or ends on a positive codimension subspace of $\aE_m$.
 Moroever, given this case, more complicated paths that involve both rotations and also pass through the origin satisfy the bound by an easy induction.
 
-Thus, fix a subset $S \in \{1,\ldots,m\}$.  Lemma~\ref{lem:rotprojcom} now implies that $\Psi_S(\gamma)$ is a path from $\Psi_S(T)$ to $\Psi_S(T')$, and the discussion preceding the proposition implies that the potential expansion in length is $\max(\depth(T),\depth(T'))$.
+Thus, fix a subset $S \in \{1,\ldots,m\}$.
+Lemma~\ref{lem:rotprojcom} now implies that $\Psi_S(\gamma)$ is a path from $\Psi_S(T)$ to $\Psi_S(T')$, and the discussion preceding the proposition implies that the potential expansion in length is $\max(\depth(T),\depth(T'))$.
 \end{proof}
 
 \begin{remark}
