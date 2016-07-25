@@ -793,12 +793,12 @@ d_{\aE_m}(T,T') \geq \left(\frac{1}{\max(\depth(T), \depth(T'))}\right) d_{M,L}(
 \begin{figure}
     \begin{subfigure}{\linewidth}
     \centering
-    \includegraphics[width=0.8\linewidth]{../figures/dimred_pwdist_vs_K.pdf}
+    \includegraphics[width=0.7\linewidth]{../figures/dimred_pwdist_vs_K.pdf}
     \end{subfigure}
     
     \begin{subfigure}{\linewidth}
     \centering
-    \includegraphics[width=0.8\linewidth]{../figures/dimred_pwdist_m40_vs_K.pdf}
+    \includegraphics[width=0.7\linewidth]{../figures/dimred_pwdist_m40_vs_K.pdf}
     \end{subfigure}
 
     \caption{{\bf Distributions of subsample distances under the tree projection operation.} (Top) Pairs of $m$-dimensional phylogenies with known distance (horizontal black lines) are projected into distributions of low dimensional trees. The distances between elements of the projections can exceed the original inter-phylogeny distance ($\epsilon$), but rarely approach the upper bound. (Bottom) As the dimension of the projection operator approaches that of the initial phylogenies, there is a decrease in the variance of the distribution of subtree distances and its median approaches the 40-dimensional $d_{BHV}(T, T')$.}
@@ -1066,7 +1066,7 @@ In this case it does not make sense to ask whether a change in H3N2 vaccine stra
 The other 10 seasons were represented as vectors comprised of 4 features: distance between the centroids of the older / newer AC distributions, standard deviation of the older AC distribution, standard deviation of the newer AC distribution, whether the vaccine strain for the subsequent season was changed from that of the current season.
 We associated a binary label to each of the 10 seasons: whether the change in vaccine effectiveness was positive or negative.
 
-Using a heavily restricted vocabulary of logical and arithmetic operators, we exhaustively searched for a decision tree mapping the feature vectors to the binary label, based on a fitness function maximizing area under the receiver operating characteristic (ROC) curve~\cite{schmidt2009distilling}.
+Using a heavily restricted vocabulary of logical and arithmetic operators, we exhaustively searched for a decision tree mapping the feature vectors to the binary label, based on a fitness function maximizing area under the receiver operating characteristic~\cite{schmidt2009distilling}.
 A decision rule that achieves perfect classification on this data set is depicted in Figure~\ref{fig:flu_antigenic}.
 The very small size of the data set means that caution is warranted when interpreting the results.
 Nonetheless, the results do suggest that if a vaccine strain is unchanged, a higher variance in the old AC distribution predicts improvement in vaccine effectiveness ($\Delta V.E. > 0$), while if a vaccine strain is changed, then the new AC distribution being well-resolved from the old AC predicts $\Delta V.E. > 0$.
@@ -1088,7 +1088,7 @@ This work was supported by a TL1 personalized medicine fellowship (5TL1TR000082)
 
 \vspace{0.25in}
 
-Code associated with this work can be obtained at https://github.com/RabadanLab.
+\noindent Code associated with this work can be obtained at https://github.com/RabadanLab.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
