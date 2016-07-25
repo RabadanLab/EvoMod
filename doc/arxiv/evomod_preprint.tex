@@ -294,17 +294,17 @@ Motivated by this consideration, we define $\mathbb{P} \Sigma_m$ to be the subsp
 We denote the space of trees with internal edges of fixed length by $\tau_{m-1}$.
 The space of $m$ external branches whose lengths sum to $1$ is the standard $m-1$ dimensional simplex $\Delta_{m-1}$ in $\mathbb{R}^m$.
 The constraint that the length of internal branches plus the external branches sum to $1$ implies that 
-\[\mathbb{P}\Sigma_m = \tau_{m-1} \star \Delta_{m-1},\]
+\[\mathbb{P}\Sigma_m = \tau_{m-1} \star \Delta_{m},\]
 where here $\star$ denotes the join of two spaces, using the Milnor model of the join.
 We can also describe $\mathbb{P}\Sigma_m$ as the link on the origin in $\Sigma_m$.
 
 There are various possible natural metrics to consider on $\mathbb{P} \Sigma_m$.
 The simplest way to endow $\mathbb{P} \Sigma_m$ with a metric is to use the induced intrinsic metric specified by paths in $\Sigma_m$ constrained to lie entirely within $\mathbb{P} \Sigma_m$.
 From the perspective of metric geometry, the characterization of $\mathbb{P} \Sigma_m$ as the link of the origin endows it with a ``spherical'' metric, and Gromov's criteria imply that with this metric, $\mathbb{P} \Sigma_m$ is a $\CAT(1)$ space.
-(Alternatively, $\mathbb{P} \Sigma_m$ is the spherical join of $\tau_{m-1}$ and the spherical realization of the $\Delta_{m-1}$; since $\tau_{m-1}$ and $\Delta_{m-1}$ are $\CAT(1)$, so is their spherical join~\cite[II.3.15]{bridson99}.)
+(Alternatively, $\mathbb{P} \Sigma_m$ is the spherical join of $\tau_{m-1}$ and the spherical realization of the $\Delta_{m}$; since $\tau_{m-1}$ and $\Delta_{m}$ are $\CAT(1)$, so is their spherical join~\cite[II.3.15]{bridson99}.)
 The theory of polyhedral complexes implies that in either case $\mathbb{P} \Sigma_m$ is a complete geodesic metric space~\cite[I.7.19]{bridson99}, and it is evidently separable.
 
-Moreover, with the induced intrinsic metric $\mathbb{P} \Sigma_m$ is in fact a $\CAT(0)$ space; although $\tau_{m-1}$ has points which are not connected by unique geodesics (see Section~\ref{sec:inj} below for a more detailed discussion), the join with $\Delta_{m-1}$ introduces a new ``cone direction'' that changes the geometry.
+Moreover, with the induced intrinsic metric $\mathbb{P} \Sigma_m$ is in fact a $\CAT(0)$ space; although $\tau_{m-1}$ has points which are not connected by unique geodesics (see Section~\ref{sec:inj} below for a more detailed discussion), the join with $\Delta_{m}$ introduces a new ``cone direction'' that changes the geometry.
 
 \begin{theorem}
 The projective moduli space $\mathbb{P} \Sigma_m$ endowed with the intrinsic metric is a $\CAT(0)$ space.
@@ -326,7 +326,7 @@ This data is clearly equivalent to a tuple
 \]
 where $\sum_{i=0}^n t_i + \sum_{i=0}^k x_i = 1$.
 
-The fact that $\BHV_{m-1}$ is $\CAT(0)$ implies that the cone $\tau_{m-1} \star \Delta_0$ is $\CAT(0)$, and from this it follows by induction that $\tau_{m-1} \star \Delta_{m-1}$ is also $\CAT(0)$.
+The fact that $\BHV_{m-1}$ is $\CAT(0)$ implies that the cone $\tau_{m-1} \star \Delta_0$ is $\CAT(0)$, and from this it follows by induction that $\tau_{m-1} \star \Delta_{m}$ is also $\CAT(0)$.
 \end{proof}
 
 To compute the intrinsic metric on $\mathbb{P}\Sigma_m$, we use $\epsilon$-nets and a local-to-global construction.
@@ -351,7 +351,7 @@ In particular, if $\epsilon < \frac{\kappa}{4}$, then
 Putting this all together, to approximate the metric on $\mathbb{P}\Sigma_m$ we take the union of $\epsilon$-nets on all of the simplices (including the faces) and form a $\kappa$-approximation $\partial_G$ as above.
 In practice, the required density of samples is determined by looking at when the approximation converges (i.e., when the change in distances drops below a specified precision bound).
 We sample densely on each simplex representing a tree topology on $m$ leaves, and explicitly include certain key singular points of the projective space.
-Reconstructing the epsilon net and leveraging Dijkstra's algorithm~\cite{dijkstra1959note} for shortest graph distances we can compute an affinity matrix on the discretized projective space.
+%Reconstructing the epsilon net and leveraging Dijkstra's algorithm~\cite{dijkstra1959note} for shortest graph distances we can compute an affinity matrix on the discretized projective space.
 Figure~\ref{fig:epsilon_net} contains two visualizations of the projective space, using force-directed layouts of the $\epsilon$-nets constructed on 4--leaved and 5--leaved trees respectively.
 
 \begin{figure}
@@ -373,7 +373,7 @@ Figure~\ref{fig:epsilon_net} contains two visualizations of the projective space
 
 We now describe the size of $\mathbb{P}\Sigma_m$ (see also~\cite[3.3]{billera2001geometry} for a related discussion).
 For simplicity, we will focus on the link in $\BHV_n$, which we will denote by $\aP_n$, and temporarily ignore the join with the simplex coming from the external edge lengths.
-Observe that adjacent top-dimensional simplices in $\aP_m$ differ by a {\em rotation} of tree topologies, where a rotation collapses an internal edge and then expands out from the resulting node.
+Observe that adjacent top-dimensional simplices in $\aP_n$ differ by a {\em rotation} of tree topologies, where a rotation collapses an internal edge and then expands out from the resulting node.
 Next, recall that the homotopy type of $\aP_n$ is a wedge of $(n-1)!$ spheres of dimension $(n-3)$~\cite{robinson1996tree} (and see also~\cite[Thm. 6]{devadoss2014polyhedral}).
 Moreover, we can explicitly describe these spheres, as follows.
 
@@ -465,7 +465,7 @@ Gromov's ``mm-reconstruction theorem'' showed that in the limit as $n \to \infty
 Once again, given a sufficiently large finite sample, we can construct the empirical distance matrix distributions for any fixed $n$.
 
 Another approach involves choosing a fixed set of $n$ landmarks and considering the vector of distances from a fixed point to the landmarks.
-Given a set $L = \{t_1, t_2, \ldots, t_n\} \subset $, there is a continuous map
+Given a set $L = \{t_1, t_2, \ldots, t_n\} \subset M$, there is a continuous map
 \[
 d_L \colon M \to \mathbb{R}^n
 \]
@@ -513,7 +513,8 @@ The most basic family of techniques we might consider is clustering, a kind of u
 Here, given a finite set $X$ in $\Sigma_m$ or $\mathbb{P}\Sigma_m$, we search for a partitionings of the points into clusters which optimize some criterion for the ``goodness'' of the clustering.
 
 Regarding $\Sigma_m$ and $\mathbb{P}\Sigma_m$ simply as metric spaces, we can apply standard clustering algorithms that operate on arbitrary metric spaces.
-The simplest of these is the $k$-medoids algorithm.
+For example, we can apply standard $k$-means clustering, using the centroids as defined above.
+A related alternative is the $k$-medoids algorithm.
 Like $k$-means, $k$-medoids seeks partitions which are optimal in the sense of minimizing the sum of squared distances; the cost function for a cluster $C = \{x_i, x_j\}$ is given by $\sum_{i < j} \partial(x_i,x_j)^2$.
 But instead of using cluster centroids as in $k$-means, cluster assignments are determined by medoids, which are points $z \in C$ that minimize $\sum_i d(z,i)$.
 The advantage of $k$-medoids over $k$-means is that the problem of finding a centroid in $\Sigma_m$ or $\mathbb{P}\Sigma_m$ is avoided.
@@ -521,7 +522,7 @@ The advantage of $k$-medoids over $k$-means is that the problem of finding a cen
 Another natural family of clustering algorithms comes from spectral clustering techniques.
 Recall that spectral clustering can be applied to finite subsets of any metric space; one constructs an embedding into Euclidean space using the graph Laplacian associated to a graph encoding the local metric structure of the set of points and then performs $k$-means clustering.
 As such, spectral clustering can be applied both to $\Sigma_m$ and $\mathbb{P}\Sigma_m$.
-As illustrated in Figure~\ref{fig:embedding}, there is substantial distortion under such embeddings for low dimensions.
+However, as illustrated in Figure~\ref{fig:embedding}, there is substantial distortion under such embeddings for low dimensions.
 
 \begin{figure}
     \centering
@@ -706,13 +707,13 @@ If the edge $e$ is not present in $\Psi_S(T)$, then this means that none of the 
 If the edge $e$ is present in $\Psi_S(T)$ and does not participate in a vertex collapse, this means that both edges emanating from $v_2$ are present in $\Psi_S(T)$ and therefore that collapsing $e$ to $0$ commutes with applying $\Psi_S$.
 Finally, if applying $\Psi_S$ to $T$ causes $e$ to be concatenated with another edge, then there are two cases to analyze.
 If this happened because $v_2$ became degree $2$, collapsing $e$ and applying $\Psi_S$ will cause the corresponding vertex $v_2$ in $T'$ to become degree $2$, and concatenation occurs at $v_2$.
-On the other hand, if this happened because $v_1$ became degree $2$, the disposition of $e$ does not affect this, and so the same thing will happen when applying $\Psi_S$ to $T'$.
+On the other hand, if this happened because $v_1$ became degree $2$, it is clear that collapsing $e$ commutes with $\Psi_S$.
 \end{proof}
 
 In light of Lemma~\ref{lem:rotprojcom}, the projection $\Psi_S$ preserves paths.
 The other thing we need to understand is the potential increase in length caused by applying $\Psi_S$.
 Specifically, we need to consider the impact of the addition of edge lengths that occurs when a degree 2 vertex is produced by the reduction process.
-In the simplest case, we are considering the map $\mathbb{R}^2 \to \mathbb{R}$ specified by $(x,y) \mapsto x+y$, and in general, we are looking at $\mathbb{R}^n \mapsto \mathbb{R}$ specified by $(x_1, x_2, \ldots, x_n) \mapsto \sum_{i=1}^n x_i$.
+In the simplest case, we are considering the map $\mathbb{R}^2 \to \mathbb{R}$ specified by $(x_1,x_2) \mapsto x_1+x_2$, and in general, we are looking at $\mathbb{R}^n \mapsto \mathbb{R}$ specified by $(x_1, x_2, \ldots, x_n) \mapsto \sum_{i=1}^n x_i$.
 Squaring both sides, it is clear that
 \[
 \partial_{\mathbb{R}^n}((x_i), (y_i))^2 \leq \partial_{\mathbb{R}}(\sum_{i=1}^n x_i, \sum_{i=1}^n y_i)^2.
@@ -767,15 +768,15 @@ d_{\Sigma_{|S|}}(\Psi_S(T), \Psi_S(T')) \leq \max(\depth(T),\depth(T')) \epsilon
 Moreover, this bound is tight.
 \end{theorem}
 
-Let $A$ and $B$ be subsets of $\aE_m$ such that $|A| = |B| \leq 2^m$.
-If we assume that each item of $A$ and $B$ has a label in $L \subset \aP(\{1,\ldots,m\})$ (where $\aP(-)$ denotes the power set of $\{1,\ldots,m\}$), then we can define a matching distance as
+Let $A$ and $B$ be subsets of $\aE_m$ such that each item of $A$ and $B$ has a label in $L \subset \aP(\{1,\ldots,m\})$ (where $\aP(-)$ denotes the power set of $\{1,\ldots,m\}$).
+Then we can define a matching distance as
 \[
 d_{M,L}(A,B) = \max_{S \in L} d_{\aE_m}(A(S), B(S)).
 \]
 
 Without assuming such a labelling, we define the matching distance between $A$ and $B$ to be 
 \[
-d_M(A,B) = \min_{\phi} \max_{a \in A} d_{\aE_m}(a,\phi(b)),
+d_M(A,B) = \min_{\phi} \max_{a \in A} d_{\aE_m}(a,\phi(a)),
 \]
 where $\phi$ varies over all bijections $A \to B$.
 
