@@ -1,4 +1,4 @@
-\documentclass[a4paper,11pt]{article}
+\documentclass[11pt]{article}
 \usepackage{fullpage}
 \usepackage{hyperref}
 \usepackage{amsmath}
@@ -705,9 +705,10 @@ Let $e = (v_1,v_2)$ denote the edge to be collapsed, with $v_1$ the vertex close
 There are three possibilities.
 If the edge $e$ is not present in $\Psi_S(T)$, then this means that none of the leaves below $e$ are in $S$; as a consequence, none of the leaves below $v_1$ in $T'$ are in $S$, and so $\Psi_S(T')$ will also not contain $e$ and so $\Psi_S(T) = \Psi_S(T')$.
 If the edge $e$ is present in $\Psi_S(T)$ and does not participate in a vertex collapse, this means that both edges emanating from $v_2$ are present in $\Psi_S(T)$ and therefore that collapsing $e$ to $0$ commutes with applying $\Psi_S$.
-Finally, if applying $\Psi_S$ to $T$ causes $e$ to be concatenated with another edge, then there are two cases to analyze.
-If this happened because $v_2$ became degree $2$, collapsing $e$ and applying $\Psi_S$ will cause the corresponding vertex $v_2$ in $T'$ to become degree $2$, and concatenation occurs at $v_2$.
-On the other hand, if this happened because $v_1$ became degree $2$, it is clear that collapsing $e$ commutes with $\Psi_S$.
+Finally, if applying $\Psi_S$ to $T$ causes $e$ to be concatenated with another edge, then there are two cases to analyze --- $e$ could be concatenated via the deletion of $v_1$ or $v_2$.
+Suppose that the concatenation occurs because the other ``downward'' edge with endpoint $v_2$, which we will denote $e'$, leads to leaves that are not in $S$.
+If we collapse $e$ to $0$ before applying $\Psi_S$, $e'$ will still be deleted when we apply $\Psi_S$, and so the result will be the same.
+The case of deletion of $v_1$ is analogous.
 \end{proof}
 
 In light of Lemma~\ref{lem:rotprojcom}, the projection $\Psi_S$ preserves paths.
