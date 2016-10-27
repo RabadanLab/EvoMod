@@ -1,5 +1,10 @@
 #!/usr/bin/env python
+
+import warnings
+warnings.filterwarnings("ignore")
+
 import sys
+from cStringIO import StringIO
 import subprocess
 import argparse
 from glob import glob
@@ -15,7 +20,7 @@ import matplotlib as mpl
 import matplotlib.pyplot as plt
 import matplotlib.cm as cm
 from mpl_toolkits.mplot3d import Axes3D
-import seaborn as sn
+import seaborn as sns
 
 mpl.rcParams['lines.linewidth'] = '2.0'
 mpl.rcParams['axes.facecolor'] = 'white'
@@ -23,209 +28,733 @@ mpl.rcParams['axes.linewidth'] = '0.0'
 mpl.rcParams['axes.grid'] = 'False'
 mpl.rcParams['axes.edgecolor'] = 'white'
 mpl.rcParams['pdf.fonttype'] = 42
+sns.set_context('paper')
+sns.set_style('whitegrid')
 
-sn.set_context('paper')
-sn.set_style('whitegrid')
+color_option = np.array([[0,0,0],
+                         [0,1,1],
+                         [1,0,0],
+                         [0,1,0],
+                         [0,0,1],
+                         [0.8,0.1,0.8],
+                         [0.5,0.8,0.5],
+                         [0.5,0.5,0.5],
+                         [1,0.8,0.2],
+                         [0.5,0.3,0.3],
+                         [0.5,0.8,1],
+                         [1,0.5,1],
+                         [0.2,0.3,0.5],
+                         [0.5,0.8,.8],
+                         [0.5,0.1,0.8],
+                         [0.8,0.8,.8],
+                         [0.4,0.1,.1],
+                         [0.9,0.01,.7],
+                         [0,0.87,.5],
+                         [0.8,0.8,.1],
+                         [0.9,0.3,0.3]])
+
+## Vertices (position-vectors) for 3-branch projective external space (Shell)
+N3 = np.array([0,0,1])
+P3 = np.array([1,0,0])
+S3 = np.array([0,1,0])
+
+## Vertices (position vectors) for 4-branch projective external space
+## N4: (-0.29, 0.5, -0.20)
+N4 = np.array([-1.0/(2*sqrt(3)), 1.0/2, -1.0/(2*sqrt(6))])
+Q4_prime = N4
+
+## P4: (-0.29, -0.5, -0.20)
+P4 = np.array([-1.0/(2*sqrt(3)), -1.0/2, -1.0/(2*sqrt(6))])
+T4_prime = P4
+
+## S4: (0.29, 0, -0.20)
+S4 = np.array([1.0/sqrt(3), 0, -1.0/(2*sqrt(6))])
+S4_prime = S4
+
+## T4: (0, 0, 0.61)
+T4 = np.array([0, 0, sqrt(2.0/3) - 1.0/(2*sqrt(6))])
+P4_prime = T4
+
+def projective_2coords(tree):
+    '''
+    function which takes a 3-leaf tree and returns the
+    2-dimensional coordinates for external projective space
+    '''
+    weights = pd.DataFrame(np.zeros((1,3)), columns=['Sample1','Sample2','Sample3'])
+    named_weights = [(clade.name, clade.branch_length) for clade in tree.get_terminals()]
+    for name,blength in named_weights:
+        if name in weights.columns:
+            weights[name][0] = blength
+    weights = weights / np.sqrt(np.sum(np.array(weights)**2))
+    coords = weights['Sample2'][0]*P3 + weights['Sample3'][0]*S3 + weights['Sample1'][0]*N3
+    return coords
+
+def projective_3coords(tree):
+    '''
+    function which takes a 4-leaf tree and returns the
+    3-dimensional coordinates for external projective space
+    '''
+    noise = 1 - np.abs(np.random.random()/20)
+    internal_node = tree.get_nonterminals()[-1]
+    
+    weights = pd.DataFrame(np.zeros((1,5)), columns=['Sample1','Sample2','Sample3','Sample4','Internal'])
+    if internal_node.branch_length > 0:
+        weights['Internal'][0] = internal_node.branch_length
+    else:
+        weights['Internal'][0] = tree.get_nonterminals()[-2].branch_length
+    named_weights = [(clade.name, clade.branch_length) for clade in tree.get_terminals()]
+    for name,blength in named_weights:
+        if name in weights.columns:
+            weights[name][0] = blength
+    weights = weights / np.sum(np.array(weights))
+    coords = noise * (weights['Sample2'][0]*P4 + weights['Sample3'][0]*S4 + \
+                      weights['Sample4'][0]*T4 + weights['Sample1'][0]*N4)
+    return coords
+
+def projective_4coords_shadowLast(tree):
+    '''
+    function which takes a 5-leaf tree and returns the
+    3-dimensional coordinates for the shadow of the external
+    projective space viewed thru the Last sample
+    '''
+    weights = pd.DataFrame(np.zeros((1,5)), columns=['Sample1','Sample2',
+                                                     'Sample3','Sample4', 'Sample5'])
+    named_weights = [(clade.name, clade.branch_length) for clade in tree.get_terminals()]
+    for name,blength in named_weights:
+        if name in weights.columns:
+            weights[name][0] = blength
+    weights = weights / np.sum(np.array(weights))
+    noise = 1 - np.abs(np.random.random()/20)
+    coords = noise * (weights['Sample2'][0]*P4 + weights['Sample3'][0]*S4 + \
+                      weights['Sample4'][0]*T4 + weights['Sample1'][0]*N4)
+    return coords
+
+def projective_4coords_shadowFirst(tree):
+    '''
+    function which takes a 5-leaf tree and returns the
+    3-dimensional coordinates for the shadow of the external
+    projective space viewed thru the First sample
+    '''
+    ## Vertices (position vectors) for 4-branch projective external space
+    weights = pd.DataFrame(np.zeros((1,5)), columns=['Sample1','Sample2','Sample3',
+                                                     'Sample4', 'Sample5'])
+    named_weights = [(clade.name, clade.branch_length) for clade in tree.get_terminals()]
+    for name,blength in named_weights:
+        if name in weights.columns:
+            weights[name][0] = blength
+    weights = weights / np.sum(np.array(weights))
+    noise = 1 - np.abs(np.random.random()/20)
+    coords = noise * (weights['Sample2'][0]*P4_prime + weights['Sample3'][0]*S4_prime + \
+                      weights['Sample4'][0]*T4_prime + weights['Sample5'][0]*Q4_prime)
+    return coords
+
+def recover_topology_quad(tree):
+    '''
+    function which takes a 4-leaf tree and returns which
+    of the 3 possible topologies it displays, along with
+    the length of the internal branch
+    '''
+    noise = 1 - np.abs(np.random.random()/5)
+    internal_node = tree.get_nonterminals()[-1]
+    
+    weights = pd.DataFrame(np.zeros((1,5)), columns=['Sample1','Sample2','Sample3','Sample4','Internal'])
+    if internal_node.branch_length > 0:
+        weights['Internal'][0] = internal_node.branch_length
+    else:
+        weights['Internal'][0] = tree.get_nonterminals()[-2].branch_length
+    named_weights = [(clade.name, clade.branch_length) for clade in tree.get_terminals()]
+    for name,blength in named_weights:
+        if name in weights.columns:
+            weights[name][0] = blength
+    weights = weights / np.sum(np.array(weights))
+    
+    blen = noise * weights['Internal'][0]
+    topology = set([leaf.name for leaf in internal_node.clades])
+    
+    # degenerate case of all internal branches collapsing to zero
+    if blen == 0:
+        print topology
+        return 0, 0
+    
+    if topology == set(['Sample1','Sample2']) or topology == set(['Sample3','Sample4']):
+        return 1, blen
+    elif topology == set(['Sample1','Sample3']) or topology == set(['Sample2','Sample4']):
+        return 2, blen
+    elif topology == set(['Sample1','Sample4']) or topology == set(['Sample2','Sample3']):
+        return 3, blen
+    
+    # error, for some reason we reached this point in the function
+    else:
+        print topology
+        return -1, 0
+
+def recover_topology_quint(tree):
+    '''
+    function which takes a 5-leaf tree and returns which
+    of the 15 possible topologies it displays, along with
+    the lengths of the two internal branches
+    '''
+    couplet_NP = set(['Sample1','Sample2'])
+    couplet_NS = set(['Sample1','Sample3'])
+    couplet_NT = set(['Sample1','Sample4'])
+    couplet_NQ = set(['Sample1','Sample5'])
+    couplet_PS = set(['Sample2','Sample3'])
+    couplet_PT = set(['Sample2','Sample4'])
+    couplet_PQ = set(['Sample2','Sample5'])
+    couplet_ST = set(['Sample3','Sample4'])
+    couplet_SQ = set(['Sample3','Sample5'])
+    couplet_TQ = set(['Sample4','Sample5'])
+    
+    internal_nodes = tree.get_nonterminals()
+    internal_blen_L = internal_nodes[1].branch_length
+    internal_blen_R = internal_nodes[2].branch_length
+    external_nodes = tree.get_terminals()
+    couplet_L = set([cl.name for cl in internal_nodes[0].clades if cl in external_nodes])
+    couplet_R = set([cl.name for cl in internal_nodes[2].clades if cl in external_nodes])
+    singleton = set([cl.name for cl in internal_nodes[1].clades if cl in external_nodes])
+    if 'Sample1' in couplet_L:
+        blen_1 = internal_blen_L
+        blen_2 = internal_blen_R
+    elif 'Sample1' in couplet_R:
+        blen_1 = internal_blen_R
+        blen_2 = internal_blen_L
+    else:
+        if 'Sample2' in couplet_L:
+            blen_1 = internal_blen_L
+            blen_2 = internal_blen_R
+        else:
+            blen_1 = internal_blen_R
+            blen_2 = internal_blen_L
+    
+    #noise = 1 - np.abs(np.random.random()/10)
+    noise = 1
+    blen_1 = noise * blen_1
+    blen_2 = noise * blen_2
+    
+    # degenerate case of all internal branches collapsing to zero
+    if blen_1 == 0 and blen_2 == 0:
+        return 0, 0, 0
+    
+    if singleton == set(['Sample1']) and (couplet_L == couplet_PS or couplet_L == couplet_TQ):
+        return 1, blen_1, blen_2
+    elif singleton == set(['Sample5']) and (couplet_L == couplet_NT or couplet_L == couplet_PS):
+        return 2, blen_1, blen_2
+    elif singleton == set(['Sample2']) and (couplet_L == couplet_NT or couplet_L == couplet_SQ):
+        return 3, blen_1, blen_2
+    elif singleton == set(['Sample4']) and (couplet_L == couplet_NP or couplet_L == couplet_SQ):
+        return 4, blen_1, blen_2
+    elif singleton == set(['Sample3']) and (couplet_L == couplet_NP or couplet_L == couplet_TQ):
+        return 5, blen_1, blen_2
+    elif singleton == set(['Sample2']) and (couplet_L == couplet_NS or couplet_L == couplet_TQ):
+        return 6, blen_1, blen_2
+    elif singleton == set(['Sample4']) and (couplet_L == couplet_NQ or couplet_L == couplet_PS):
+        return 7, blen_1, blen_2
+    elif singleton == set(['Sample3']) and (couplet_L == couplet_NT or couplet_L == couplet_PQ):
+        return 8, blen_1, blen_2
+    elif singleton == set(['Sample1']) and (couplet_L == couplet_PT or couplet_L == couplet_SQ):
+        return 9, blen_1, blen_2
+    elif singleton == set(['Sample5']) and (couplet_L == couplet_NP or couplet_L == couplet_ST):
+        return 10, blen_1, blen_2
+    elif singleton == set(['Sample4']) and (couplet_L == couplet_NS or couplet_L == couplet_PQ):
+        return 11, blen_1, blen_2
+    elif singleton == set(['Sample5']) and (couplet_L == couplet_NS or couplet_L == couplet_PT):
+        return 12, blen_1, blen_2
+    elif singleton == set(['Sample3']) and (couplet_L == couplet_NQ or couplet_L == couplet_PT):
+        return 13, blen_1, blen_2
+    elif singleton == set(['Sample2']) and (couplet_L == couplet_NQ or couplet_L == couplet_ST):
+        return 14, blen_1, blen_2
+    elif singleton == set(['Sample1']) and (couplet_L == couplet_PQ or couplet_L == couplet_ST):
+        return 15, blen_1, blen_2
+    else:
+#         print internal_blen_L, internal_blen_R, internal_nodes, external_nodes
+        return -1, 0, 0
 
 parser = argparse.ArgumentParser(description='statistical exploration of evolutionary moduli space')
-parser.add_argument('-p', '--path', required=True,
-        help='path to evomod source directory')
+parser.add_argument('-i', '--inputfile', required=True,
+        help='tab delimited file containing case id, newick-format case tree, case mutation count, and case label in each row')
 parser.add_argument('-l', '--leaves', required=True,
         help='number of samples per case')
 parser.add_argument('-o', '--outputdir', required=True,
         help='directory to write output files and logs')
 args = parser.parse_args()
 
-## Triplet Data
-if int(args.numleaves) == 3:
-    logfile = open(args.outputdir + '/projtree_log.txt', 'w')
-    logfile.write('STARTING RUN\n')
-    logfile.write('numleaves:{0}, inputdir:{1}, outputdir{2}\n'.format(args.numleaves, args.inputdir, args.outputdir))
-    tree_dict = {}
-    size_dict = {}
-    patients = glob(args.inputdir + '/*')
-    logfile.write('number of patients detected: {0}\n'.format(len(patients)))
-    
-    for f in patients:
-        patient = f.split('/')[-1].split('.')[0]
-        logfile.write('computing neighbor joining tree for each tuple of samples in patient {0}\n'.format(patient))
-        tree_dict[patient] = {}
-        df = pd.read_csv(f, header=0)
-        size_dict[patient] = len(df.index)
-        prefix_counts = Counter([sample.split('_')[0] for sample in df.columns])
-        for n in range(prefix_counts['Normal']):
-            col_normal = 'Normal_{0}'.format(n+1)
-            for p in range(prefix_counts['Primary']):
-                col_primary = 'Primary_{0}'.format(p+1)
-                for s in range(prefix_counts['Secondary']):
-                    col_secondary = 'Secondary_{0}'.format(s+1)
-                    Dmatrix = pd.DataFrame(squareform(pdist(df[[col_normal,col_primary,col_secondary]].T, 'hamming')),
-                                       index=['___Normal','__Primary','Secondary'])
-                    fitchfile = open('infile','w')
-                    fitchfile.write('3\n')
-                    fitchfile.close()
-                    with open('infile','a') as fitchfile:
-                        Dmatrix.to_csv(fitchfile, header=None, sep=' ')
-                    subprocess.call('neighbor <paramfile >/dev/null', shell=True)
-                    combo = 'N{0}-P{1}-S{2}'.format(n+1, p+1, s+1)
-                    tree_dict[patient][combo] = NewickIO.Parser(open('outtree')).parse().next()
-                    subprocess.call('cat outtree* >>owen_input_3.txt', shell=True)
-                    subprocess.call('rm out*', shell=True)
+tree_dict = {}
+size_dict = {}
+label_dict = {}
 
-    logfile.write('creating shell plot\n')
+logfile = open('{}/log.txt'.format(args.outputdir), 'w')
+logfile.write('STARTING RUN\n')
+logfile.write('leaves:{0}, inputfile:{1}, outputdir:{2}\n'.format(args.leaves, args.inputfile, args.outputdir))
+
+df = pd.read_csv(args.inputfile, header=0, sep='\t')
+df = df.groupby('case_id').max()
+
+for row in df.index:
+    tree_dict[row] = Phylo.read(StringIO(df['case_tree'][row]), "newick")
+    size_dict[row] = df['num_mutations'][row]
+    label_dict[row] = df['label'][row]
+
+distinct_labels = list(set(label_dict.values()))
+label_colors = pd.DataFrame(color_option[:len(distinct_labels), :], index=distinct_labels, columns=['R','G','B'])
+
+num_cases_per_label = float(len(df)) / len(distinct_labels)
+tau = 500.0
+opacity = np.exp(-num_cases_per_label / tau)
+if opacity < 0.01: opacity = 0.01
+
+###############################################################################################################
+###############################################################################################################
+
+if int(args.leaves) == 3:
+    logfile.write('creating 3-leaf external branch space\n')
+
     theta = np.linspace(0, np.pi/2, 20)
     phi = np.linspace(0, np.pi/2, 20)
-    
+
     x = np.outer(np.sin(theta), np.sin(phi))
     y = np.outer(np.sin(theta), np.cos(phi))
     z = np.outer(np.cos(theta), np.ones_like(phi))
-    
-    fig = plt.figure(figsize=(10,10))
+
+    fig = plt.figure(figsize=(5,5))
     ax = plt.axes(projection='3d')
     ax.set_axis_off()
+
     ax.azim = -310
-    
-    ax.plot_wireframe(x, y, z, color='black', linewidth=0.8)
-    ax.text(1.3,-0.1,0, "Time 1", fontsize=20)
-    ax.text(0.05,1.08,0, "Time 2", fontsize=20)
-    ax.text(0.1,-0.2,1, "Shared", fontsize=20)
-    
-    for pt in tree_dict:
-        ballsize = 10 * sqrt(size_dict[patient])
-        for combo in tree_dict[pt]:
-            coords = projective_2coords(tree_dict[pt][combo])
-            ax.scatter(coords[0], coords[1], coords[2], color='red', s=ballsize, edgecolor='black', linewidth='1.5')
+
+    ax.plot_wireframe(x, y, z, color="black", linewidth=0.5, alpha=0.3)
+    ax.text(1.5,-0.1,0, "Sample 2")
+    ax.text(0.15,1.2,0, "Sample 3")
+    ax.text(0,-0.4,0.95, "Sample 1")
+
+    for window in tree_dict:
+        ballsize = 1 * size_dict[window]
+        markercolor = tuple(label_colors.ix[label_dict[window], :])
+
+        coords = projective_2coords(tree_dict[window])
+        ax.scatter(coords[0], coords[1], coords[2], c=markercolor, s=ballsize, alpha=opacity)
+
     fig.tight_layout()
-    plt.savefig('{0}/shell.png'.format(args.outputdir), dpi=300)
+    plt.savefig('{}/triplet_external.pdf'.format(args.outputdir))
 
+###############################################################################################################
+###############################################################################################################
 
-## Quadruplet Data
-elif int(args.numleaves) == 4:
-    logfile = open(args.outputdir + '/projtree_log.txt', 'w')
-    logfile.write('STARTING RUN\n')
-    logfile.write('numleaves:{0}, inputdir:{1}, outputdir:{2}\n'.format(args.numleaves, args.inputdir, args.outputdir))    
-    tree_dict = {}
-    size_dict = {}
-    patients = glob(args.inputdir + '/*')
-    logfile.write('number of patients detected: {0}\n'.format(len(patients)))
+elif int(args.leaves) == 4:
+    logfile.write('creating 4-leaf internal branch space\n')
 
-    for f in patients:
-        patient = f.split('/')[-1].split('.')[0]
-        logfile.write('computing neighbor joining tree for each tuple of samples in patient {0}\n'.format(patient))
-        tree_dict[patient] = {}
-        df = pd.read_csv(f, header=0)
-        size_dict[patient] = len(df.index)
-        prefix_counts = Counter([sample.split('_')[0] for sample in df.columns])
-        for n in range(prefix_counts['Normal']):
-            col_normal = 'Normal_{0}'.format(n+1)
-            for p in range(prefix_counts['Primary']):
-                col_primary = 'Primary_{0}'.format(p+1)
-                for s in range(prefix_counts['Secondary']):
-                    col_secondary = 'Secondary_{0}'.format(s+1)
-                    for t in range(prefix_counts['Tertiary']):
-                        col_ternary = 'Tertiary_{0}'.format(t+1)
-                        Dmatrix = pd.DataFrame(squareform(pdist(df[[col_normal,col_primary,col_secondary,col_ternary]].T, 'hamming')),
-                                           index=['___Normal','__Primary','Secondary','_Tertiary'])
-                        fitchfile = open('infile','w')
-                        fitchfile.write('4\n')
-                        fitchfile.close()
-                        with open('infile','a') as fitchfile:
-                            Dmatrix.to_csv(fitchfile, header=None, sep=' ')
-                        subprocess.call('neighbor <paramfile >/dev/null', shell=True)
-                        combo = 'N{0}-P{1}-S{2}-T{3}'.format(n+1, p+1, s+1, t+1)
-                        tree_dict[patient][combo] = NewickIO.Parser(open('outtree')).parse().next()
-                        subprocess.call('cat outtree* >>owen_input_4.txt', shell=True)
-                        subprocess.call('rm out*', shell=True)
-    
-    logfile.write('creating tristar plot\n')
     fig = plt.figure(figsize=(5,5))
     ax = plt.subplot(111, polar=True)
     ax.axis('off')
-    
+
     circle_t = np.linspace(0, 2*pi, num=1000)
     circle_r = [100 for x in circle_t]
-    
-    ax.plot([pi/2, pi/2], [0, 100], 'r-')
-    ax.plot([7*pi/6, 7*pi/6], [0, 100], 'g-')
-    ax.plot([11*pi/6, 11*pi/6], [0, 100], 'b-')
-    ax.plot(circle_t, circle_r, 'k-')
-    ax.text(pi/2 - 0.6, 70, '(N,P),(S,T)', ha='center', fontsize=16)
-    ax.text(7*pi/6 - 0.35, 65, '(N,S),(P,T)', ha='center', fontsize=16)
-    ax.text(11*pi/6 - 0.4, 70, '(N,T),(P,S)', ha='center', fontsize=16)
-    
-    for pt in tree_dict:
-        for combo in tree_dict[pt]:
-            internal = tree_dict[pt][combo].get_nonterminals()[1]
-            noise = 1 - np.abs(np.random.random()/10)
-            blen = noise * internal.branch_length
-            topology = set([leaf.name for leaf in internal.clades if internal.branch_length])
-            if topology == set(['__Primary','Secondary']):
-                logfile.write('BLUE\t{0}\t{1}\n'.format(pt,blen))
-                Rcoord = 100*blen
-                Tcoord = 11*pi/6
-                ax.plot(Tcoord, Rcoord, 'ko', markersize=10, mfc='none')
-            elif topology == set(['_Tertiary','__Primary']):
-                logfile.write('GREEN\t{0}\t{1}\n'.format(pt,blen))
-                Rcoord = 100*blen
-                Tcoord = 7*pi/6
-                ax.plot(Tcoord, Rcoord, 'ko', markersize=10, mfc='none')
-            elif topology == set(['_Tertiary','Secondary']):
-                logfile.write('RED\t{0}\t{1}\n'.format(pt,blen))
-                Rcoord = 100*blen
-                Tcoord = pi/2
-                ax.plot(Tcoord, Rcoord, 'ko', markersize=10, mfc='none')
+
+    bg_color = 'gray'
+    ax.plot([pi/2, pi/2], [0, 100], color=bg_color, linewidth=2)
+    ax.plot([7*pi/6, 7*pi/6], [0, 100], color=bg_color, linewidth=2)
+    ax.plot([11*pi/6, 11*pi/6], [0, 100], color=bg_color, linewidth=2)
+    ax.plot(circle_t, circle_r, '-', color=bg_color, linewidth=1)
+    ax.text(pi/2 - 0.6, 70, '(1,2),(3,4)', ha='center', fontsize=14)
+    ax.text(7*pi/6 - 0.35, 65, '(1,3),(2,4)', ha='center', fontsize=14)
+    ax.text(11*pi/6 - 0.4, 70, '(1,4),(2,3)', ha='center', fontsize=14)
+
+    for window in tree_dict:
+        topology, blen = recover_topology_quad(tree_dict[window])        
+        markercolor = tuple(label_colors.ix[label_dict[window], :])
+        
+        if topology == 0:
+            dice = np.random.random()
+            if dice > 0.67:
+                ax.plot(pi/2, np.random.random(), 'o', color=markercolor, markersize=10, alpha=opacity)
+            elif dice > 0.33:
+                ax.plot(7*pi/6, np.random.random(), 'o', color=markercolor, markersize=10, alpha=opacity)
+            else:
+                ax.plot(11*pi/6, np.random.random(), 'o', color=markercolor, markersize=10, alpha=opacity)
+        elif topology == 1:
+            Rcoord = 100*blen
+            Tcoord = pi/2
+            ax.plot(Tcoord, Rcoord, 'o', color=markercolor, markersize=10, alpha=opacity)
+        elif topology == 2:
+            Rcoord = 100*blen
+            Tcoord = 7*pi/6
+            ax.plot(Tcoord, Rcoord, 'o', color=markercolor, markersize=10, alpha=opacity) 
+        elif topology == 3:
+            Rcoord = 100*blen
+            Tcoord = 11*pi/6
+            ax.plot(Tcoord, Rcoord, 'o', color=markercolor, markersize=10, alpha=opacity)
+        else:
+            print 'ERROR!'
+
     fig.tight_layout()
-    plt.savefig('{0}/tristar.png'.format(args.outputdir), dpi=300)
-    logfile.write('saved tristar plot\n')
-    
-    logfile.write('creating tetradedron plot\n')
+    plt.savefig('{}/quad_internal.pdf'.format(args.outputdir))
+
+    logfile.write('creating 4-leaf external branch space\n')
+
     fig = plt.figure(figsize=(10,10))
     ax = fig.add_subplot(1,1,1, projection='3d')
     ax.set_axis_off()
-    
+
     #TPN
     x1 = np.array([T4[0], P4[0], N4[0]])
     y1 = np.array([T4[1], P4[1], N4[1]])
     z1 = np.array([T4[2], P4[2], N4[2]])
-    
+
     #TPS
     x2 = np.array([T4[0], P4[0], S4[0]])
     y2 = np.array([T4[1], P4[1], S4[1]])
     z2 = np.array([T4[2], P4[2], S4[2]])
-    
+
     #TNS
     x3 = np.array([T4[0], N4[0], S4[0]])
     y3 = np.array([T4[1], N4[1], S4[1]])
     z3 = np.array([T4[2], N4[2], S4[2]])
-    
+
     #PNS
     x4 = np.array([P4[0], N4[0], S4[0]])
     y4 = np.array([P4[1], N4[1], S4[1]])
     z4 = np.array([P4[2], N4[2], S4[2]])
-    
-    ax.plot_trisurf(x1,y1,z1,alpha=0.1)
+
+    ax.plot_trisurf(x1,y1,z1,alpha=0.05)
     ax.plot_trisurf(x2,y2,z2,alpha=0.2)
-    ax.plot_trisurf(x3,y3,z3,alpha=0.1)
+    ax.plot_trisurf(x3,y3,z3,alpha=0.05)
     ax.plot_trisurf(x4,y4,z4,alpha=0.2)
-    
+
     ax.azim = -140
-    ax.text(T4[0], T4[1], T4[2] + 0.02, "T", fontsize=20)
-    ax.text(P4[0] + 0.02, P4[1] - 0.02, P4[2], "P", fontsize=20)
-    ax.text(N4[0] - 0.06, N4[1] + 0.02, N4[2], "N", fontsize=20)
-    ax.text(S4[0] + 0.03, S4[1], S4[2], "S", fontsize=20)
-    
-    for pt in tree_dict:
-        ballsize = 5 * sqrt(size_dict[patient])
-        for combo in tree_dict[pt]:
-            coords = projective_3coords(tree_dict[pt][combo])
-            ax.scatter(coords[0], coords[1], coords[2], color='red', s=10)
+
+    ax.text(T4[0], T4[1], T4[2] + 0.02, "Sample4", fontsize=20)
+    ax.text(P4[0] + 0.02, P4[1] - 0.02, P4[2], "Sample2", fontsize=20)
+    ax.text(N4[0] - 0.25, N4[1] + 0.02, N4[2], "Sample1", fontsize=20)
+    ax.text(S4[0] + 0.03, S4[1], S4[2], "Sample3", fontsize=20)
+
+    for window in tree_dict:
+        ballsize = size_dict[window]
+        coords = projective_3coords(tree_dict[window])
+        markercolor = tuple(label_colors.ix[label_dict[window], :])
+        ax.scatter(coords[0], coords[1], coords[2], color=markercolor, s=ballsize, alpha=opacity)
+
     fig.tight_layout()
-    plt.savefig('{0}/tetradron.pdf'.format(args.outputdir))
-    print 'saved tetradedron plot'
+    plt.savefig('{}/quad_external.pdf'.format(args.outputdir))
+
+
+###############################################################################################################
+###############################################################################################################
+
+elif int(args.leaves) == 5:
+    logfile.write('creating 5-leaf internal branch space\n')
+
+    fig = plt.figure(figsize=(15,15))
+    ax = plt.axes()
+    ax.axis('off')
+    r = 2
+    R = 2 * r
+    theta0 = math.pi/2
+    d_theta = 2 * math.pi/5
+
+    pointA = np.array((R * math.cos(theta0 + 0 * d_theta), R * math.sin(theta0 + 0 * d_theta)))
+    pointB = np.array((R * math.cos(theta0 + 1 * d_theta), R * math.sin(theta0 + 1 * d_theta)))
+    pointC = np.array((R * math.cos(theta0 + 2 * d_theta), R * math.sin(theta0 + 2 * d_theta)))
+    pointD = np.array((R * math.cos(theta0 + 3 * d_theta), R * math.sin(theta0 + 3 * d_theta)))
+    pointE = np.array((R * math.cos(theta0 + 4 * d_theta), R * math.sin(theta0 + 4 * d_theta)))
+
+    pointF = np.array((r * math.cos(theta0 + 0 * d_theta), r * math.sin(theta0 + 0 * d_theta)))
+    pointG = np.array((r * math.cos(theta0 + 1 * d_theta), r * math.sin(theta0 + 1 * d_theta)))
+    pointH = np.array((r * math.cos(theta0 + 2 * d_theta), r * math.sin(theta0 + 2 * d_theta)))
+    pointI = np.array((r * math.cos(theta0 + 3 * d_theta), r * math.sin(theta0 + 3 * d_theta)))
+    pointJ = np.array((r * math.cos(theta0 + 4 * d_theta), r * math.sin(theta0 + 4 * d_theta)))
+
+    thickness = 1.5
+    bg_color = 'gray'
+
+    ## A--B
+    ax.plot([pointA[0], pointB[0]], [pointA[1], pointB[1]], linewidth=thickness, c=bg_color, zorder=1)
+    ax.text(0.4*pointA[0] + 0.6*pointB[0], 0.5*pointA[1] + 0.5*pointB[1], '1,(2,3),(4,5)', 
+            ha='right', fontsize=14, family='serif')
+
+    ## B--C
+    ax.plot([pointB[0], pointC[0]], [pointB[1], pointC[1]], linewidth=thickness, c=bg_color, zorder=1)
+    ax.text(0.6*pointB[0] + 0.4*pointC[0], 0.5*pointB[1] + 0.5*pointC[1], '(1,4),(2,3),5', 
+            ha='right', fontsize=14, family='serif')
+
+    ## C--D
+    ax.plot([pointC[0], pointD[0]], [pointC[1], pointD[1]], linewidth=thickness, c=bg_color, zorder=1)
+    ax.text(0.5*pointC[0] + 0.5*pointD[0], pointC[1] - 0.3, '(1,4),2,(3,5)', 
+            ha='center', fontsize=14, family='serif')
+
+    ## D--E
+    ax.plot([pointD[0], pointE[0]], [pointD[1], pointE[1]], linewidth=thickness, c=bg_color, zorder=1)
+    ax.text(0.4*pointD[0] + 0.6*pointE[0], 0.5*pointD[1] + 0.5*pointE[1], '(1,2),(3,5),4', 
+            ha='left', fontsize=14, family='serif')
+
+    ## E--A
+    ax.plot([pointE[0], pointA[0]], [pointE[1], pointA[1]], linewidth=thickness, c=bg_color, zorder=1)
+    ax.text(0.6*pointE[0] + 0.4*pointA[0], 0.5*pointA[1] + 0.5*pointB[1], '(1,2),3,(4,5)', 
+            ha='left', fontsize=14, family='serif')
+
+    ## H--F
+    ax.plot([pointH[0], pointF[0]], [pointH[1], pointF[1]], linewidth=thickness, c=bg_color, zorder=1)
+    ax.text(0.85*pointH[0] + 0.15*pointF[0] - 0.1, 0.85*pointH[1] + 0.15*pointF[1], '(1,3),(2,5),4', 
+            ha='right', fontsize=14, family='serif')
+
+    ## F--I
+    ax.plot([pointF[0], pointI[0]], [pointF[1], pointI[1]], linewidth=thickness, c=bg_color, zorder=1)
+    ax.text(0.15*pointF[0] + 0.85*pointI[0] + 0.1, 0.15*pointF[1] + 0.85*pointI[1], '(1,3),(2,4),5', 
+            ha='left', fontsize=14, family='serif')
+
+    ## I--G
+    ax.plot([pointI[0], pointG[0]], [pointI[1], pointG[1]], linewidth=thickness, c=bg_color, zorder=1)
+    ax.text(0.3*pointI[0] + 0.7*pointG[0] - 0.3, 0.3*pointI[1] + 0.7*pointG[1], '(1,5),(2,4),3', 
+            ha='right', fontsize=14, family='serif')
+
+    ## G--J
+    ax.plot([pointG[0], pointJ[0]], [pointG[1], pointJ[1]], linewidth=thickness, c=bg_color, zorder=1)
+    ax.text(0.95*pointG[0] + 0.05*pointJ[0], pointG[1] + 0.2, '(1,5),2,(3,4)', 
+            ha='left', fontsize=14, family='serif')
+
+    ## J--H
+    ax.plot([pointJ[0], pointH[0]], [pointJ[1], pointH[1]], linewidth=thickness, c=bg_color, zorder=1)
+    ax.text(0.7*pointJ[0] + 0.3*pointH[0] + 0.3, 0.7*pointJ[1] + 0.3*pointH[1], '1,(2,5),(3,4)', 
+            ha='left', fontsize=14, family='serif')
+
+    ## A--F
+    ax.plot([pointA[0], pointF[0]], [pointA[1], pointF[1]], linewidth=thickness, c=bg_color, zorder=1)
+    ax.text(pointA[0] + 0.1, 0.2*pointA[1] + 0.8*pointF[1], '(1,3),2,(4,5)', 
+            ha='left', fontsize=14, family='serif')
+
+    ## B--G
+    ax.plot([pointB[0], pointG[0]], [pointB[1], pointG[1]], linewidth=thickness, c=bg_color, zorder=1)
+    ax.text(0.7*pointB[0] + 0.3*pointG[0], 0.8*pointB[1] + 0.3*pointG[1], '(1,5),(2,3),4', 
+            ha='left', fontsize=14, family='serif')
+
+    ## C--H
+    ax.plot([pointC[0], pointH[0]], [pointC[1], pointH[1]], linewidth=thickness, c=bg_color, zorder=1)
+    ax.text(0.7*pointC[0] + 0.3*pointH[0] + 0.2, 0.7*pointC[1] + 0.3*pointH[1], '(1,4),(2,5),3', 
+            ha='left', fontsize=14, family='serif')
+
+    ## D--I
+    ax.plot([pointD[0], pointI[0]], [pointD[1], pointI[1]], linewidth=thickness, c=bg_color, zorder=1)
+    ax.text(0.7*pointD[0] + 0.3*pointI[0] - 0.2, 0.7*pointD[1] + 0.3*pointI[1], '1,(2,4),(3,5)', 
+            ha='right', fontsize=14, family='serif')
+
+    ## E--J
+    ax.plot([pointE[0], pointJ[0]], [pointE[1], pointJ[1]], linewidth=thickness, c=bg_color, zorder=1)
+    ax.text(0.6*pointE[0] + 0.4*pointJ[0], 0.6*pointE[1] + 0.4*pointJ[1] + 0.1, '(1,2),(3,4),5', 
+            ha='right', fontsize=14, family='serif')
+
+    vertex_size = 50
+    ax.scatter(pointA[0], pointA[1], c=bg_color, s=vertex_size, zorder=2)
+    ax.scatter(pointB[0], pointB[1], c=bg_color, s=vertex_size, zorder=2)
+    ax.scatter(pointC[0], pointC[1], c=bg_color, s=vertex_size, zorder=2)
+    ax.scatter(pointD[0], pointD[1], c=bg_color, s=vertex_size, zorder=2)
+    ax.scatter(pointE[0], pointE[1], c=bg_color, s=vertex_size, zorder=2)
+    ax.scatter(pointF[0], pointF[1], c=bg_color, s=vertex_size, zorder=2)
+    ax.scatter(pointG[0], pointG[1], c=bg_color, s=vertex_size, zorder=2)
+    ax.scatter(pointH[0], pointH[1], c=bg_color, s=vertex_size, zorder=2)
+    ax.scatter(pointI[0], pointI[1], c=bg_color, s=vertex_size, zorder=2)
+    ax.scatter(pointJ[0], pointJ[1], c=bg_color, s=vertex_size, zorder=2)
+
+    for window in tree_dict:
+        topology, blen_1, blen_2 = recover_topology_quint(tree_dict[window])
+        size = blen_1 + blen_2
+        markercolor = tuple(label_colors.ix[label_dict[window], :])
+        
+        if topology == 1:
+            weighting_A = blen_2 / (blen_1 + blen_2)
+            weighting_B = blen_1 / (blen_1 + blen_2)
+            position = weighting_A * pointA + weighting_B * pointB
+            ax.plot(position[0], position[1], 'o', color=markercolor, markersize=size, alpha=opacity)
+        elif topology == 2:
+            weighting_B = blen_2 / (blen_1 + blen_2)
+            weighting_C = blen_1 / (blen_1 + blen_2)
+            position = weighting_B * pointB + weighting_C * pointC
+            ax.plot(position[0], position[1], 'o', color=markercolor, markersize=size, alpha=opacity)
+        elif topology == 3:
+            weighting_C = blen_1 / (blen_1 + blen_2)
+            weighting_D = blen_2 / (blen_1 + blen_2)
+            position = weighting_C * pointC + weighting_D * pointD
+            ax.plot(position[0], position[1], 'o', color=markercolor, markersize=size, alpha=opacity)
+        elif topology == 4:
+            weighting_D = blen_2 / (blen_1 + blen_2)
+            weighting_E = blen_1 / (blen_1 + blen_2)
+            position = weighting_D * pointD + weighting_E * pointE
+            ax.plot(position[0], position[1], 'o', color=markercolor, markersize=size, alpha=opacity)
+        elif topology == 5:
+            weighting_E = blen_1 / (blen_1 + blen_2)
+            weighting_A = blen_2 / (blen_1 + blen_2)
+            position = weighting_E * pointE + weighting_A * pointA
+            ax.plot(position[0], position[1], 'o', color=markercolor, markersize=size, alpha=opacity)
+        elif topology == 6:
+            weighting_A = blen_2 / (blen_1 + blen_2)
+            weighting_F = blen_1 / (blen_1 + blen_2)
+            position = weighting_A * pointA + weighting_F * pointF
+            ax.plot(position[0], position[1], 'o', color=markercolor, markersize=size, alpha=opacity)
+        elif topology == 7:
+            weighting_B = blen_2 / (blen_1 + blen_2)
+            weighting_G = blen_1 / (blen_1 + blen_2)
+            position = weighting_B * pointB + weighting_G * pointG
+            ax.plot(position[0], position[1], 'o', color=markercolor, markersize=size, alpha=opacity)
+        elif topology == 8:
+            weighting_C = blen_1 / (blen_1 + blen_2)
+            weighting_H = blen_2 / (blen_1 + blen_2)
+            position = weighting_C * pointC + weighting_H * pointH
+            ax.plot(position[0], position[1], 'o', color=markercolor, markersize=size, alpha=opacity)
+        elif topology == 9:
+            weighting_D = blen_2 / (blen_1 + blen_2)
+            weighting_I = blen_1 / (blen_1 + blen_2)
+            position = weighting_D * pointD + weighting_I * pointI
+            ax.plot(position[0], position[1], 'o', color=markercolor, markersize=size, alpha=opacity)
+        elif topology == 10:
+            weighting_E = blen_1 / (blen_1 + blen_2)
+            weighting_J = blen_2 / (blen_1 + blen_2)
+            position = weighting_E * pointE + weighting_J * pointJ
+            ax.plot(position[0], position[1], 'o', color=markercolor, markersize=size, alpha=opacity)
+        elif topology == 11:
+            weighting_H = blen_2 / (blen_1 + blen_2)
+            weighting_F = blen_1 / (blen_1 + blen_2)
+            position = weighting_H * pointH + weighting_F * pointF
+            ax.plot(position[0], position[1], 'o', color=markercolor, markersize=size, alpha=opacity)
+        elif topology == 12:
+            weighting_F = blen_1 / (blen_1 + blen_2)
+            weighting_I = blen_2 / (blen_1 + blen_2)
+            position = weighting_F * pointF + weighting_I * pointI
+            ax.plot(position[0], position[1], 'o', color=markercolor, markersize=size, alpha=opacity)
+        elif topology == 13:
+            weighting_I = blen_2 / (blen_1 + blen_2)
+            weighting_G = blen_1 / (blen_1 + blen_2)
+            position = weighting_I * pointI + weighting_G * pointG
+            ax.plot(position[0], position[1], 'o', color=markercolor, markersize=size, alpha=opacity)
+        elif topology == 14:
+            weighting_G = blen_1 / (blen_1 + blen_2)
+            weighting_J = blen_2 / (blen_1 + blen_2)
+            position = weighting_G * pointG + weighting_J * pointJ
+            ax.plot(position[0], position[1], 'o', color=markercolor, markersize=size, alpha=opacity)
+        elif topology == 15:
+            weighting_J = blen_2 / (blen_1 + blen_2)
+            weighting_H = blen_1 / (blen_1 + blen_2)
+            position = weighting_J * pointJ + weighting_H * pointH
+            ax.plot(position[0], position[1], 'o', color=markercolor, markersize=size, alpha=opacity)
+        else:
+            pass
+
+    fig.tight_layout()
+    plt.savefig('{}/quint_internal.pdf'.format(args.outputdir))
+
+    logfile.write('creating 5-leaf external branch space, shadow through sample 5\n')
+
+    fig = plt.figure(figsize=(15,15))
+    ax = fig.add_subplot(1,1,1, projection='3d')
+    ax.set_axis_off()
+
+    #s4s2s1
+    x1 = np.array([T4[0], P4[0], N4[0]])
+    y1 = np.array([T4[1], P4[1], N4[1]])
+    z1 = np.array([T4[2], P4[2], N4[2]])
+
+    #s4s2s3
+    x2 = np.array([T4[0], P4[0], S4[0]])
+    y2 = np.array([T4[1], P4[1], S4[1]])
+    z2 = np.array([T4[2], P4[2], S4[2]])
+
+    #s4s1s3
+    x3 = np.array([T4[0], N4[0], S4[0]])
+    y3 = np.array([T4[1], N4[1], S4[1]])
+    z3 = np.array([T4[2], N4[2], S4[2]])
+
+    #s2s1s3
+    x4 = np.array([P4[0], N4[0], S4[0]])
+    y4 = np.array([P4[1], N4[1], S4[1]])
+    z4 = np.array([P4[2], N4[2], S4[2]])
+
+    ax.plot_trisurf(x1,y1,z1,alpha=0.03, color='green')
+    ax.plot_trisurf(x2,y2,z2,alpha=0.15, color='green')
+    ax.plot_trisurf(x3,y3,z3,alpha=0.03, color='green')
+    ax.plot_trisurf(x4,y4,z4,alpha=0.15, color='green')
+    ax.azim = -140
+
+    ax.text(N4[0] - 0.20, N4[1] + 0.02, N4[2], "Sample1", fontsize=24, family='serif')
+    ax.text(P4[0] + 0.02, P4[1] - 0.02, P4[2], "Sample2", fontsize=24, family='serif')
+    ax.text(S4[0] + 0.03, S4[1], S4[2], "Sample3", fontsize=24, family='serif')
+    ax.text(T4[0], T4[1], T4[2] + 0.02, "Sample4", fontsize=24, family='serif')
+
+    coordSample5 = 0.25*N4 + 0.25*P4 + 0.25*S4 + 0.25*T4
+    textcoordSample5 = 0.3*N4 + 0.2*P4 + 0.2*S4 + 0.3*T4
+    ax.scatter(coordSample5[0], coordSample5[1], coordSample5[2], c='gray', s=50)
+    ax.text(textcoordSample5[0], textcoordSample5[1], textcoordSample5[2], 'Sample5', 
+            ha='center', fontsize=24, color='gray', family='serif', alpha=0.8)
+    ax.plot([N4[0], coordSample5[0]], [N4[1], coordSample5[1]], [N4[2], coordSample5[2]], color='gray', linestyle='--')
+    ax.plot([P4[0], coordSample5[0]], [P4[1], coordSample5[1]], [P4[2], coordSample5[2]], color='gray', linestyle='--')
+    ax.plot([S4[0], coordSample5[0]], [S4[1], coordSample5[1]], [S4[2], coordSample5[2]], color='gray', linestyle='--')
+    ax.plot([T4[0], coordSample5[0]], [T4[1], coordSample5[1]], [T4[2], coordSample5[2]], color='gray', linestyle='--')
+
+    for window in tree_dict:
+        ballsize = 100
+        markercolor = tuple(label_colors.ix[label_dict[window], :])
+        coords = projective_4coords_shadowLast(tree_dict[window])
+        ax.scatter(coords[0], coords[1], coords[2], c=markercolor, s=ballsize, alpha=opacity)
+
+    fig.tight_layout()
+    plt.savefig('{}/quint_external_shadow_thru_last.pdf'.format(args.outputdir))
+
+    logfile.write('creating 5-leaf external branch space, shadow through sample 1\n')
+
+    fig = plt.figure(figsize=(15,15))
+    ax = fig.add_subplot(1,1,1, projection='3d')
+    ax.set_axis_off()
+
+    #s4s2s1
+    x1 = np.array([T4[0], P4[0], N4[0]])
+    y1 = np.array([T4[1], P4[1], N4[1]])
+    z1 = np.array([T4[2], P4[2], N4[2]])
+
+    #s4s2s3
+    x2 = np.array([T4[0], P4[0], S4[0]])
+    y2 = np.array([T4[1], P4[1], S4[1]])
+    z2 = np.array([T4[2], P4[2], S4[2]])
+
+    #s4s1s3
+    x3 = np.array([T4[0], N4[0], S4[0]])
+    y3 = np.array([T4[1], N4[1], S4[1]])
+    z3 = np.array([T4[2], N4[2], S4[2]])
+
+    #s2s1s3
+    x4 = np.array([P4[0], N4[0], S4[0]])
+    y4 = np.array([P4[1], N4[1], S4[1]])
+    z4 = np.array([P4[2], N4[2], S4[2]])
+
+    ax.plot_trisurf(x1,y1,z1,alpha=0.03, color='orange')
+    ax.plot_trisurf(x2,y2,z2,alpha=0.15, color='orange')
+    ax.plot_trisurf(x3,y3,z3,alpha=0.03, color='orange')
+    ax.plot_trisurf(x4,y4,z4,alpha=0.15, color='orange')
+    ax.azim = -140
+
+    ax.text(N4[0] - 0.20, N4[1] + 0.02, N4[2], "Sample5", fontsize=24, family='serif')
+    ax.text(P4[0] + 0.02, P4[1] - 0.02, P4[2], "Sample4", fontsize=24, family='serif')
+    ax.text(S4[0] + 0.03, S4[1], S4[2], "Sample3", fontsize=24, family='serif')
+    ax.text(T4[0], T4[1], T4[2] + 0.02, "Sample2", fontsize=24, family='serif')
+
+    coordSample1 = 0.25*N4 + 0.25*P4 + 0.25*S4 + 0.25*T4
+    textcoordSample1 = 0.3*N4 + 0.2*P4 + 0.2*S4 + 0.3*T4
+    ax.scatter(coordSample1[0], coordSample1[1], coordSample1[2], c='gray', s=50)
+    ax.text(textcoordSample1[0], textcoordSample1[1], textcoordSample1[2], 'Sample1', 
+            ha='center', fontsize=24, color='gray', family='serif', alpha=0.8)
+    ax.plot([N4[0], coordSample1[0]], [N4[1], coordSample1[1]], [N4[2], coordSample1[2]], color='gray', linestyle='--')
+    ax.plot([P4[0], coordSample1[0]], [P4[1], coordSample1[1]], [P4[2], coordSample1[2]], color='gray', linestyle='--')
+    ax.plot([S4[0], coordSample1[0]], [S4[1], coordSample1[1]], [S4[2], coordSample1[2]], color='gray', linestyle='--')
+    ax.plot([T4[0], coordSample1[0]], [T4[1], coordSample1[1]], [T4[2], coordSample1[2]], color='gray', linestyle='--')
+
+    for window in tree_dict:
+        ballsize = 100
+        markercolor = tuple(label_colors.ix[label_dict[window], :])
+        coords = projective_4coords_shadowFirst(tree_dict[window])
+        ax.scatter(coords[0], coords[1], coords[2], c=markercolor, s=ballsize, alpha=opacity)
+
+    fig.tight_layout()
+    plt.savefig('{}/quint_external_shadow_thru_first.pdf'.format(args.outputdir))
+
+###############################################################################################################
+###############################################################################################################
 
 else:
-    sys.exit('Error: current version only support 3 or 4 leaf trees')
+    sys.exit('Error: current version only supports 3, 4, or 5 leaf trees')
 
-# Successful Completion
-# logfile.write('ENDING RUN\n')
-# logfile.close()
+logfile.write('ENDING RUN\n')
+logfile.close()
