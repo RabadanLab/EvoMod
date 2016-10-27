@@ -296,6 +296,11 @@ for row in df.index:
 
 distinct_labels = list(set(label_dict.values()))
 label_colors = pd.DataFrame(color_option[:len(distinct_labels), :], index=distinct_labels, columns=['R','G','B'])
+plt.imshow(label_colors.values[:, None, :], interpolation='none')
+plt.xticks([])
+plt.yticks(np.arange(len(label_colors)), label_colors.index, fontsize=24)
+plt.tight_layout()
+plt.savefig('{}/colorbar.png'.format(args.outputdir), dpi=100)
 
 num_cases_per_label = float(len(df)) / len(distinct_labels)
 tau = 500.0
